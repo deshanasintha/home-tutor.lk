@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard — TutorFinder</title>
+  <meta name="description" content="Manage your tuition requests, upcoming sessions and favourite tutors on TutorFinder.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ NAVBAR (shared across all pages) ============ -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">TF</span>
+        Tutor<span>Finder</span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="search.html">Find Tutors</a>
+        <a href="parent-dashboard.html">Dashboard</a>
+        <div class="nav-cta">
+          <a href="search.html" class="btn btn-outline">Search Tutors</a>
+          <a href="login.html" class="btn btn-primary">Logout</a>
+        </div>
+      </nav>
+
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </label>
+    </div>
+  </header>
+
+  <!-- ============ PAGE HEADER / WELCOME ============ -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Welcome back, Mrs. Perera</h1>
+      <p>Here's what's happening with your tuition requests and sessions.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: var(--space-4);">
+    <div class="container">
+
+      <!-- ============ PROFILE SUMMARY ============ -->
+      <div class="dashboard-header card">
+        <div class="dashboard-header-main">
+          <div class="profile-avatar-lg">CP</div>
+          <div>
+            <h1>Chamari Perera</h1>
+            <p>Parent account · Colombo · Member since Jan 2026</p>
+          </div>
+        </div>
+        <div class="dashboard-header-actions">
+          <a href="search.html" class="btn btn-primary">Search Tutors</a>
+          <a href="login.html" class="btn btn-outline">Logout</a>
+        </div>
+      </div>
+
+      <!-- ============ QUICK STATS ============ -->
+      <div class="dashboard-stats-grid" style="margin-top: var(--space-3);">
+        <div class="stat-card card">
+          <span class="stat-value">2</span>
+          <span class="stat-label">Pending requests</span>
+        </div>
+        <div class="stat-card card">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Accepted requests</span>
+        </div>
+        <div class="stat-card card">
+          <span class="stat-value">1</span>
+          <span class="stat-label">Upcoming session</span>
+        </div>
+        <div class="stat-card card">
+          <span class="stat-value">4</span>
+          <span class="stat-label">Favourite tutors</span>
+        </div>
+      </div>
+
+      <!-- ============ PENDING REQUESTS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Pending requests</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="list-row-avatar">KJ</div>
+            <div class="list-row-info">
+              <h4>Kasun Jayasuriya</h4>
+              <p>Mathematics · Grade 10–11 (O/L) · Requested 8 Sep 2026</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 2,200/hr</span>
+              <span class="status-badge status-pending">Pending</span>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="list-row-avatar">IF</div>
+            <div class="list-row-info">
+              <h4>Ishara Fernando</h4>
+              <p>English · Grade 1–5 · Requested 6 Sep 2026</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 1,200/hr</span>
+              <span class="status-badge status-pending">Pending</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ ACCEPTED REQUESTS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Accepted requests</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="list-row-avatar">NP</div>
+            <div class="list-row-info">
+              <h4>Nadeesha Perera</h4>
+              <p>Mathematics · Grade 6–9 · Tue &amp; Thu, 5:00 PM</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 1,800/hr</span>
+              <span class="status-badge status-accepted">Accepted</span>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="list-row-avatar">SR</div>
+            <div class="list-row-info">
+              <h4>Sanjaya Rathnayake</h4>
+              <p>Science · Grade 6–9 · Saturdays, 9:00 AM</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 1,500/hr</span>
+              <span class="status-badge status-accepted">Accepted</span>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="list-row-avatar">DW</div>
+            <div class="list-row-info">
+              <h4>Dilani Wickramasinghe</h4>
+              <p>Combined Mathematics · Grade 12–13 (A/L) · Sessions completed</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 2,800/hr</span>
+              <span class="status-badge status-completed">Completed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ REJECTED REQUESTS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Rejected requests</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="list-row-avatar">MG</div>
+            <div class="list-row-info">
+              <h4>Manoj Gunasekara</h4>
+              <p>ICT · Grade 10–11 (O/L) · Not available on requested days</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 1,600/hr</span>
+              <span class="status-badge status-rejected">Rejected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ UPCOMING TUITION SESSIONS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Upcoming tuition sessions</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="session-date-block">
+              <span class="day">10</span>
+              <span class="month">Sep</span>
+            </div>
+            <div class="list-row-info">
+              <h4>Nadeesha Perera — Mathematics</h4>
+              <p>Thursday, 5:00 PM · Home visit · Colombo 05</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="status-badge status-accepted">Confirmed</span>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="session-date-block">
+              <span class="day">13</span>
+              <span class="month">Sep</span>
+            </div>
+            <div class="list-row-info">
+              <h4>Sanjaya Rathnayake — Science</h4>
+              <p>Saturday, 9:00 AM · Home visit · Colombo 05</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="status-badge status-accepted">Confirmed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ FAVOURITE TUTORS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Favourite tutors</h2>
+          <a href="search.html">Find more tutors</a>
+        </div>
+        <div class="favourite-grid">
+          <div class="favourite-card card card-hover">
+            <div class="avatar-circle">NP</div>
+            <h4>Nadeesha Perera</h4>
+            <p>Mathematics · ★ 4.9</p>
+            <a href="tutor-profile.html" class="btn btn-outline btn-block">View Profile</a>
+          </div>
+          <div class="favourite-card card card-hover">
+            <div class="avatar-circle">DW</div>
+            <h4>Dilani Wickramasinghe</h4>
+            <p>Combined Maths · ★ 4.8</p>
+            <a href="tutor-profile.html" class="btn btn-outline btn-block">View Profile</a>
+          </div>
+          <div class="favourite-card card card-hover">
+            <div class="avatar-circle">SR</div>
+            <h4>Sanjaya Rathnayake</h4>
+            <p>Science · ★ 4.6</p>
+            <a href="tutor-profile.html" class="btn btn-outline btn-block">View Profile</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ RECENT REVIEWS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Recent reviews you've written</h2>
+        </div>
+        <div class="list-card card">
+          <div class="review-item">
+            <div class="review-item-head">
+              <h4>Dilani Wickramasinghe</h4>
+              <span class="stars">★★★★★</span>
+            </div>
+            <p>Excellent at explaining Combined Maths concepts clearly. My son's confidence has improved a lot.</p>
+            <span class="review-date">Posted 2 Sep 2026</span>
+          </div>
+          <div class="review-item">
+            <div class="review-item-head">
+              <h4>Sanjaya Rathnayake</h4>
+              <span class="stars">★★★★☆</span>
+            </div>
+            <p>Punctual and patient, though we'd love a few more practice papers between sessions.</p>
+            <span class="review-date">Posted 24 Aug 2026</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared across all pages) ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo">
+            <span class="logo-mark">TF</span>
+            TutorFinder
+          </a>
+          <p>Connecting parents with qualified home tutors across Sri Lanka — by subject, grade, district, availability and fee.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="search.html">Find Tutors</a></li>
+            <li><a href="index.html#become-tutor">Become a Tutor</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="parent-dashboard.html">My Dashboard</a></li>
+            <li><a href="login.html">Logout</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 TutorFinder. University Group Project.</span>
+        <span>Made in Sri Lanka 🇱🇰</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

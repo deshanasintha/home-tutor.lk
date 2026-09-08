@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutor Dashboard — TutorFinder</title>
+  <meta name="description" content="Manage your tuition requests, sessions, availability and earnings on TutorFinder.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ NAVBAR (shared across all pages) ============ -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">TF</span>
+        Tutor<span>Finder</span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="tutor-dashboard.html">Dashboard</a>
+        <a href="tutor-profile.html">My Profile</a>
+        <div class="nav-cta">
+          <a href="tutor-profile.html" class="btn btn-outline">Edit Profile</a>
+          <a href="login.html" class="btn btn-primary">Logout</a>
+        </div>
+      </nav>
+
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </label>
+    </div>
+  </header>
+
+  <!-- ============ PAGE HEADER / WELCOME ============ -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Welcome back, Nadeesha</h1>
+      <p>Here's an overview of your tuition requests, sessions and earnings.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: var(--space-4);">
+    <div class="container">
+
+      <!-- ============ TUTOR PROFILE SUMMARY + PROFILE COMPLETION ============ -->
+      <div class="dashboard-header card">
+        <div class="dashboard-header-main">
+          <div class="profile-avatar-lg">NP</div>
+          <div>
+            <h1>Nadeesha Perera</h1>
+            <p>Mathematics tutor · Colombo · ★ 4.9 (58 reviews)</p>
+            <div class="progress-wrap" style="max-width: 260px;">
+              <div class="progress-label-row">
+                <span>Profile completion</span>
+                <strong>85%</strong>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 85%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dashboard-header-actions">
+          <a href="tutor-profile.html" class="btn btn-primary">Edit Profile</a>
+          <a href="login.html" class="btn btn-outline">Logout</a>
+        </div>
+      </div>
+
+      <!-- ============ QUICK STATS ============ -->
+      <div class="dashboard-stats-grid" style="margin-top: var(--space-3);">
+        <div class="stat-card card">
+          <span class="stat-value">3</span>
+          <span class="stat-label">New requests</span>
+        </div>
+        <div class="stat-card card">
+          <span class="stat-value">2</span>
+          <span class="stat-label">Pending requests</span>
+        </div>
+        <div class="stat-card card">
+          <span class="stat-value">6</span>
+          <span class="stat-label">Active students</span>
+        </div>
+        <div class="stat-card card stat-card-accent">
+          <span class="stat-value">Rs. 1,800</span>
+          <span class="stat-label">Current hourly fee</span>
+        </div>
+      </div>
+
+      <!-- ============ NEW TUITION REQUESTS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>New tuition requests</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="list-row-avatar">TW</div>
+            <div class="list-row-info">
+              <h4>Tharindu Wijesinghe (Parent)</h4>
+              <p>Mathematics · Grade 8 · Requested 8 Sep 2026</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="status-badge status-pending">New</span>
+              <div class="list-row-actions">
+                <a href="#" class="btn btn-primary">Accept</a>
+                <a href="#" class="btn btn-outline">Decline</a>
+              </div>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="list-row-avatar">RS</div>
+            <div class="list-row-info">
+              <h4>Roshani Silva (Parent)</h4>
+              <p>Mathematics · Grade 7 · Requested 7 Sep 2026</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="status-badge status-pending">New</span>
+              <div class="list-row-actions">
+                <a href="#" class="btn btn-primary">Accept</a>
+                <a href="#" class="btn btn-outline">Decline</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ PENDING REQUESTS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Pending requests</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="list-row-avatar">CP</div>
+            <div class="list-row-info">
+              <h4>Chamari Perera (Parent)</h4>
+              <p>Mathematics · Grade 8 · Awaiting your response</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 1,800/hr</span>
+              <span class="status-badge status-pending">Pending</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ ACCEPTED REQUESTS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Accepted requests</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="list-row-avatar">KP</div>
+            <div class="list-row-info">
+              <h4>Kavindi Peiris (Parent)</h4>
+              <p>Mathematics · Grade 9 · Tue &amp; Thu, 5:00 PM</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 1,800/hr</span>
+              <span class="status-badge status-accepted">Accepted</span>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="list-row-avatar">AF</div>
+            <div class="list-row-info">
+              <h4>Amila Fonseka (Parent)</h4>
+              <p>Mathematics · Grade 6 · Saturdays, 10:00 AM</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="list-row-fee">Rs. 1,800/hr</span>
+              <span class="status-badge status-accepted">Accepted</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ REJECTED REQUESTS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Rejected requests</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="list-row-avatar">NJ</div>
+            <div class="list-row-info">
+              <h4>Nimal Jayawardena (Parent)</h4>
+              <p>Mathematics · Grade 11 · Schedule conflict</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="status-badge status-rejected">Rejected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ UPCOMING SESSIONS ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Upcoming sessions</h2>
+        </div>
+        <div class="list-card card">
+          <div class="list-row">
+            <div class="session-date-block">
+              <span class="day">10</span>
+              <span class="month">Sep</span>
+            </div>
+            <div class="list-row-info">
+              <h4>Kavindi Peiris — Grade 9 Mathematics</h4>
+              <p>Thursday, 5:00 PM · Home visit · Colombo 05</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="status-badge status-accepted">Confirmed</span>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="session-date-block">
+              <span class="day">12</span>
+              <span class="month">Sep</span>
+            </div>
+            <div class="list-row-info">
+              <h4>Amila Fonseka — Grade 6 Mathematics</h4>
+              <p>Saturday, 10:00 AM · Home visit · Colombo 05</p>
+            </div>
+            <div class="list-row-meta">
+              <span class="status-badge status-accepted">Confirmed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ AVAILABILITY SUMMARY ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Availability summary</h2>
+          <a href="tutor-profile.html">Edit availability</a>
+        </div>
+        <div class="card" style="padding: var(--space-3);">
+          <div class="availability-tag-list">
+            <span class="badge">Weekday Evenings</span>
+            <span class="badge">Saturday Mornings</span>
+            <span class="badge">Sunday Mornings</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ EARNINGS SECTION ============ -->
+      <div class="dashboard-section">
+        <div class="section-title-row">
+          <h2>Earnings</h2>
+        </div>
+        <div class="dashboard-stats-grid">
+          <div class="stat-card card">
+            <span class="stat-value">Rs. 43,200</span>
+            <span class="stat-label">Earned this month</span>
+          </div>
+          <div class="stat-card card">
+            <span class="stat-value">24</span>
+            <span class="stat-label">Sessions completed</span>
+          </div>
+          <div class="stat-card card">
+            <span class="stat-value">Rs. 1,800</span>
+            <span class="stat-label">Current hourly fee</span>
+          </div>
+          <div class="stat-card card">
+            <span class="stat-value">6</span>
+            <span class="stat-label">Active students</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared across all pages) ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo">
+            <span class="logo-mark">TF</span>
+            TutorFinder
+          </a>
+          <p>Connecting parents with qualified home tutors across Sri Lanka — by subject, grade, district, availability and fee.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="search.html">Find Tutors</a></li>
+            <li><a href="index.html#become-tutor">Become a Tutor</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="tutor-dashboard.html">My Dashboard</a></li>
+            <li><a href="login.html">Logout</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 TutorFinder. University Group Project.</span>
+        <span>Made in Sri Lanka 🇱🇰</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

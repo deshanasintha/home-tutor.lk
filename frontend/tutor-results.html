@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutor Search Results — TutorFinder</title>
+  <meta name="description" content="Browse home tutors in Sri Lanka matching your search — compare qualifications, fees and ratings.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ NAVBAR (shared across all pages) ============ -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">TF</span>
+        Tutor<span>Finder</span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="search.html">Find Tutors</a>
+        <a href="index.html#become-tutor">Become a Tutor</a>
+        <div class="nav-cta">
+          <a href="login.html" class="btn btn-ghost">Login</a>
+          <a href="register.html" class="btn btn-primary">Register</a>
+        </div>
+      </nav>
+
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </label>
+    </div>
+  </header>
+
+  <!-- ============ PAGE HEADER ============ -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Tutor search results</h1>
+      <p>Showing home tutors that match your search. Refine using the filters on the left.</p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="section">
+    <div class="container">
+
+      <div class="search-summary">
+        <div>
+          <h1>Mathematics tutors in Colombo</h1>
+          <p>12 tutors found · Grade 6–9 · Any availability</p>
+        </div>
+        <div class="sort-control">
+          <label for="sort" class="form-label" style="margin:0;">Sort by</label>
+          <select id="sort" name="sort" class="form-select">
+            <option>Best match</option>
+            <option>Highest rated</option>
+            <option>Lowest fee</option>
+            <option>Most experienced</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results-shell">
+
+        <!-- ============ FILTER SIDEBAR ============ -->
+        <aside class="filter-sidebar card">
+          <div class="filter-sidebar-head">
+            <h3>Filters</h3>
+            <a href="search.html">Clear all</a>
+          </div>
+
+          <form action="tutor-results.html" method="GET">
+
+            <div class="filter-group">
+              <span class="filter-group-title">Subject</span>
+              <select name="subject" class="form-select">
+                <option value="mathematics" selected>Mathematics</option>
+                <option value="science">Science</option>
+                <option value="english">English</option>
+                <option value="sinhala">Sinhala</option>
+                <option value="ict">ICT</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-group-title">Grade</span>
+              <select name="grade" class="form-select">
+                <option value="grade-1-5">Grade 1 – 5</option>
+                <option value="grade-6-9" selected>Grade 6 – 9</option>
+                <option value="ol">G.C.E. O/L</option>
+                <option value="al">G.C.E. A/L</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-group-title">District</span>
+              <select name="district" class="form-select">
+                <option value="colombo" selected>Colombo</option>
+                <option value="gampaha">Gampaha</option>
+                <option value="kalutara">Kalutara</option>
+                <option value="kandy">Kandy</option>
+                <option value="galle">Galle</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-group-title">Availability</span>
+              <label class="filter-checkbox-item">
+                <input type="checkbox" name="availability" value="weekday-evening">
+                Weekday Evenings
+              </label>
+              <label class="filter-checkbox-item">
+                <input type="checkbox" name="availability" value="weekend-morning">
+                Weekend Mornings
+              </label>
+              <label class="filter-checkbox-item">
+                <input type="checkbox" name="availability" value="weekend-afternoon">
+                Weekend Afternoons
+              </label>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-group-title">Hourly fee (Rs.)</span>
+              <div class="range-inputs">
+                <input type="number" name="fee_min" class="form-input" placeholder="Min" min="0" step="100">
+                <span>–</span>
+                <input type="number" name="fee_max" class="form-input" placeholder="Max" min="0" step="100">
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-group-title">Minimum rating</span>
+              <div class="rating-select">
+                <div class="rating-option">
+                  <input type="radio" id="f-rating-any" name="rating" value="0" checked>
+                  <label for="f-rating-any">Any</label>
+                </div>
+                <div class="rating-option">
+                  <input type="radio" id="f-rating-4" name="rating" value="4">
+                  <label for="f-rating-4">★ 4.0+</label>
+                </div>
+                <div class="rating-option">
+                  <input type="radio" id="f-rating-45" name="rating" value="4.5">
+                  <label for="f-rating-45">★ 4.5+</label>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: var(--space-2);">Apply Filters</button>
+          </form>
+        </aside>
+
+        <!-- ============ TUTOR CARDS ============ -->
+        <div class="tutor-list">
+
+          <!-- Tutor 1 -->
+          <article class="tutor-card card card-hover">
+            <div class="tutor-avatar-placeholder">NP</div>
+            <div class="tutor-info">
+              <div class="tutor-name-row">
+                <h3>Nadeesha Perera</h3>
+                <div class="tutor-rating">
+                  <span class="stars">★★★★★</span>
+                  4.9 <span class="review-count">(58 reviews)</span>
+                </div>
+              </div>
+              <div class="tutor-tags">
+                <span class="badge">Mathematics</span>
+                <span class="badge">Grade 6–9</span>
+              </div>
+              <div class="tutor-detail-grid">
+                <div class="tutor-detail-item">
+                  <span>District</span>
+                  <strong>Colombo</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Qualification</span>
+                  <strong>BSc in Mathematics, USJP</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Experience</span>
+                  <strong>6 years</strong>
+                </div>
+              </div>
+            </div>
+            <div class="tutor-side">
+              <div class="tutor-price">
+                <strong>Rs. 1,800</strong>
+                <span>per hour</span>
+              </div>
+              <div class="tutor-card-actions">
+                <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
+                <a href="tutor-profile.html" class="btn btn-primary">Send Request</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tutor 2 -->
+          <article class="tutor-card card card-hover">
+            <div class="tutor-avatar-placeholder">SR</div>
+            <div class="tutor-info">
+              <div class="tutor-name-row">
+                <h3>Sanjaya Rathnayake</h3>
+                <div class="tutor-rating">
+                  <span class="stars">★★★★☆</span>
+                  4.6 <span class="review-count">(34 reviews)</span>
+                </div>
+              </div>
+              <div class="tutor-tags">
+                <span class="badge">Mathematics</span>
+                <span class="badge">Science</span>
+                <span class="badge">Grade 6–9</span>
+              </div>
+              <div class="tutor-detail-grid">
+                <div class="tutor-detail-item">
+                  <span>District</span>
+                  <strong>Colombo</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Qualification</span>
+                  <strong>National Diploma in Teaching</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Experience</span>
+                  <strong>4 years</strong>
+                </div>
+              </div>
+            </div>
+            <div class="tutor-side">
+              <div class="tutor-price">
+                <strong>Rs. 1,500</strong>
+                <span>per hour</span>
+              </div>
+              <div class="tutor-card-actions">
+                <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
+                <a href="tutor-profile.html" class="btn btn-primary">Send Request</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tutor 3 -->
+          <article class="tutor-card card card-hover">
+            <div class="tutor-avatar-placeholder">KJ</div>
+            <div class="tutor-info">
+              <div class="tutor-name-row">
+                <h3>Kasun Jayasuriya</h3>
+                <div class="tutor-rating">
+                  <span class="stars">★★★★★</span>
+                  5.0 <span class="review-count">(21 reviews)</span>
+                </div>
+              </div>
+              <div class="tutor-tags">
+                <span class="badge">Mathematics</span>
+                <span class="badge">Grade 10–11 (O/L)</span>
+              </div>
+              <div class="tutor-detail-grid">
+                <div class="tutor-detail-item">
+                  <span>District</span>
+                  <strong>Colombo</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Qualification</span>
+                  <strong>BEd (Hons), University of Colombo</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Experience</span>
+                  <strong>9 years</strong>
+                </div>
+              </div>
+            </div>
+            <div class="tutor-side">
+              <div class="tutor-price">
+                <strong>Rs. 2,200</strong>
+                <span>per hour</span>
+              </div>
+              <div class="tutor-card-actions">
+                <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
+                <a href="tutor-profile.html" class="btn btn-primary">Send Request</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tutor 4 -->
+          <article class="tutor-card card card-hover">
+            <div class="tutor-avatar-placeholder">IF</div>
+            <div class="tutor-info">
+              <div class="tutor-name-row">
+                <h3>Ishara Fernando</h3>
+                <div class="tutor-rating">
+                  <span class="stars">★★★★☆</span>
+                  4.3 <span class="review-count">(15 reviews)</span>
+                </div>
+              </div>
+              <div class="tutor-tags">
+                <span class="badge">Mathematics</span>
+                <span class="badge">English</span>
+                <span class="badge">Grade 1–5</span>
+              </div>
+              <div class="tutor-detail-grid">
+                <div class="tutor-detail-item">
+                  <span>District</span>
+                  <strong>Colombo</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Qualification</span>
+                  <strong>Diploma in Primary Education</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Experience</span>
+                  <strong>3 years</strong>
+                </div>
+              </div>
+            </div>
+            <div class="tutor-side">
+              <div class="tutor-price">
+                <strong>Rs. 1,200</strong>
+                <span>per hour</span>
+              </div>
+              <div class="tutor-card-actions">
+                <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
+                <a href="tutor-profile.html" class="btn btn-primary">Send Request</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tutor 5 -->
+          <article class="tutor-card card card-hover">
+            <div class="tutor-avatar-placeholder">DW</div>
+            <div class="tutor-info">
+              <div class="tutor-name-row">
+                <h3>Dilani Wickramasinghe</h3>
+                <div class="tutor-rating">
+                  <span class="stars">★★★★★</span>
+                  4.8 <span class="review-count">(47 reviews)</span>
+                </div>
+              </div>
+              <div class="tutor-tags">
+                <span class="badge">Combined Mathematics</span>
+                <span class="badge">Grade 12–13 (A/L)</span>
+              </div>
+              <div class="tutor-detail-grid">
+                <div class="tutor-detail-item">
+                  <span>District</span>
+                  <strong>Colombo</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Qualification</span>
+                  <strong>MSc in Applied Mathematics</strong>
+                </div>
+                <div class="tutor-detail-item">
+                  <span>Experience</span>
+                  <strong>11 years</strong>
+                </div>
+              </div>
+            </div>
+            <div class="tutor-side">
+              <div class="tutor-price">
+                <strong>Rs. 2,800</strong>
+                <span>per hour</span>
+              </div>
+              <div class="tutor-card-actions">
+                <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
+                <a href="tutor-profile.html" class="btn btn-primary">Send Request</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- ============ PAGINATION ============ -->
+      <nav class="pagination" aria-label="Search results pages">
+        <a href="#" aria-label="Previous page">&laquo;</a>
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#" aria-label="Next page">&raquo;</a>
+      </nav>
+
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared across all pages) ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo">
+            <span class="logo-mark">TF</span>
+            TutorFinder
+          </a>
+          <p>Connecting parents with qualified home tutors across Sri Lanka — by subject, grade, district, availability and fee.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="search.html">Find Tutors</a></li>
+            <li><a href="index.html#become-tutor">Become a Tutor</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 TutorFinder. University Group Project.</span>
+        <span>Made in Sri Lanka 🇱🇰</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

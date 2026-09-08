@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Tuition Request — TutorFinder</title>
+  <meta name="description" content="Send a tuition request to a home tutor on TutorFinder.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ NAVBAR (shared across all pages) ============ -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">TF</span>
+        Tutor<span>Finder</span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="search.html">Find Tutors</a>
+        <a href="index.html#become-tutor">Become a Tutor</a>
+        <div class="nav-cta">
+          <a href="parent-dashboard.html" class="btn btn-ghost">My Dashboard</a>
+          <a href="login.html" class="btn btn-primary">Logout</a>
+        </div>
+      </nav>
+
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </label>
+    </div>
+  </header>
+
+  <!-- ============ PAGE HEADER ============ -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Send a tuition request</h1>
+      <p>Confirm the details below and send your request directly to the tutor.</p>
+    </div>
+  </section>
+
+  <!-- ============ BOOKING LAYOUT ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="booking-layout">
+
+        <!-- ============ TUTOR INFORMATION ============ -->
+        <aside class="booking-tutor-card card">
+          <div class="booking-tutor-head">
+            <div class="tutor-avatar-placeholder">NP</div>
+            <div>
+              <h3>Nadeesha Perera</h3>
+              <div class="tutor-rating">
+                <span class="stars">★★★★★</span>
+                4.9 <span class="review-count">(58 reviews)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="booking-info-row">
+            <span>Subject</span>
+            <span>Mathematics</span>
+          </div>
+          <div class="booking-info-row">
+            <span>Grade</span>
+            <span>Grade 6–9</span>
+          </div>
+          <div class="booking-info-row">
+            <span>District</span>
+            <span>Colombo</span>
+          </div>
+          <div class="booking-info-row">
+            <span>Qualification</span>
+            <span>BSc in Mathematics, USJP</span>
+          </div>
+          <div class="booking-info-row">
+            <span>Experience</span>
+            <span>6 years</span>
+          </div>
+
+          <div class="booking-fee-box">
+            <span>Hourly fee</span>
+            <strong>Rs. 1,800</strong>
+          </div>
+
+          <a href="tutor-profile.html" class="btn btn-outline btn-block" style="margin-top: var(--space-3);">View Full Profile</a>
+        </aside>
+
+        <!-- ============ REQUEST FORM ============ -->
+        <div class="booking-form-card card">
+          <h2>Request details</h2>
+
+          <form action="parent-dashboard.html" method="POST">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="subject" class="form-label">Subject</label>
+                <select id="subject" name="subject" class="form-select">
+                  <option value="mathematics" selected>Mathematics</option>
+                  <option value="science">Science</option>
+                  <option value="english">English</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="grade" class="form-label">Grade</label>
+                <select id="grade" name="grade" class="form-select">
+                  <option value="grade-1-5">Grade 1 – 5</option>
+                  <option value="grade-6-9" selected>Grade 6 – 9</option>
+                  <option value="ol">G.C.E. O/L</option>
+                  <option value="al">G.C.E. A/L</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="date" class="form-label">Preferred date</label>
+                <input type="date" id="date" name="date" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="time" class="form-label">Preferred time</label>
+                <input type="time" id="time" name="time" class="form-input">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" id="location" name="location" class="form-input" placeholder="e.g. No. 24, Park Road, Colombo 05">
+              <p class="form-hint">Enter your home address, or note if you'd prefer online sessions.</p>
+            </div>
+
+            <div class="form-group">
+              <label for="message" class="form-label">Message to tutor</label>
+              <textarea id="message" name="message" class="form-textarea" placeholder="Introduce your child and what you'd like the tutor to focus on...">Hi Nadeesha, my daughter is in Grade 8 and needs help building confidence with algebra ahead of her term test. Would Tuesday or Thursday evenings work for you?</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Hourly fee</label>
+              <div class="booking-fee-box" style="margin-top:0;">
+                <span>Agreed rate for this tutor</span>
+                <strong>Rs. 1,800 / hr</strong>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <a href="tutor-profile.html" class="btn btn-outline btn-block">Cancel</a>
+              <button type="submit" class="btn btn-primary btn-block">Send Request</button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared across all pages) ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo">
+            <span class="logo-mark">TF</span>
+            TutorFinder
+          </a>
+          <p>Connecting parents with qualified home tutors across Sri Lanka — by subject, grade, district, availability and fee.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="search.html">Find Tutors</a></li>
+            <li><a href="index.html#become-tutor">Become a Tutor</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 TutorFinder. University Group Project.</span>
+        <span>Made in Sri Lanka 🇱🇰</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

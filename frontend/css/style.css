@@ -1,0 +1,1993 @@
+/* =========================================================
+   TutorFinder — Shared Stylesheet
+   Online Home Tutor Finding Platform (Sri Lanka)
+   Author: Member 1 — Frontend Foundation & Authentication
+   -----------------------------------------------------------
+   HOW TO USE THIS FILE (read this if you are Member 2-5)
+   -----------------------------------------------------------
+   1. Link this ONE file in every page:
+        <link rel="stylesheet" href="css/style.css">
+   2. Do NOT duplicate these rules in your own pages. If you need
+      something new, ADD a new class at the bottom of this file
+      under "ADD NEW COMPONENTS BELOW" instead of writing inline
+      styles or a second stylesheet.
+   3. Reuse the existing classes listed in each section comment
+      below (navbar, buttons, cards, forms, sections, footer)
+      so every page in the project looks like one product.
+   4. Colors, spacing and fonts are defined once as CSS variables
+      in :root. Never hardcode a hex color in a page — use the
+      variable (e.g. var(--primary)) so the whole site can be
+      re-themed from this one place.
+   ========================================================= */
+
+/* -----------------------------------------------------------
+   0. DESIGN TOKENS
+----------------------------------------------------------- */
+:root {
+  /* Brand colors */
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --primary-light: #DBEAFE;
+  --secondary: #0F172A;
+  --bg: #F8FAFC;
+  --white: #FFFFFF;
+
+  /* Text */
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --text-on-dark: #E2E8F0;
+
+  /* Borders / lines */
+  --border-color: #E2E8F0;
+
+  /* Feedback colors (kept minimal, for form validation states) */
+  --success: #16A34A;
+  --error: #DC2626;
+
+  /* Shape */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 16px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+
+  /* Spacing scale */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4.5rem;
+
+  /* Layout */
+  --container-width: 1160px;
+  --font-main: 'Poppins', Arial, sans-serif;
+}
+
+/* -----------------------------------------------------------
+   1. RESET & BASE
+----------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg);
+  color: var(--text-main);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+  color: var(--secondary);
+  line-height: 1.25;
+}
+
+p {
+  color: var(--text-muted);
+}
+
+/* Visible keyboard focus state for accessibility — applies site-wide */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -----------------------------------------------------------
+   2. LAYOUT HELPERS
+   Reusable on every page: .container, .section, .section-head
+----------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--space-3);
+}
+
+.section {
+  padding: var(--space-6) 0;
+}
+
+.section-alt {
+  background-color: var(--white);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-head {
+  max-width: 620px;
+  margin-bottom: var(--space-5);
+}
+
+.section-head h2 {
+  font-size: 1.85rem;
+  margin-bottom: var(--space-1);
+}
+
+.section-head p {
+  font-size: 1.02rem;
+}
+
+.text-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* -----------------------------------------------------------
+   3. NAVBAR
+   Reuse on every page: .navbar / .navbar-inner / .logo /
+   .nav-links / .nav-cta
+----------------------------------------------------------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-inner {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--space-3);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.logo span {
+  color: var(--primary);
+}
+
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.nav-links a {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-main);
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Mobile nav toggle — CSS-only checkbox pattern (no JavaScript) */
+.nav-toggle-checkbox {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.nav-toggle-label span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: var(--secondary);
+  border-radius: 2px;
+}
+
+/* -----------------------------------------------------------
+   4. BUTTONS
+   Reuse everywhere: .btn, then one of .btn-primary /
+   .btn-secondary / .btn-outline / .btn-ghost
+   Sizes: add .btn-lg or .btn-block
+----------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
+.btn-secondary:hover {
+  background-color: #1E293B;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--primary-light);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-main);
+}
+
+.btn-ghost:hover {
+  color: var(--primary);
+}
+
+.btn-lg {
+  padding: 0.9rem 1.9rem;
+  font-size: 1.02rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* -----------------------------------------------------------
+   5. CARDS
+   Reuse everywhere content needs a raised white block:
+   .card (base) + optional .card-hover for interactive cards
+----------------------------------------------------------- */
+.card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-3);
+}
+
+.card-hover {
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card-hover:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #C7D7FE;
+}
+
+/* Badge / tag — reusable for subjects, districts, status labels */
+.badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+/* -----------------------------------------------------------
+   6. HERO (Home page)
+----------------------------------------------------------- */
+.hero {
+  padding: var(--space-6) 0;
+  background: linear-gradient(180deg, #EFF4FF 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+.hero-copy .badge {
+  margin-bottom: var(--space-2);
+}
+
+.hero-copy h1 {
+  font-size: 2.6rem;
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+.hero-copy p {
+  font-size: 1.08rem;
+  max-width: 46ch;
+  margin-bottom: var(--space-3);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.hero-stats {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.hero-stats div strong {
+  display: block;
+  font-size: 1.4rem;
+  color: var(--secondary);
+}
+
+.hero-stats div span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Visual placeholder panel used on the right side of the hero */
+.hero-visual {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-3);
+}
+
+.hero-visual-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hero-visual-row:last-child {
+  border-bottom: none;
+}
+
+.avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-visual-row h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+}
+
+.hero-visual-row p {
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.hero-visual-row .badge {
+  margin-left: auto;
+}
+
+/* -----------------------------------------------------------
+   7. HOW IT WORKS (numbered steps — used because the content
+   IS a real sequence: search → compare → book)
+----------------------------------------------------------- */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.step-card {
+  position: relative;
+  padding-top: var(--space-4);
+}
+
+.step-number {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-3);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-light);
+}
+
+.step-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.step-card p {
+  font-size: 0.94rem;
+}
+
+/* -----------------------------------------------------------
+   8. FEATURES / BENEFITS GRID
+----------------------------------------------------------- */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.feature-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: var(--space-2);
+}
+
+.feature-card h3 {
+  font-size: 1.08rem;
+  margin-bottom: 0.4rem;
+}
+
+.feature-card p {
+  font-size: 0.94rem;
+  margin: 0;
+}
+
+/* -----------------------------------------------------------
+   9. CTA BAND (secondary dark section, reusable on any page)
+----------------------------------------------------------- */
+.cta-band {
+  background-color: var(--secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.cta-band h2 {
+  color: var(--white);
+  font-size: 1.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.cta-band p {
+  color: var(--text-on-dark);
+  margin: 0;
+}
+
+.cta-band-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* -----------------------------------------------------------
+   10. FOOTER
+   Reuse on every page: .site-footer
+----------------------------------------------------------- */
+.site-footer {
+  background-color: var(--secondary);
+  color: var(--text-on-dark);
+  padding: var(--space-5) 0 var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.15);
+}
+
+.footer-grid .logo {
+  color: var(--white);
+  margin-bottom: var(--space-2);
+}
+
+.footer-about p {
+  color: #94A3B8;
+  font-size: 0.92rem;
+  max-width: 32ch;
+}
+
+.footer-col h4 {
+  color: var(--white);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-2);
+}
+
+.footer-col ul li {
+  margin-bottom: 0.6rem;
+}
+
+.footer-col ul li a {
+  color: #94A3B8;
+  font-size: 0.92rem;
+  transition: color 0.15s ease;
+}
+
+.footer-col ul li a:hover {
+  color: var(--white);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  padding-top: var(--space-3);
+  font-size: 0.85rem;
+  color: #94A3B8;
+}
+
+/* -----------------------------------------------------------
+   11. AUTH PAGES (login.html / register.html)
+   Reusable: .auth-shell / .auth-panel / .auth-card / .auth-side
+----------------------------------------------------------- */
+.auth-shell {
+  min-height: calc(100vh - 72px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.auth-side {
+  background-color: var(--secondary);
+  color: var(--text-on-dark);
+  padding: var(--space-6) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.auth-side h2 {
+  color: var(--white);
+  font-size: 1.8rem;
+  max-width: 20ch;
+}
+
+.auth-side p {
+  color: #94A3B8;
+  max-width: 38ch;
+}
+
+.auth-side-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.auth-side-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.auth-side-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.auth-side-item p {
+  color: var(--text-on-dark);
+  font-size: 0.94rem;
+  margin: 0;
+}
+
+.auth-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5) var(--space-3);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.auth-card h1 {
+  font-size: 1.7rem;
+  margin-bottom: 0.3rem;
+}
+
+.auth-card > p {
+  margin-bottom: var(--space-4);
+  font-size: 0.96rem;
+}
+
+.auth-switch {
+  margin-top: var(--space-3);
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.auth-switch a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+/* -----------------------------------------------------------
+   12. FORM ELEMENTS
+   Reusable on any page needing input (auth, search filters,
+   tutor profile forms, booking forms, etc.)
+   Structure: .form-group > .form-label + .form-input/.form-select
+----------------------------------------------------------- */
+.form-group {
+  margin-bottom: var(--space-3);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  color: var(--text-main);
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+  outline: none;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.form-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.form-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.form-checkbox-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+}
+
+.form-links-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.form-links-row a {
+  color: var(--primary);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+/* Role selector (Parent / Tutor) — used on register.html.
+   Reuse this pattern anywhere a user picks one of two/more roles. */
+.role-select {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.role-option {
+  position: relative;
+}
+
+.role-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.role-option label {
+  display: block;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: var(--space-2);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.role-option .role-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.role-option h4 {
+  font-size: 0.98rem;
+  margin-bottom: 0.2rem;
+}
+
+.role-option p {
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.role-option input[type="radio"]:checked ~ label {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.role-option input[type="radio"]:focus-visible ~ label {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* -----------------------------------------------------------
+   13. RESPONSIVE
+----------------------------------------------------------- */
+@media (max-width: 960px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    order: -1;
+  }
+
+  .steps-grid,
+  .features-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    row-gap: var(--space-4);
+  }
+
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-side {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .nav-links {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background-color: var(--white);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  .nav-toggle-label {
+    display: flex;
+  }
+
+  .nav-toggle-checkbox:checked ~ .nav-links {
+    max-height: 320px;
+  }
+
+  .nav-toggle-checkbox:checked ~ .nav-links .nav-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .cta-band {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cta-band-actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-copy h1 {
+    font-size: 2rem;
+  }
+
+  .steps-grid,
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .role-select {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-stats {
+    gap: var(--space-3);
+  }
+}
+
+/* -----------------------------------------------------------
+   ADD NEW COMPONENTS BELOW
+   Member 2 (Tutor Search & Listings), Member 3 (Tutor Profile &
+   Booking), Member 4 (Dashboards), Member 5 (Admin/Reviews):
+   append your new, page-specific classes here. Keep using the
+   tokens in section 0 (var(--primary), var(--radius), spacing
+   scale, etc.) instead of new hardcoded values so new pages
+   stay visually consistent with this design system.
+----------------------------------------------------------- */
+
+/* =============================================================
+   14. PAGE HEADER (search.html + reusable on any inner page)
+   A slim banner under the navbar, used instead of the full
+   marketing hero on Member 1's home page.
+============================================================= */
+.page-header {
+  background: linear-gradient(180deg, #EFF4FF 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--space-5) 0;
+}
+
+.page-header h1 {
+  font-size: 1.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.page-header p {
+  font-size: 1rem;
+  max-width: 60ch;
+}
+
+/* =============================================================
+   15. SEARCH FORM (search.html)
+   Reuses .card, .form-group, .form-label, .form-input,
+   .form-select from Member 1's base styles.
+============================================================= */
+.search-form-card {
+  padding: var(--space-4);
+}
+
+.search-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3) var(--space-3);
+}
+
+.search-form-grid .form-group {
+  margin-bottom: 0;
+}
+
+.search-form-actions {
+  margin-top: var(--space-4);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-form-actions .btn {
+  min-width: 220px;
+}
+
+/* Two-input min/max range, e.g. hourly fee */
+.range-inputs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.range-inputs .form-input {
+  width: 100%;
+}
+
+.range-inputs span {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* Checkbox list, e.g. Availability */
+.checkbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+
+/* Star-based minimum rating selector — radio buttons styled as pills.
+   Reusable wherever a "minimum rating" filter is needed. */
+.rating-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.rating-option {
+  position: relative;
+}
+
+.rating-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.rating-option label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.rating-option input[type="radio"]:checked ~ label {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.rating-option input[type="radio"]:focus-visible ~ label {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* =============================================================
+   16. RESULTS LAYOUT (tutor-results.html)
+============================================================= */
+.search-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.search-summary h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.search-summary p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.sort-control .form-select {
+  width: auto;
+  padding: 0.5rem 0.8rem;
+}
+
+.results-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+/* Filter sidebar */
+.filter-sidebar {
+  position: sticky;
+  top: calc(72px + var(--space-3));
+  padding: var(--space-3);
+}
+
+.filter-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.filter-sidebar-head h3 {
+  font-size: 1.05rem;
+}
+
+.filter-sidebar-head a {
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.filter-group {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.filter-group:last-of-type {
+  border-bottom: none;
+}
+
+.filter-group-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--secondary);
+  margin-bottom: 0.7rem;
+  display: block;
+}
+
+.filter-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 0.55rem;
+}
+
+.filter-checkbox-item input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+/* Tutor result cards */
+.tutor-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.tutor-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3);
+}
+
+.tutor-avatar-placeholder {
+  width: 84px;
+  height: 84px;
+  border-radius: var(--radius);
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.tutor-info .tutor-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.3rem;
+}
+
+.tutor-info h3 {
+  font-size: 1.1rem;
+}
+
+.tutor-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.tutor-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: var(--space-3);
+}
+
+.tutor-detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.tutor-detail-item span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.tutor-detail-item strong {
+  font-size: 0.92rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.tutor-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.tutor-rating .stars {
+  color: #F59E0B;
+  letter-spacing: 1px;
+}
+
+.tutor-rating span.review-count {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.tutor-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  text-align: right;
+}
+
+.tutor-price strong {
+  display: block;
+  font-size: 1.25rem;
+  color: var(--secondary);
+}
+
+.tutor-price span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.tutor-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 170px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: var(--space-4);
+}
+
+.pagination a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  font-size: 0.88rem;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.pagination a.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.pagination a:hover:not(.active) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* =============================================================
+   17. RESPONSIVE — search & results pages
+============================================================= */
+@media (max-width: 960px) {
+  .search-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .results-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-sidebar {
+    position: static;
+  }
+
+  .tutor-card {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .tutor-side {
+    align-items: flex-start;
+    text-align: left;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .tutor-card-actions {
+    width: 170px;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-form-actions {
+    justify-content: stretch;
+  }
+
+  .search-form-actions .btn {
+    width: 100%;
+  }
+
+  .tutor-detail-grid {
+    grid-template-columns: repeat(2, auto);
+    row-gap: var(--space-2);
+  }
+
+  .tutor-side {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tutor-card-actions {
+    width: 100%;
+  }
+
+  .search-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* =============================================================
+   18. STATUS BADGES
+   Reusable anywhere a request/session status is shown:
+   booking history, dashboards, admin tables, etc.
+   Base class .status-badge + one modifier.
+============================================================= */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.status-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.status-pending {
+  background-color: #FEF3C7;
+  color: #B45309;
+}
+
+.status-accepted {
+  background-color: #DCFCE7;
+  color: #15803D;
+}
+
+.status-rejected {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+}
+
+.status-completed {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+/* =============================================================
+   19. BOOKING PAGE (booking.html)
+============================================================= */
+.booking-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+/* Tutor summary shown alongside the request form */
+.booking-tutor-card {
+  padding: var(--space-3);
+  position: sticky;
+  top: calc(72px + var(--space-3));
+}
+
+.booking-tutor-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--space-3);
+}
+
+.booking-tutor-head h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
+}
+
+.booking-tutor-head .tutor-rating {
+  font-size: 0.85rem;
+}
+
+.booking-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.booking-info-row:last-of-type {
+  border-bottom: none;
+}
+
+.booking-info-row span:first-child {
+  color: var(--text-muted);
+}
+
+.booking-info-row span:last-child {
+  color: var(--text-main);
+  font-weight: 600;
+  text-align: right;
+}
+
+.booking-fee-box {
+  margin-top: var(--space-3);
+  background-color: var(--primary-light);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.booking-fee-box span {
+  font-size: 0.85rem;
+  color: var(--primary-dark);
+}
+
+.booking-fee-box strong {
+  font-size: 1.3rem;
+  color: var(--primary-dark);
+}
+
+.booking-form-card {
+  padding: var(--space-4);
+}
+
+.booking-form-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: var(--space-3);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+/* =============================================================
+   20. DASHBOARD HEADER
+   Reusable on both parent-dashboard.html and tutor-dashboard.html
+============================================================= */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3);
+}
+
+.dashboard-header-main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.profile-avatar-lg {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.dashboard-header-main h1 {
+  font-size: 1.3rem;
+  margin-bottom: 0.2rem;
+}
+
+.dashboard-header-main p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.dashboard-header-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* Profile completion bar — tutor dashboard */
+.progress-wrap {
+  margin-top: var(--space-2);
+}
+
+.progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.progress-label-row strong {
+  color: var(--primary);
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background-color: var(--border-color);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--primary);
+}
+
+/* =============================================================
+   21. DASHBOARD STATS
+============================================================= */
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+}
+
+.stat-card {
+  padding: var(--space-3);
+  text-align: left;
+}
+
+.stat-card .stat-value {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 0.2rem;
+}
+
+.stat-card .stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.stat-card-accent {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+.stat-card-accent .stat-value,
+.stat-card-accent .stat-label {
+  color: var(--white);
+}
+
+.stat-card-accent .stat-label {
+  color: #94A3B8;
+}
+
+/* =============================================================
+   22. DASHBOARD SECTIONS, LISTS & CARDS
+   Reusable across both dashboards for requests, sessions,
+   favourites and reviews.
+============================================================= */
+.dashboard-section {
+  margin-top: var(--space-5);
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.section-title-row h2 {
+  font-size: 1.2rem;
+}
+
+.section-title-row a {
+  font-size: 0.88rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.list-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.list-row:last-child {
+  border-bottom: none;
+}
+
+.list-row-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.list-row-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.list-row-info h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+}
+
+.list-row-info p {
+  font-size: 0.82rem;
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.list-row-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.list-row-fee {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--secondary);
+  white-space: nowrap;
+}
+
+.list-row-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.list-row-actions .btn {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+.empty-row {
+  padding: var(--space-3);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Upcoming session — date block instead of avatar */
+.session-date-block {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-sm);
+  background-color: var(--secondary);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1.1;
+}
+
+.session-date-block .day {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.session-date-block .month {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: #94A3B8;
+}
+
+/* Favourite tutors — compact grid of small cards */
+.favourite-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.favourite-card {
+  padding: var(--space-3);
+  text-align: center;
+}
+
+.favourite-card .avatar-circle {
+  width: 56px;
+  height: 56px;
+  font-size: 1.1rem;
+  margin: 0 auto var(--space-2);
+}
+
+.favourite-card h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.favourite-card p {
+  font-size: 0.8rem;
+  margin-bottom: var(--space-2);
+}
+
+/* Reviews */
+.review-item {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.review-item-head h4 {
+  font-size: 0.92rem;
+}
+
+.review-item-head .stars {
+  color: #F59E0B;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.review-item p {
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.review-date {
+  font-size: 0.76rem;
+  color: #94A3B8;
+  display: block;
+  margin-top: 0.4rem;
+}
+
+/* Availability summary — tutor dashboard */
+.availability-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.availability-tag-list .badge {
+  background-color: var(--bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+/* =============================================================
+   23. RESPONSIVE — booking & dashboard pages
+============================================================= */
+@media (max-width: 960px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-tutor-card {
+    position: static;
+  }
+
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .favourite-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-header-actions {
+    width: 100%;
+  }
+
+  .dashboard-header-actions .btn {
+    flex: 1;
+  }
+
+  .list-row {
+    flex-wrap: wrap;
+  }
+
+  .list-row-meta {
+    width: 100%;
+    justify-content: space-between;
+    padding-left: calc(44px + var(--space-2));
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .favourite-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .list-row-meta {
+    padding-left: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .list-row-actions {
+    width: 100%;
+  }
+
+  .list-row-actions .btn {
+    flex: 1;
+  }
+}

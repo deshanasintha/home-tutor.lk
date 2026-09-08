@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | TutorLink LK</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-shell">
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <span class="brand-mark">TL</span>
+        <span>
+          TutorLink LK
+          <span class="brand-tag">Admin Panel</span>
+        </span>
+      </div>
+
+      <nav class="admin-nav">
+        <a href="#dashboard" class="admin-nav-link active">📊 Dashboard</a>
+        <a href="#manage-parents" class="admin-nav-link">👪 Manage Parents</a>
+        <a href="#manage-tutors" class="admin-nav-link">🎓 Manage Tutors</a>
+        <a href="#tutor-verification" class="admin-nav-link">✅ Tutor Verification</a>
+        <a href="#booking-requests" class="admin-nav-link">📩 Booking Requests</a>
+        <a href="#reports" class="admin-nav-link">📈 Reports</a>
+        <a href="#settings" class="admin-nav-link">⚙️ Settings</a>
+        <a href="login.html" class="admin-nav-link logout">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <div class="admin-main">
+
+      <div class="admin-topbar">
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p>Manage parents, tutors, verifications and bookings across TutorLink LK.</p>
+        </div>
+        <div class="admin-profile-chip">
+          <div class="admin-avatar">AD</div>
+          <div>
+            <div class="name">Admin User</div>
+            <div class="role">Platform Administrator</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-content">
+
+        <!-- ===================== 1. DASHBOARD OVERVIEW ===================== -->
+        <section id="dashboard" class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="section-eyebrow">Overview</span>
+              <h2>Platform Summary</h2>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="card stat-card">
+              <div class="stat-icon">👪</div>
+              <div>
+                <div class="stat-number">1,248</div>
+                <div class="stat-label">Total Parents</div>
+              </div>
+            </div>
+
+            <div class="card stat-card accent">
+              <div class="stat-icon">🎓</div>
+              <div>
+                <div class="stat-number">376</div>
+                <div class="stat-label">Total Tutors</div>
+              </div>
+            </div>
+
+            <div class="card stat-card success">
+              <div class="stat-icon">✅</div>
+              <div>
+                <div class="stat-number">298</div>
+                <div class="stat-label">Verified Tutors</div>
+              </div>
+            </div>
+
+            <div class="card stat-card warning">
+              <div class="stat-icon">⏳</div>
+              <div>
+                <div class="stat-number">27</div>
+                <div class="stat-label">Pending Tutor Approvals</div>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon">📩</div>
+              <div>
+                <div class="stat-number">142</div>
+                <div class="stat-label">Booking Requests</div>
+              </div>
+            </div>
+
+            <div class="card stat-card success">
+              <div class="stat-icon">🟢</div>
+              <div>
+                <div class="stat-number">563</div>
+                <div class="stat-label">Active Users (30 days)</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== 2. MANAGE PARENTS ===================== -->
+        <section id="manage-parents" class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="section-eyebrow">Users</span>
+              <h2>Manage Parents</h2>
+              <p>View and manage all registered parent accounts.</p>
+            </div>
+          </div>
+
+          <div class="card table-card">
+            <div class="table-toolbar">
+              <input type="search" class="table-search" placeholder="Search parents by name or email...">
+              <select class="table-filter-select">
+                <option>All Statuses</option>
+                <option>Active</option>
+                <option>Suspended</option>
+              </select>
+            </div>
+
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>District</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="table-person">
+                      <div class="table-avatar">NP</div>
+                      <span>Nimali Perera</span>
+                    </div>
+                  </td>
+                  <td>nimali.perera@email.com</td>
+                  <td>Kalutara</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td><a href="#" class="btn btn-outline btn-sm">View</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-person">
+                      <div class="table-avatar">KS</div>
+                      <span>Kasun Silva</span>
+                    </div>
+                  </td>
+                  <td>kasun.silva@email.com</td>
+                  <td>Colombo</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td><a href="#" class="btn btn-outline btn-sm">View</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-person">
+                      <div class="table-avatar">DR</div>
+                      <span>Dilani Rajapaksha</span>
+                    </div>
+                  </td>
+                  <td>dilani.r@email.com</td>
+                  <td>Gampaha</td>
+                  <td><span class="badge badge-danger">Suspended</span></td>
+                  <td><a href="#" class="btn btn-outline btn-sm">View</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-person">
+                      <div class="table-avatar">MF</div>
+                      <span>Malith Fernando</span>
+                    </div>
+                  </td>
+                  <td>malith.f@email.com</td>
+                  <td>Galle</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td><a href="#" class="btn btn-outline btn-sm">View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== 3. MANAGE TUTORS ===================== -->
+        <section id="manage-tutors" class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="section-eyebrow">Users</span>
+              <h2>Manage Tutors</h2>
+              <p>View, verify or reject tutor accounts registered on the platform.</p>
+            </div>
+          </div>
+
+          <div class="card table-card">
+            <div class="table-toolbar">
+              <input type="search" class="table-search" placeholder="Search tutors by name or subject...">
+              <select class="table-filter-select">
+                <option>All Statuses</option>
+                <option>Verified</option>
+                <option>Pending</option>
+                <option>Rejected</option>
+              </select>
+            </div>
+
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Tutor Name</th>
+                  <th>Subject</th>
+                  <th>District</th>
+                  <th>Qualification</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="table-person">
+                      <div class="table-avatar">SK</div>
+                      <span>Mr. Sanjeewa Kumara</span>
+                    </div>
+                  </td>
+                  <td>Mathematics</td>
+                  <td>Kalutara</td>
+                  <td>BSc. Mathematics</td>
+                  <td><span class="badge badge-success">Verified</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="tutor-profile.html" class="btn btn-outline btn-sm">View</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-person">
+                      <div class="table-avatar">RF</div>
+                      <span>Ms. Ruwangi Fernando</span>
+                    </div>
+                  </td>
+                  <td>Science</td>
+                  <td>Kalutara</td>
+                  <td>BSc. Hons Chemistry</td>
+                  <td><span class="badge badge-success">Verified</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="tutor-profile.html" class="btn btn-outline btn-sm">View</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-person">
+                      <div class="table-avatar">DJ</div>
+                      <span>Ms. Dulani Jayasuriya</span>
+                    </div>
+                  </td>
+                  <td>ICT</td>
+                  <td>Gampaha</td>
+                  <td>BA ICT, SLIIT</td>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="tutor-profile.html" class="btn btn-outline btn-sm">View</a>
+                      <a href="#" class="btn btn-success btn-sm">Verify</a>
+                      <a href="#" class="btn btn-danger-outline btn-sm">Reject</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-person">
+                      <div class="table-avatar">TW</div>
+                      <span>Mr. Tharindu Wickramasinghe</span>
+                    </div>
+                  </td>
+                  <td>English</td>
+                  <td>Colombo</td>
+                  <td>B.Ed. English</td>
+                  <td><span class="badge badge-danger">Rejected</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="tutor-profile.html" class="btn btn-outline btn-sm">View</a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== 4. TUTOR VERIFICATION ===================== -->
+        <section id="tutor-verification" class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="section-eyebrow">Approvals</span>
+              <h2>Tutor Verification</h2>
+              <p>Review pending tutor applications and their submitted qualifications.</p>
+            </div>
+          </div>
+
+          <div class="verify-grid">
+
+            <!-- Verification Card 1 -->
+            <div class="card verify-card">
+              <div class="verify-card-top">
+                <div class="verify-person">
+                  <div class="verify-avatar">DJ</div>
+                  <div>
+                    <h4>Ms. Dulani Jayasuriya</h4>
+                    <p>Applied for ICT · Grade 12-13 (A/L)</p>
+                  </div>
+                </div>
+                <span class="badge badge-warning">Pending</span>
+              </div>
+
+              <div class="verify-detail-list">
+                <div class="verify-detail-row">
+                  <span class="label">Qualification</span>
+                  <span class="value">BA in ICT, SLIIT</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">Experience</span>
+                  <span class="value">3 years</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">District</span>
+                  <span class="value">Gampaha</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">Applied On</span>
+                  <span class="value">02 Sept 2026</span>
+                </div>
+              </div>
+
+              <div class="verify-doc-note">📎 Certificates &amp; NIC copy submitted for review</div>
+
+              <div class="verify-card-actions">
+                <a href="#" class="btn btn-success">Approve</a>
+                <a href="#" class="btn btn-danger-outline">Reject</a>
+              </div>
+            </div>
+
+            <!-- Verification Card 2 -->
+            <div class="card verify-card">
+              <div class="verify-card-top">
+                <div class="verify-person">
+                  <div class="verify-avatar">AH</div>
+                  <div>
+                    <h4>Ms. Amaya Herath</h4>
+                    <p>Applied for All Subjects · Grade 1-5</p>
+                  </div>
+                </div>
+                <span class="badge badge-warning">Pending</span>
+              </div>
+
+              <div class="verify-detail-list">
+                <div class="verify-detail-row">
+                  <span class="label">Qualification</span>
+                  <span class="value">Diploma in Early Childhood Ed.</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">Experience</span>
+                  <span class="value">7 years</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">District</span>
+                  <span class="value">Kalutara</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">Applied On</span>
+                  <span class="value">04 Sept 2026</span>
+                </div>
+              </div>
+
+              <div class="verify-doc-note">📎 Certificates &amp; NIC copy submitted for review</div>
+
+              <div class="verify-card-actions">
+                <a href="#" class="btn btn-success">Approve</a>
+                <a href="#" class="btn btn-danger-outline">Reject</a>
+              </div>
+            </div>
+
+            <!-- Verification Card 3 -->
+            <div class="card verify-card">
+              <div class="verify-card-top">
+                <div class="verify-person">
+                  <div class="verify-avatar">NP</div>
+                  <div>
+                    <h4>Mr. Nuwan Peiris</h4>
+                    <p>Applied for Commerce · Grade 12-13 (A/L)</p>
+                  </div>
+                </div>
+                <span class="badge badge-warning">Pending</span>
+              </div>
+
+              <div class="verify-detail-list">
+                <div class="verify-detail-row">
+                  <span class="label">Qualification</span>
+                  <span class="value">BSc. Hons Commerce</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">Experience</span>
+                  <span class="value">5 years</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">District</span>
+                  <span class="value">Kalutara</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">Applied On</span>
+                  <span class="value">05 Sept 2026</span>
+                </div>
+              </div>
+
+              <div class="verify-doc-note">📎 Certificates &amp; NIC copy submitted for review</div>
+
+              <div class="verify-card-actions">
+                <a href="#" class="btn btn-success">Approve</a>
+                <a href="#" class="btn btn-danger-outline">Reject</a>
+              </div>
+            </div>
+
+            <!-- Verification Card 4 -->
+            <div class="card verify-card">
+              <div class="verify-card-top">
+                <div class="verify-person">
+                  <div class="verify-avatar">IJ</div>
+                  <div>
+                    <h4>Mr. Isuru Jayawardena</h4>
+                    <p>Applied for Physics · Grade 12-13 (A/L)</p>
+                  </div>
+                </div>
+                <span class="badge badge-warning">Pending</span>
+              </div>
+
+              <div class="verify-detail-list">
+                <div class="verify-detail-row">
+                  <span class="label">Qualification</span>
+                  <span class="value">BSc. Hons Physics</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">Experience</span>
+                  <span class="value">2 years</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">District</span>
+                  <span class="value">Matara</span>
+                </div>
+                <div class="verify-detail-row">
+                  <span class="label">Applied On</span>
+                  <span class="value">06 Sept 2026</span>
+                </div>
+              </div>
+
+              <div class="verify-doc-note">📎 Certificates &amp; NIC copy submitted for review</div>
+
+              <div class="verify-card-actions">
+                <a href="#" class="btn btn-success">Approve</a>
+                <a href="#" class="btn btn-danger-outline">Reject</a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===================== 5. BOOKING REQUESTS ===================== -->
+        <section id="booking-requests" class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="section-eyebrow">Activity</span>
+              <h2>Booking Requests</h2>
+              <p>Monitor booking requests sent between parents and tutors.</p>
+            </div>
+          </div>
+
+          <div class="card table-card">
+            <div class="table-toolbar">
+              <input type="search" class="table-search" placeholder="Search by request ID or name...">
+              <select class="table-filter-select">
+                <option>All Statuses</option>
+                <option>Pending</option>
+                <option>Confirmed</option>
+                <option>Declined</option>
+              </select>
+            </div>
+
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Request ID</th>
+                  <th>Parent</th>
+                  <th>Tutor</th>
+                  <th>Subject</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#BR-1042</td>
+                  <td>Nimali Perera</td>
+                  <td>Mr. Sanjeewa Kumara</td>
+                  <td>Mathematics</td>
+                  <td>10 Sept 2026</td>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>#BR-1041</td>
+                  <td>Nimali Perera</td>
+                  <td>Ms. Ruwangi Fernando</td>
+                  <td>Science</td>
+                  <td>14 Sept 2026</td>
+                  <td><span class="badge badge-success">Confirmed</span></td>
+                </tr>
+                <tr>
+                  <td>#BR-1040</td>
+                  <td>Kasun Silva</td>
+                  <td>Mr. Tharindu Wickramasinghe</td>
+                  <td>English</td>
+                  <td>09 Sept 2026</td>
+                  <td><span class="badge badge-danger">Declined</span></td>
+                </tr>
+                <tr>
+                  <td>#BR-1039</td>
+                  <td>Malith Fernando</td>
+                  <td>Ms. Dulani Jayasuriya</td>
+                  <td>ICT</td>
+                  <td>12 Sept 2026</td>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>#BR-1038</td>
+                  <td>Dilani Rajapaksha</td>
+                  <td>Mr. Nuwan Peiris</td>
+                  <td>Commerce</td>
+                  <td>08 Sept 2026</td>
+                  <td><span class="badge badge-success">Confirmed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== 6. REPORTS ===================== -->
+        <section id="reports" class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="section-eyebrow">Insights</span>
+              <h2>Reports</h2>
+              <p>High-level platform activity snapshots.</p>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="card stat-card">
+              <div class="stat-icon">📈</div>
+              <div>
+                <div class="stat-number">86%</div>
+                <div class="stat-label">Booking Confirmation Rate</div>
+              </div>
+            </div>
+            <div class="card stat-card accent">
+              <div class="stat-icon">⏱️</div>
+              <div>
+                <div class="stat-number">1.8 days</div>
+                <div class="stat-label">Avg. Tutor Response Time</div>
+              </div>
+            </div>
+            <div class="card stat-card success">
+              <div class="stat-icon">🌍</div>
+              <div>
+                <div class="stat-number">19</div>
+                <div class="stat-label">Districts Covered</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== 7. SETTINGS ===================== -->
+        <section id="settings" class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="section-eyebrow">Configuration</span>
+              <h2>Settings</h2>
+              <p>Platform-level preferences for the admin account.</p>
+            </div>
+          </div>
+
+          <div class="card" style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-md); max-width: 480px;">
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Admin Name</h4>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted);">Admin User</p>
+            </div>
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Admin Email</h4>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted);">admin@tutorlinklk.com</p>
+            </div>
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Role</h4>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted);">Super Administrator</p>
+            </div>
+            <a href="#" class="btn btn-outline btn-block">Edit Settings</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

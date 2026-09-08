@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log In | TutorLink LK</title>
+<link rel="stylesheet" href="css/auth-booking.css">
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">TL</span>
+        <span>
+          TutorLink LK
+          <span class="brand-tag">Home Tutor Finding Platform</span>
+        </span>
+      </a>
+
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="parent-register.html">Find a Tutor</a>
+        <a href="tutor-register.html">Become a Tutor</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="index.html" class="btn btn-outline btn-sm">Back to Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== LOGIN FORM ===================== -->
+  <main class="auth-section">
+    <div class="container">
+      <div class="auth-wrapper">
+
+        <a href="index.html" class="back-home-link">&larr; Back to Home</a>
+
+        <div class="auth-header">
+          <span class="eyebrow">Welcome Back</span>
+          <h1>Log In to Your Account</h1>
+          <p>Access your TutorLink LK dashboard to manage tutoring, bookings and sessions.</p>
+        </div>
+
+        <form class="card auth-card" action="#" method="post">
+
+          <div class="form-group">
+            <label for="loginId">Email / Username</label>
+            <input type="text" id="loginId" name="loginId" placeholder="you@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          </div>
+
+          <div class="auth-row-between">
+            <label class="checkbox-row" style="margin: 0;">
+              <input type="checkbox" name="rememberMe">
+              Remember me
+            </label>
+            <a href="forgot-password.html">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Log In</button>
+
+          <div class="auth-divider">New to TutorLink LK?</div>
+
+          <div class="register-options">
+            <a href="parent-register.html" class="register-option-card">
+              <div class="role-icon">👪</div>
+              <h4>Register as Parent</h4>
+              <p>Find home tutors for your child</p>
+              <span class="btn btn-outline btn-sm btn-block">Register</span>
+            </a>
+
+            <a href="tutor-register.html" class="register-option-card">
+              <div class="role-icon">🎓</div>
+              <h4>Register as Tutor</h4>
+              <p>Offer your tutoring services</p>
+              <span class="btn btn-outline btn-sm btn-block">Register</span>
+            </a>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 TutorLink LK. Connecting parents with trusted home tutors island-wide.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

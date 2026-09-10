@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutor Registration | TutorLink LK</title>
+<link rel="stylesheet" href="css/tutor.css">
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">TL</span>
+        <span>
+          TutorLink LK
+          <span class="brand-tag">Home Tutor Finding Platform</span>
+        </span>
+      </a>
+
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="parent-register.html">Find a Tutor</a>
+        <a href="tutor-register.html" class="active">Become a Tutor</a>
+        <a href="index.html#about">About</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== REGISTER FORM ===================== -->
+  <main class="auth-section">
+    <div class="container">
+      <div class="auth-wrapper">
+
+        <div class="auth-header">
+          <span class="eyebrow">Tutor Account</span>
+          <h1>Create Your Tutor Profile</h1>
+          <p>Join TutorLink LK and showcase your qualifications, subjects and availability to parents across Sri Lanka.</p>
+        </div>
+
+        <form class="card auth-card" action="#" method="post">
+
+          <!-- Profile Photo -->
+          <p class="form-section-title">Profile Photo</p>
+          <div class="photo-upload-row">
+            <div class="photo-placeholder">📷</div>
+            <div class="photo-upload-info">
+              <h4>Upload a profile photo</h4>
+              <p>A clear photo helps parents recognize and trust your profile. JPG or PNG, max 2MB.</p>
+              <span class="btn btn-outline btn-sm">Choose Photo</span>
+            </div>
+          </div>
+
+          <!-- Personal Details -->
+          <p class="form-section-title">Personal Details</p>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" name="fullName" placeholder="e.g. Sanjeewa Kumara" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="07X XXX XXXX" required>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <p class="form-section-title">Location</p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="district">District</label>
+              <select id="district" name="district" required>
+                <option value="">Select District</option>
+                <option>Colombo</option>
+                <option>Gampaha</option>
+                <option>Kalutara</option>
+                <option>Kandy</option>
+                <option>Matale</option>
+                <option>Nuwara Eliya</option>
+                <option>Galle</option>
+                <option>Matara</option>
+                <option>Hambantota</option>
+                <option>Jaffna</option>
+                <option>Kurunegala</option>
+                <option>Puttalam</option>
+                <option>Anuradhapura</option>
+                <option>Ratnapura</option>
+                <option>Badulla</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="city">City / Teaching Area</label>
+              <input type="text" id="city" name="city" placeholder="e.g. Panadura" required>
+            </div>
+          </div>
+
+          <!-- Qualifications -->
+          <p class="form-section-title">Qualifications</p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="qualification">Highest Qualification</label>
+              <select id="qualification" name="qualification" required>
+                <option value="">Select Qualification</option>
+                <option>G.C.E. Advanced Level</option>
+                <option>Diploma</option>
+                <option>Bachelor's Degree</option>
+                <option>Bachelor's Degree (Honours)</option>
+                <option>Master's Degree</option>
+                <option>PhD</option>
+                <option>Professional Teaching Certificate</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="institution">University / Institution</label>
+              <input type="text" id="institution" name="institution" placeholder="e.g. University of Colombo" required>
+            </div>
+          </div>
+
+          <!-- Teaching Details -->
+          <p class="form-section-title">Teaching Details</p>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="subjects">Teaching Subjects</label>
+              <input type="text" id="subjects" name="subjects" placeholder="e.g. Mathematics, Science" required>
+              <span class="form-hint">Separate multiple subjects with a comma.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="gradeLevels">Grade Levels</label>
+              <select id="gradeLevels" name="gradeLevels" required>
+                <option value="">Select Grade Levels</option>
+                <option>Grade 1 - 5</option>
+                <option>Grade 6 - 9</option>
+                <option>Grade 10 - 11 (O/L)</option>
+                <option>Grade 12 - 13 (A/L)</option>
+                <option>All Levels</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="experience">Teaching Experience</label>
+              <select id="experience" name="experience" required>
+                <option value="">Select Experience</option>
+                <option>Less than 1 year</option>
+                <option>1 - 2 years</option>
+                <option>3 - 5 years</option>
+                <option>6 - 10 years</option>
+                <option>10+ years</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="bio">Short Professional Bio</label>
+              <textarea id="bio" name="bio" placeholder="Briefly introduce your teaching background, approach and achievements..."></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="languages">Languages</label>
+              <input type="text" id="languages" name="languages" placeholder="e.g. Sinhala, English, Tamil">
+            </div>
+          </div>
+
+          <!-- Availability -->
+          <p class="form-section-title">Availability</p>
+          <div class="form-group full-width">
+            <label>Available Days</label>
+            <div class="day-picker">
+              <label class="day-chip"><input type="checkbox" name="days"> Mon</label>
+              <label class="day-chip"><input type="checkbox" name="days"> Tue</label>
+              <label class="day-chip"><input type="checkbox" name="days"> Wed</label>
+              <label class="day-chip"><input type="checkbox" name="days"> Thu</label>
+              <label class="day-chip"><input type="checkbox" name="days"> Fri</label>
+              <label class="day-chip"><input type="checkbox" name="days"> Sat</label>
+              <label class="day-chip"><input type="checkbox" name="days"> Sun</label>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="availableTime">Available Time</label>
+              <select id="availableTime" name="availableTime">
+                <option value="">Select Time Slot</option>
+                <option>Morning (6AM - 12PM)</option>
+                <option>Afternoon (12PM - 5PM)</option>
+                <option>Evening (5PM - 9PM)</option>
+                <option>Flexible</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="teachingMode">Teaching Mode</label>
+              <select id="teachingMode" name="teachingMode" required>
+                <option value="">Select Mode</option>
+                <option>Home Visit</option>
+                <option>Online</option>
+                <option>Group Class</option>
+                <option>Either</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="hourlyRate">Hourly Rate (Rs.)</label>
+              <input type="number" id="hourlyRate" name="hourlyRate" placeholder="e.g. 1500" min="0" required>
+            </div>
+          </div>
+
+          <label class="checkbox-row">
+            <input type="checkbox" required>
+            I agree to the Terms of Service and Privacy Policy of TutorLink LK.
+          </label>
+
+          <button type="submit" class="btn btn-primary btn-block">Create Profile</button>
+
+        </form>
+
+        <p class="auth-footer-note">
+          Already have an account? <a href="login.html">Log in here</a>
+        </p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 TutorLink LK. Connecting parents with trusted home tutors island-wide.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

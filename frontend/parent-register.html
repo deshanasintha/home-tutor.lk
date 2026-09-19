@@ -43,29 +43,30 @@
           <p>Register to find qualified, verified home tutors for your child across Sri Lanka.</p>
         </div>
 
-        <form class="card auth-card" action="#" method="post">
+        <!-- Form ID Fix -->
+        <form class="card auth-card" id="parentRegisterForm">
 
           <!-- Personal Details -->
           <p class="form-section-title">Personal Details</p>
           <div class="form-grid">
             <div class="form-group full-width">
-              <label for="fullName">Full Name</label>
-              <input type="text" id="fullName" name="fullName" placeholder="e.g. Nimali Perera" required>
+              <label for="parentName">Full Name</label>
+              <input type="text" id="parentName" name="fullName" placeholder="e.g. Nimali Perera" required>
             </div>
 
             <div class="form-group">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" placeholder="you@example.com" required>
+              <label for="parentEmail">Email Address</label>
+              <input type="email" id="parentEmail" name="email" placeholder="you@example.com" required>
             </div>
 
             <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" placeholder="07X XXX XXXX" required>
+              <label for="parentPhone">Phone Number</label>
+              <input type="tel" id="parentPhone" name="phone" placeholder="07X XXX XXXX" required>
             </div>
 
             <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" name="password" placeholder="Create a password" required>
+              <label for="parentPassword">Password</label>
+              <input type="password" id="parentPassword" name="password" placeholder="Create a password" required>
             </div>
 
             <div class="form-group">
@@ -163,6 +164,9 @@
       <p>&copy; 2026 TutorLink LK. Connecting parents with trusted home tutors island-wide.</p>
     </div>
   </footer>
+
+  <!-- Script Link -->
   <script type="module" src="js/parent-register.js"></script>
+
 </body>
 </html>

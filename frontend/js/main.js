@@ -80,4 +80,48 @@
     event.preventDefault();
     showToast('This section is coming soon.');
   }));
+
+  const filterForm = document.querySelector('[data-results-filters]');
+  const resultCards = [...document.querySelectorAll('[data-tutor-card]')];
+  const resultCount = document.querySelector('[data-results-count]');
+  const feeRange = filterForm?.querySelector('[data-filter="price"]');
+  const feeOutput = document.querySelector('[data-fee-output]');
+
+  const updateResults = () => {
+    if (!filterForm || !resultCards.length) return;
+    const selectedSubject = filterForm.querySelector('[data-filter="subject"]')?.value || '';
+    const selectedGrade = filterForm.querySelector('[data-filter="grade"]')?.value || '';
+    const selectedDistrict = filterForm.querySelector('[data-filter="district"]')?.value || '';
+    const selectedAvailability = [...filterForm.querySelectorAll('[data-filter="availability"]:checked')].map((input) => input.value);
+    const minimumRating = Number(filterForm.querySelector('[data-filter="rating"]:checked')?.value || 0);
+    const maximumPrice = Number(feeRange?.value || Infinity);
+
+    const visibleCards = resultCards.filter((card) => {
+      const subjects = card.dataset.subject.split(' ');
+      const grades = card.dataset.grade.split(' ');
+      return subjects.includes(selectedSubject)
+        && grades.includes(selectedGrade)
+        && card.dataset.district === selectedDistrict
+        && selectedAvailability.every((slot) => card.dataset.availability.split(' ').includes(slot))
+        && Number(card.dataset.rating) >= minimumRating
+        && Number(card.dataset.price) <= maximumPrice;
+    });
+
+    resultCards.forEach((card) => { card.hidden = !visibleCards.includes(card); });
+    if (resultCount) resultCount.textContent = visibleCards.length;
+    if (feeOutput && feeRange) feeOutput.textContent = `Rs. ${Number(feeRange.value).toLocaleString()}`;
+  };
+
+  filterForm?.addEventListener('input', updateResults);
+  filterForm?.addEventListener('change', updateResults);
+  filterForm?.addEventListener('reset', () => window.setTimeout(updateResults));
+  document.querySelector('[data-filter="sort"]')?.addEventListener('change', (event) => {
+    const sortDirection = event.target.value === 'Lowest fee' ? 1 : -1;
+    resultCards.sort((first, second) => {
+      const firstValue = event.target.value === 'Highest rated' ? Number(first.dataset.rating) : Number(first.dataset.price);
+      const secondValue = event.target.value === 'Highest rated' ? Number(second.dataset.rating) : Number(second.dataset.price);
+      return (firstValue - secondValue) * sortDirection;
+    }).forEach((card) => card.parentElement.append(card));
+  });
+  updateResults();
 })();

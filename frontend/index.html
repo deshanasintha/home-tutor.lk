@@ -6,7 +6,6 @@
   <meta name="description" content="Find trusted home tutors in Sri Lanka by subject, grade, district and budget.">
   <title>TutorLanka | Trusted Home Tutors in Sri Lanka</title>
   
-  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/tutor.css">
@@ -14,6 +13,13 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- Animated Background Elements -->
+  <div class="bg-animations" aria-hidden="true">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+  </div>
 
   <!-- Navigation Header -->
   <header class="site-header">
@@ -63,7 +69,8 @@
         </div>
 
         <div class="hero-image-wrapper" data-reveal>
-          <img class="hero-img" src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=900" alt="A tutor helping a student study at home" width="900" height="680">
+          <img src="assets/images/hero-tutor.jpg.png" alt="Hero Background">
+          <img class="hero-img" src="images/hero-bg.jpg" alt="A tutor helping a student study at home" width="900" height="680">
           <div class="floating-badge badge-top"><span class="status-online-dot" aria-hidden="true"></span><span><strong>2,400+</strong> tutors active</span></div>
           <div class="floating-badge badge-bottom"><span aria-hidden="true">★</span><span><strong>4.9/5</strong> parent rating</span></div>
         </div>
@@ -80,19 +87,19 @@
         </div>
         <div class="concept-grid">
           <article class="concept-card" data-reveal>
-            <div class="concept-icon" aria-hidden="true">▤</div>
+            <div class="concept-icon" aria-hidden="true">🔍</div>
             <h3>By subject</h3>
             <p>Find specialists in Mathematics, Science, English, ICT and more.</p>
             <div class="concept-chips"><span class="chip">Mathematics</span><span class="chip">Science</span><span class="chip">English</span><span class="chip">ICT</span></div>
           </article>
           <article class="concept-card" data-reveal>
-            <div class="concept-icon" aria-hidden="true">⌂</div>
+            <div class="concept-icon" aria-hidden="true">📚</div>
             <h3>By grade</h3>
             <p>Match your child with tutors experienced at the right level.</p>
             <div class="concept-chips"><span class="chip">Grade 1-5</span><span class="chip">O/L</span><span class="chip">A/L</span><span class="chip">Scholarship</span></div>
           </article>
           <article class="concept-card" data-reveal>
-            <div class="concept-icon" aria-hidden="true">⌖</div>
+            <div class="concept-icon" aria-hidden="true">📍</div>
             <h3>By district</h3>
             <p>Search locally, from Colombo and Kandy to every district island-wide.</p>
             <div class="concept-chips"><span class="chip">Colombo</span><span class="chip">Gampaha</span><span class="chip">Kandy</span><span class="chip">Galle</span></div>
@@ -124,8 +131,10 @@
           <div><p class="section-label">Featured tutors</p><h2 id="featured-title" class="section-heading">Meet trusted tutors on the platform.</h2></div>
           <a class="btn btn-outline" href="search-tutors.html">View all tutors</a>
         </div>
-        <label class="tutor-filter-label" for="tutor-filter">Quickly filter featured tutors</label>
-        <input class="tutor-filter" id="tutor-filter" type="search" placeholder="Search by name, subject or district" data-tutor-filter>
+        <div class="filter-wrapper">
+          <label class="tutor-filter-label" for="tutor-filter">Quickly filter featured tutors</label>
+          <input class="tutor-filter" id="tutor-filter" type="search" placeholder="Search by name, subject or district" data-tutor-filter>
+        </div>
         <div class="tutor-grid">
           <article class="tutor-card" data-tutor-card data-reveal><div class="tutor-avatar avatar-blue">IP</div><h3>Ishara Perera</h3><p class="tutor-subject">Combined Maths</p><div class="tutor-meta"><span>Colombo</span><span>Grade 10 - A/L</span><span>7 years experience</span></div><div class="tutor-footer"><strong>LKR 1,800<small>/hr</small></strong><span>★ 4.9</span></div></article>
           <article class="tutor-card" data-tutor-card data-reveal><div class="tutor-avatar avatar-gold">DF</div><h3>Dilshan Fernando</h3><p class="tutor-subject">English Language</p><div class="tutor-meta"><span>Gampaha</span><span>Grade 6 - O/L</span><span>5 years experience</span></div><div class="tutor-footer"><strong>LKR 1,500<small>/hr</small></strong><span>★ 4.8</span></div></article>
@@ -168,7 +177,6 @@
     <div class="container footer-bottom"><p>&copy; 2026 TutorLanka. All rights reserved.</p></div>
   </footer>
 
-  <!-- JS Scripts -->
   <script src="js/script.js"></script>
   <script src="js/main.js"></script>
 </body>

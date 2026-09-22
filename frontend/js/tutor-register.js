@@ -10,12 +10,12 @@ if (form) {
 
     const submitBtn = form.querySelector('button[type="submit"]');
 
-    const name = document.getElementById('fullName').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const subjects = document.getElementById('subjects').value.trim();
-    const hourlyRate = document.getElementById('hourlyRate').value || 0;
+    const name = document.getElementById('fullName')?.value.trim() || '';
+    const email = document.getElementById('email')?.value.trim() || '';
+    const password = document.getElementById('password')?.value || '';
+    const confirmPassword = document.getElementById('confirmPassword')?.value || '';
+    const rawSubjects = document.getElementById('subjects')?.value.trim() || '';
+    const hourlyRate = document.getElementById('hourlyRate')?.value || 0;
 
     // Password සැසඳීම පරීක්ෂා කිරීම
     if (password !== confirmPassword) {
@@ -54,26 +54,41 @@ if (form) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 3. Firestore Database එකේ Tutorගේ දත්ත Save කිරීම
+      // Subjects කමා (,) මගින් වෙන් කර Array එකක් සාදා ගැනීම (Filtering සඳහා පහසු වීමට)
+      const subjectsArray = rawSubjects
+        ? rawSubjects.split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
+        : [];
+
+      // Selected Days ලබා ගැනීම
+      const selectedDays = Array.from(
+        form.querySelectorAll('input[name="days"]:checked'), 
+        (input) => input.value
+      );
+
+      // 3. Firestore Database එකේ User/Tutorගේ දත්ත Save කිරීම
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: name,
         email: email,
-        phone: document.getElementById('phone').value.trim(),
-        district: document.getElementById('district').value,
-        city: document.getElementById('city').value.trim(),
-        qualification: document.getElementById('qualification').value,
-        institution: document.getElementById('institution').value.trim(),
-        subjects: subjects,
-        gradeLevels: document.getElementById('gradeLevels').value,
-        experience: document.getElementById('experience').value,
-        bio: document.getElementById('bio').value.trim(),
-        languages: document.getElementById('languages').value.trim(),
-        days: Array.from(form.querySelectorAll('input[name="days"]:checked'), (input) => input.value),
-        availableTime: document.getElementById('availableTime').value,
-        teachingMode: document.getElementById('teachingMode').value,
+        phone: document.getElementById('phone')?.value.trim() || '',
+        district: document.getElementById('district')?.value || '',
+        city: document.getElementById('city')?.value.trim() || '',
+        qualification: document.getElementById('qualification')?.value || '',
+        institution: document.getElementById('institution')?.value.trim() || '',
+        subjects: rawSubjects,             // Display කිරීමට (e.g. "Mathematics, Science")
+        subjectsArray: subjectsArray,     // Database Queries / Filter කිරීමට
+        gradeLevels: document.getElementById('gradeLevels')?.value || '',
+        experience: document.getElementById('experience')?.value || '',
+        bio: document.getElementById('bio')?.value.trim() || '',
+        languages: document.getElementById('languages')?.value.trim() || '',
+        days: selectedDays,
+        availableTime: document.getElementById('availableTime')?.value || '',
+        teachingMode: document.getElementById('teachingMode')?.value || '',
         hourlyRate: Number(hourlyRate),
         role: "tutor",
+        rating: 5.0,                       // Default Initial Rating
+        reviewCount: 0,
+        status: "pending",                 // Admin approval සඳහා (optional)
         createdAt: serverTimestamp()
       });
 

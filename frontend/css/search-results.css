@@ -1,0 +1,60 @@
+/* TutorLink LK search results */
+.page-header {
+  padding: var(--space-8) 0 var(--space-7);
+  background: linear-gradient(180deg, var(--color-primary-tint), var(--color-paper));
+  border-bottom: 1px solid var(--color-line);
+}
+
+.page-header h1 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: var(--space-3); }
+.page-header p { color: var(--color-muted); max-width: 58ch; }
+.section { padding: var(--space-8) 0; }
+.search-summary { margin-bottom: var(--space-6); }
+.search-summary h1 { font-size: 1.8rem; margin-bottom: var(--space-2); }
+.search-summary p { color: var(--color-muted); }
+.sort-control .form-label { margin: 0; }
+.results-shell { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+.filter-sidebar { position: sticky; top: 6rem; padding: var(--space-5); background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-md); box-shadow: var(--shadow-card); }
+.filter-sidebar-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+.filter-sidebar-head h3 { font-size: 1.2rem; }
+.filter-reset { border: 0; background: transparent; color: var(--color-primary); cursor: pointer; font: inherit; font-size: .86rem; }
+.filter-group { padding: var(--space-4) 0; border-bottom: 1px solid var(--color-line); }
+.filter-group-title { display: block; margin-bottom: var(--space-3); font-size: .86rem; font-weight: 600; }
+.filter-checkbox-item { display: flex; gap: var(--space-2); align-items: center; margin-bottom: var(--space-2); color: var(--color-muted); font-size: .9rem; }
+.filter-checkbox-item input { accent-color: var(--color-primary); }
+.fee-range-values { display: flex; justify-content: space-between; color: var(--color-muted); font-size: .82rem; margin-bottom: var(--space-2); }
+.fee-range-values output { color: var(--color-primary); font-weight: 600; }
+input[type="range"] { width: 100%; accent-color: var(--color-primary); }
+.tutor-list { display: grid; gap: var(--space-4); }
+.tutor-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--space-4); align-items: center; padding: var(--space-4); background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-md); box-shadow: var(--shadow-card); }
+.tutor-card[hidden] { display: none; }
+.tutor-avatar-placeholder { width: 76px; height: 76px; border-radius: var(--radius-sm); display: grid; place-items: center; background: var(--color-primary-tint); color: var(--color-primary-dark); font-weight: 700; font-size: 1.4rem; }
+.tutor-name-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.tutor-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0 var(--space-3); }
+.badge { background: var(--color-primary-tint); color: var(--color-primary-dark); padding: .25rem .65rem; border-radius: var(--radius-pill); font-size: .76rem; }
+.tutor-detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+.tutor-detail-item { display: grid; gap: .15rem; }
+.tutor-detail-item span, .tutor-price span { color: var(--color-muted); font-size: .76rem; }
+.tutor-detail-item strong { font-size: .88rem; }
+.tutor-rating { font-size: .88rem; color: var(--color-muted); }
+.stars { color: var(--color-accent); letter-spacing: .08em; }
+.review-count { font-size: .78rem; }
+.tutor-side { display: grid; gap: var(--space-3); justify-items: end; text-align: right; }
+.tutor-price strong { display: block; font-size: 1.2rem; }
+.tutor-card-actions { display: flex; gap: var(--space-2); }
+.pagination { display: flex; justify-content: center; gap: var(--space-2); margin-top: var(--space-6); }
+.pagination a { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--color-line); border-radius: var(--radius-sm); }
+.pagination a.active { background: var(--color-primary); color: var(--color-surface); border-color: var(--color-primary); }
+
+@media (max-width: 900px) {
+  .results-shell { grid-template-columns: 1fr; }
+  .filter-sidebar { position: static; }
+  .tutor-card { grid-template-columns: auto minmax(0, 1fr); }
+  .tutor-side { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; }
+}
+
+@media (max-width: 600px) {
+  .tutor-card { grid-template-columns: 1fr; }
+  .tutor-side { grid-column: auto; align-items: stretch; flex-direction: column; }
+  .tutor-card-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .tutor-detail-grid { grid-template-columns: 1fr 1fr; }
+}

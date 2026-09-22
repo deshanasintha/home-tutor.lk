@@ -3,45 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tutor Search Results — TutorFinder</title>
+  <title>Tutor Search Results — TutorLink LK</title>
   <meta name="description" content="Browse home tutors in Sri Lanka matching your search — compare qualifications, fees and ratings.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/tutor.css">
+  <link rel="stylesheet" href="css/search-results.css">
   <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
 
-  <!-- ============ NAVBAR (shared across all pages) ============ -->
-  <header class="navbar">
-    <div class="navbar-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-mark">TF</span>
-        Tutor<span>Finder</span>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container navbar">
+      <a class="brand" href="index.html" aria-label="TutorLink LK home">
+        <span class="brand-mark" aria-hidden="true">TL</span>
+        <span class="brand-name">TutorLink <span>LK</span></span>
       </a>
 
-      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
-
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="search.html">Find Tutors</a>
-        <a href="index.html#become-tutor">Become a Tutor</a>
-        <div class="nav-cta">
-          <a href="login.html" class="btn btn-ghost">Login</a>
-          <a href="register.html" class="btn btn-primary">Register</a>
-        </div>
-      </nav>
-
-      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+      <input class="nav-toggle-checkbox" type="checkbox" id="nav-toggle">
+      <label class="nav-toggle-label" for="nav-toggle" aria-label="Toggle navigation menu">
         <span></span><span></span><span></span>
       </label>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="search-tutors.html" aria-current="page">Find Tutors</a>
+        <a href="tutor-register.html">Become a Tutor</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Toggle theme">🌙</button>
+        <a class="btn btn-outline" href="login.html">Log in</a>
+        <a class="btn btn-primary" href="parent-register.html">Register</a>
+      </div>
     </div>
   </header>
 
-  <!-- ============ PAGE HEADER ============ -->
-  <section class="page-header">
+  <main id="main">
+  <section class="page-header" aria-labelledby="results-title">
     <div class="container">
-      <h1>Tutor search results</h1>
+      <h1 id="results-title">Tutor search results</h1>
       <p>Showing home tutors that match your search. Refine using the filters on the left.</p>
     </div>
   </section>
@@ -53,11 +56,11 @@
       <div class="search-summary">
         <div>
           <h1>Mathematics tutors in Colombo</h1>
-          <p>12 tutors found · Grade 6–9 · Any availability</p>
+          <p><span data-results-count>5</span> tutors found · Grade 6–9 · Any availability</p>
         </div>
         <div class="sort-control">
-          <label for="sort" class="form-label" style="margin:0;">Sort by</label>
-          <select id="sort" name="sort" class="form-select">
+          <label for="sort" class="form-label">Sort by</label>
+          <select id="sort" class="form-select" data-filter="sort">
             <option>Best match</option>
             <option>Highest rated</option>
             <option>Lowest fee</option>
@@ -72,14 +75,14 @@
         <aside class="filter-sidebar card">
           <div class="filter-sidebar-head">
             <h3>Filters</h3>
-            <a href="search.html">Clear all</a>
+            <button type="reset" class="filter-reset">Clear all</button>
           </div>
 
-          <form action="tutor-results.html" method="GET">
+          <form data-results-filters>
 
             <div class="filter-group">
               <span class="filter-group-title">Subject</span>
-              <select name="subject" class="form-select">
+              <select name="subject" class="form-select" data-filter="subject">
                 <option value="mathematics" selected>Mathematics</option>
                 <option value="science">Science</option>
                 <option value="english">English</option>
@@ -90,7 +93,7 @@
 
             <div class="filter-group">
               <span class="filter-group-title">Grade</span>
-              <select name="grade" class="form-select">
+              <select name="grade" class="form-select" data-filter="grade">
                 <option value="grade-1-5">Grade 1 – 5</option>
                 <option value="grade-6-9" selected>Grade 6 – 9</option>
                 <option value="ol">G.C.E. O/L</option>
@@ -100,7 +103,7 @@
 
             <div class="filter-group">
               <span class="filter-group-title">District</span>
-              <select name="district" class="form-select">
+              <select name="district" class="form-select" data-filter="district">
                 <option value="colombo" selected>Colombo</option>
                 <option value="gampaha">Gampaha</option>
                 <option value="kalutara">Kalutara</option>
@@ -112,25 +115,24 @@
             <div class="filter-group">
               <span class="filter-group-title">Availability</span>
               <label class="filter-checkbox-item">
-                <input type="checkbox" name="availability" value="weekday-evening">
+                <input type="checkbox" name="availability" value="weekday-evening" data-filter="availability">
                 Weekday Evenings
               </label>
               <label class="filter-checkbox-item">
-                <input type="checkbox" name="availability" value="weekend-morning">
+                <input type="checkbox" name="availability" value="weekend-morning" data-filter="availability">
                 Weekend Mornings
               </label>
               <label class="filter-checkbox-item">
-                <input type="checkbox" name="availability" value="weekend-afternoon">
+                <input type="checkbox" name="availability" value="weekend-afternoon" data-filter="availability">
                 Weekend Afternoons
               </label>
             </div>
 
             <div class="filter-group">
               <span class="filter-group-title">Hourly fee (Rs.)</span>
-              <div class="range-inputs">
-                <input type="number" name="fee_min" class="form-input" placeholder="Min" min="0" step="100">
-                <span>–</span>
-                <input type="number" name="fee_max" class="form-input" placeholder="Max" min="0" step="100">
+              <div class="fee-range">
+                <div class="fee-range-values"><span>Rs. 1,000</span><output data-fee-output>Rs. 3,000</output></div>
+                <input type="range" name="fee_max" min="1000" max="3000" step="100" value="3000" data-filter="price" aria-label="Maximum hourly fee">
               </div>
             </div>
 
@@ -138,21 +140,21 @@
               <span class="filter-group-title">Minimum rating</span>
               <div class="rating-select">
                 <div class="rating-option">
-                  <input type="radio" id="f-rating-any" name="rating" value="0" checked>
+                  <input type="radio" id="f-rating-any" name="rating" value="0" checked data-filter="rating">
                   <label for="f-rating-any">Any</label>
                 </div>
                 <div class="rating-option">
-                  <input type="radio" id="f-rating-4" name="rating" value="4">
+                  <input type="radio" id="f-rating-4" name="rating" value="4" data-filter="rating">
                   <label for="f-rating-4">★ 4.0+</label>
                 </div>
                 <div class="rating-option">
-                  <input type="radio" id="f-rating-45" name="rating" value="4.5">
+                  <input type="radio" id="f-rating-45" name="rating" value="4.5" data-filter="rating">
                   <label for="f-rating-45">★ 4.5+</label>
                 </div>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block" style="margin-top: var(--space-2);">Apply Filters</button>
+            <button type="reset" class="btn btn-outline btn-block">Reset filters</button>
           </form>
         </aside>
 
@@ -160,7 +162,7 @@
         <div class="tutor-list">
 
           <!-- Tutor 1 -->
-          <article class="tutor-card card card-hover">
+          <article class="tutor-card card card-hover" data-tutor-card data-subject="mathematics" data-district="colombo" data-grade="grade-6-9" data-price="1800" data-rating="4.9" data-availability="weekday-evening weekend-morning">
             <div class="tutor-avatar-placeholder">NP</div>
             <div class="tutor-info">
               <div class="tutor-name-row">
@@ -202,7 +204,7 @@
           </article>
 
           <!-- Tutor 2 -->
-          <article class="tutor-card card card-hover">
+          <article class="tutor-card card card-hover" data-tutor-card data-subject="mathematics science" data-district="colombo" data-grade="grade-6-9" data-price="1500" data-rating="4.6" data-availability="weekend-morning weekend-afternoon">
             <div class="tutor-avatar-placeholder">SR</div>
             <div class="tutor-info">
               <div class="tutor-name-row">
@@ -245,7 +247,7 @@
           </article>
 
           <!-- Tutor 3 -->
-          <article class="tutor-card card card-hover">
+          <article class="tutor-card card card-hover" data-tutor-card data-subject="mathematics" data-district="colombo" data-grade="ol" data-price="2200" data-rating="5" data-availability="weekday-evening weekend-afternoon">
             <div class="tutor-avatar-placeholder">KJ</div>
             <div class="tutor-info">
               <div class="tutor-name-row">
@@ -287,7 +289,7 @@
           </article>
 
           <!-- Tutor 4 -->
-          <article class="tutor-card card card-hover">
+          <article class="tutor-card card card-hover" data-tutor-card data-subject="mathematics english" data-district="colombo" data-grade="grade-1-5" data-price="1200" data-rating="4.3" data-availability="weekday-evening weekend-morning">
             <div class="tutor-avatar-placeholder">IF</div>
             <div class="tutor-info">
               <div class="tutor-name-row">
@@ -330,7 +332,7 @@
           </article>
 
           <!-- Tutor 5 -->
-          <article class="tutor-card card card-hover">
+          <article class="tutor-card card card-hover" data-tutor-card data-subject="mathematics" data-district="colombo" data-grade="al" data-price="2800" data-rating="4.8" data-availability="weekend-afternoon">
             <div class="tutor-avatar-placeholder">DW</div>
             <div class="tutor-info">
               <div class="tutor-name-row">
@@ -385,46 +387,20 @@
 
     </div>
   </section>
+  </main>
 
-  <!-- ============ FOOTER (shared across all pages) ============ -->
   <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-about">
-          <a href="index.html" class="logo">
-            <span class="logo-mark">TF</span>
-            TutorFinder
-          </a>
-          <p>Connecting parents with qualified home tutors across Sri Lanka — by subject, grade, district, availability and fee.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Platform</h4>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="search.html">Find Tutors</a></li>
-            <li><a href="index.html#become-tutor">Become a Tutor</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Account</h4>
-          <ul>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="register.html">Register</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Support</h4>
-          <ul>
-            <li><a href="#">Help Centre</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
+    <div class="container footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">TL</span><span class="brand-name">TutorLink <span>LK</span></span></a>
+        <p>A trusted way to find qualified home tutors across Sri Lanka.</p>
       </div>
-      <div class="footer-bottom">
-        <span>&copy; 2026 TutorFinder. University Group Project.</span>
-        <span>Made in Sri Lanka 🇱🇰</span>
-      </div>
+      <div class="footer-col"><p class="footer-heading">For parents</p><ul class="footer-links"><li><a href="search-tutors.html">Find tutors</a></li><li><a href="parent-register.html">Create account</a></li><li><a href="parent-dashboard.html">Parent dashboard</a></li></ul></div>
+      <div class="footer-col"><p class="footer-heading">For tutors</p><ul class="footer-links"><li><a href="tutor-register.html">Become a tutor</a></li><li><a href="tutor-dashboard.html">Tutor dashboard</a></li></ul></div>
+      <div class="footer-col"><p class="footer-heading">Company</p><ul class="footer-links"><li><a href="#">About us</a></li><li><a href="#">Contact</a></li><li><a href="#">FAQ</a></li></ul></div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 TutorLink LK. All rights reserved.</p>
     </div>
   </footer>
 

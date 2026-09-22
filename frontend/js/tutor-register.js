@@ -3,6 +3,11 @@ import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebase
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const form = document.getElementById('tutorRegisterForm');
+const showMessage = (options) => {
+  if (typeof Swal !== 'undefined') return Swal.fire(options);
+  window.alert(options.text || options.title || 'An unexpected error occurred.');
+  return Promise.resolve();
+};
 
 if (form) {
   form.addEventListener('submit', async (e) => {
@@ -17,55 +22,33 @@ if (form) {
     const rawSubjects = document.getElementById('subjects')?.value.trim() || '';
     const hourlyRate = document.getElementById('hourlyRate')?.value || 0;
 
-    // Password සැසඳීම පරීක්ෂා කිරීම
     if (password !== confirmPassword) {
-      if (typeof Swal !== 'undefined') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Passwords Do Not Match',
-          text: 'කරුණාකර ඇතුළත් කළ මුරපද දෙක එක සමානදැයි නැවත පරීක්ෂා කරන්න.'
-        });
-      } else {
-        alert("Passwords do not match.");
-      }
+      await showMessage({ icon: 'error', title: 'Passwords do not match', text: 'Please check both password fields.' });
       return;
     }
 
     try {
-      // 1. Submit Button එක Disable කර Loading State එකක් පෙන්වීම
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerText = "Creating Profile...";
       }
 
-      // Popup එකකින් Process වෙන බව පෙන්වීම
       if (typeof Swal !== 'undefined') {
-        Swal.fire({
-          title: 'Creating Profile...',
-          text: 'කරුණාකර මොහොතක් රැඳී සිටින්න',
-          allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          }
-        });
+        Swal.fire({ title: 'Creating profile...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       }
 
-      // 2. Firebase Authentication හරහා User සාදාගැනීම
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Subjects කමා (,) මගින් වෙන් කර Array එකක් සාදා ගැනීම (Filtering සඳහා පහසු වීමට)
       const subjectsArray = rawSubjects
         ? rawSubjects.split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
         : [];
 
-      // Selected Days ලබා ගැනීම
       const selectedDays = Array.from(
-        form.querySelectorAll('input[name="days"]:checked'), 
+        form.querySelectorAll('input[name="days"]:checked'),
         (input) => input.value
       );
 
-      // 3. Firestore Database එකේ User/Tutorගේ දත්ත Save කිරීම
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: name,
@@ -75,8 +58,8 @@ if (form) {
         city: document.getElementById('city')?.value.trim() || '',
         qualification: document.getElementById('qualification')?.value || '',
         institution: document.getElementById('institution')?.value.trim() || '',
-        subjects: rawSubjects,             // Display කිරීමට (e.g. "Mathematics, Science")
-        subjectsArray: subjectsArray,     // Database Queries / Filter කිරීමට
+        subjects: rawSubjects,
+        subjectsArray,
         gradeLevels: document.getElementById('gradeLevels')?.value || '',
         experience: document.getElementById('experience')?.value || '',
         bio: document.getElementById('bio')?.value.trim() || '',
@@ -86,50 +69,24 @@ if (form) {
         teachingMode: document.getElementById('teachingMode')?.value || '',
         hourlyRate: Number(hourlyRate),
         role: "tutor",
-        rating: 5.0,                       // Default Initial Rating
+        rating: 5.0,
         reviewCount: 0,
-        status: "pending",                 // Admin approval සඳහා (optional)
+        status: "pending",
         createdAt: serverTimestamp()
       });
 
-      // 4. Success Response
-      if (typeof Swal !== 'undefined') {
-        await Swal.fire({
-          icon: 'success',
-          title: 'Registration Successful!',
-          text: 'ඔබගේ Tutor Profile එක සාර්ථකව සාදන ලදී.',
-          confirmButtonText: 'Go to Dashboard'
-        });
-      } else {
-        alert("Tutor Registration Successful!");
-      }
-
-      // Dashboard එකට Redirect කිරීම
+      await showMessage({ icon: 'success', title: 'Registration successful', text: 'Your tutor profile has been created.', confirmButtonText: 'Go to dashboard' });
       window.location.href = "tutor-dashboard.html";
-
     } catch (error) {
       console.error("Registration Error:", error);
-
-      // Error Messages Sinhala/English වලින්
-      let errorMsg = error.message;
-      if (error.code === 'auth/email-already-in-use') {
-        errorMsg = "මෙම ඊමේල් ලිපිනය (Email) දැනටමත් භාවිතයේ පවතී. කරුණාකර Log in වන්න.";
-      } else if (error.code === 'auth/weak-password') {
-        errorMsg = "මුරපදය අවම වශයෙන් අකුරු 6ක්වත් විය යුතුය (At least 6 characters).";
-      }
-
-      if (typeof Swal !== 'undefined') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Registration Error',
-          text: errorMsg
-        });
-      } else {
-        alert("Registration Error: " + errorMsg);
-      }
-
+      const messages = {
+        'auth/email-already-in-use': 'This email is already registered. Please log in.',
+        'auth/weak-password': 'Password must contain at least 6 characters.',
+        'auth/invalid-email': 'Please enter a valid email address.'
+      };
+      if (typeof Swal !== 'undefined') Swal.close();
+      await showMessage({ icon: 'error', title: 'Registration failed', text: messages[error.code] || error.message });
     } finally {
-      // Button එක නැවත සක්‍රීය කිරීම
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.innerText = "Create Profile";

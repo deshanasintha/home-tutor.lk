@@ -10,16 +10,17 @@ if (form) {
 
     const submitBtn = form.querySelector('button[type="submit"]');
 
-    const name = document.getElementById('parentName').value.trim();
-    const email = document.getElementById('parentEmail').value.trim();
-    const phone = document.getElementById('parentPhone').value.trim();
-    const password = document.getElementById('parentPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const district = document.getElementById('district').value;
-    const city = document.getElementById('city').value.trim();
-    const grade = document.getElementById('grade').value;
-    const mode = document.getElementById('mode').value;
-    const subjects = document.getElementById('subjects').value.trim();
+    // Input values ආරක්ෂිතව ලබා ගැනීම (Null safety යොදා ඇත)
+    const name = document.getElementById('parentName')?.value.trim() || '';
+    const email = document.getElementById('parentEmail')?.value.trim() || '';
+    const phone = document.getElementById('parentPhone')?.value.trim() || '';
+    const password = document.getElementById('parentPassword')?.value || '';
+    const confirmPassword = document.getElementById('confirmPassword')?.value || '';
+    const district = document.getElementById('district')?.value || '';
+    const city = document.getElementById('city')?.value.trim() || '';
+    const grade = document.getElementById('grade')?.value || '';
+    const mode = document.getElementById('mode')?.value || '';
+    const subjects = document.getElementById('subjects')?.value.trim() || '';
 
     // Passwords සමානදැයි පරීක්ෂා කිරීම
     if (password !== confirmPassword) {
@@ -69,7 +70,7 @@ if (form) {
         mode: mode,
         subjects: subjects,
         role: "parent",
-        createdAt: serverTimestamp() // Client time එක වෙනුවට Firebase Server Time එක භාවිතය
+        createdAt: serverTimestamp()
       });
 
       // 4. Success Alert පෙන්වීම
@@ -98,6 +99,7 @@ if (form) {
       }
 
       if (typeof Swal !== 'undefined') {
+        Swal.close(); // Loading popup එක අයින් කිරීමට
         Swal.fire({
           icon: 'error',
           title: 'Registration Error',

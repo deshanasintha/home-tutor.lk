@@ -1,44 +1,57 @@
 import { db, auth } from "./firebase-config.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-// HTML Form එක ලබා ගැනීම
+// Get the booking form element from HTML
 const bookingForm = document.getElementById("bookingForm");
 
 if (bookingForm) {
     bookingForm.addEventListener("submit", async (e) => {
-        e.preventDefault(); // Form එක refresh වීම වැළැක්වීම
+        e.preventDefault(); // Prevent page refresh and 405 HTTP error
 
-        // දැනට Log වී සිටින User (Parent) ගේ විස්තර ගැනීම
+        // Get current authenticated user details
         const currentUser = auth.currentUser;
 
         if (!currentUser) {
-            alert("කරුණාකර පළමුව Log In වන්න!");
+            alert("Please log in first to send a booking request!");
             return;
         }
 
-        // Form එකෙන් Data ලබා ගැනීම
-        const tutorId = document.getElementById("tutorId").value;
-        const tutorName = document.getElementById("tutorName").value;
+        // Fetch inputs from HTML form elements
+        const tutorId = document.getElementById("tutorId") ? document.getElementById("tutorId").value : "UNKNOWN_TUTOR";
+        const tutorName = document.getElementById("tutorName") ? document.getElementById("tutorName").value : "Nadeesha Perera";
         const subject = document.getElementById("subject").value;
+        const grade = document.getElementById("grade").value;
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
+        const location = document.getElementById("location").value;
+        const message = document.getElementById("message").value;
 
         try {
-            // Firestore එකේ 'bookings' Collection එකට Data එකතු කිරීම
+            // Save booking document to 'bookings' collection in Firestore
             const docRef = await addDoc(collection(db, "bookings"), {
                 parentId: currentUser.uid,
-                parentName: currentUser.displayName || "Parent User", // User ගේ Name එක
+                parentName: currentUser.displayName || currentUser.email || "Parent User",
                 tutorId: tutorId,
                 tutorName: tutorName,
                 subject: subject,
+                grade: grade,
+                preferredDate: date,
+                preferredTime: time,
+                location: location,
+                message: message,
                 status: "pending",
-                createdAt: serverTimestamp() // Current Time එක Auto Set වේ
+                createdAt: serverTimestamp()
             });
 
-            alert("Booking Request එක සාර්ථකව යැවුවා! Booking ID: " + docRef.id);
-            bookingForm.reset(); // Form එක Clear කිරීම
+            alert("Booking request sent successfully! Booking ID: " + docRef.id);
+            bookingForm.reset();
+
+            // Redirect user to the Parent Dashboard page
+            window.location.href = "parent-dashboard.html";
 
         } catch (error) {
-            console.error("Booking Error: ", error);
-            alert("Request එක යැවීමට නොහැකි විය. නැවත උත්සාහ කරන්න.");
+            console.error("Error adding booking request: ", error);
+            alert("Failed to send request: " + error.message);
         }
     });
 }

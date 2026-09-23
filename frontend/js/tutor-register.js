@@ -80,7 +80,7 @@ if (form) {
       await showMessage({ 
         icon: 'success', 
         title: 'Registration successful', 
-        text: 'Your tutor profile has been created. Please log in.', 
+        text: 'ඔබගේ Tutor Account එක සාර්ථකව සාදන ලදී. Please log in.', 
         confirmButtonText: 'Go to login' 
       });
 

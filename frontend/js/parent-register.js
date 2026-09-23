@@ -79,14 +79,16 @@ if (form) {
           icon: 'success',
           title: 'Registration Successful!',
           text: 'ඔබගේ Parent Account එක සාර්ථකව සාදන ලදී.',
-          confirmButtonText: 'Go to Dashboard'
+          confirmButtonText: 'Go to login'
         });
+         // Dashboard එකට Redirect කිරීම
+      window.location.href = "login.html";
       } else {
-        alert("Parent Registration Successful!");
+        alert("Registration Successful!  Please login.");
+        window.location.href = "login.html";
       }
 
-      // Dashboard එකට Redirect කිරීම
-      window.location.href = "login.html";
+    
 
     } catch (error) {
       console.error("Parent Registration Error:", error);

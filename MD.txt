@@ -32,3 +32,10 @@
    * The correct `app.js` file needs to be implemented.
    * The booking functionality should be connected to `app.js` correctly.
    * After implementing the correct JavaScript file, the booking data should be properly added and loaded from Firebase.
+
+7. Dashboard and Background Image Issue
+
+* Firebase access permissions were required to upload photos to the dashboard.
+* The wrong image had been uploaded for the background instead of the required image.
+* Therefore, the code had to be edited again to add the correct background image.
+* This caused additional time to be spent checking and updating the image-related code.

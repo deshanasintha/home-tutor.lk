@@ -56,7 +56,7 @@
           <div class="booking-tutor-head">
             <div class="tutor-avatar-placeholder">NP</div>
             <div>
-              <h3>Nadeesha Perera</h3>
+              <h3 id="tutorNameDisplay">Nadeesha Perera</h3>
               <div class="tutor-rating">
                 <span class="stars">★★★★★</span>
                 4.9 <span class="review-count">(58 reviews)</span>
@@ -97,12 +97,17 @@
         <div class="booking-form-card card">
           <h2>Request details</h2>
 
-          <form action="parent-dashboard.html" method="POST">
+          <!-- Action සහ Method අයින් කර id="bookingForm" එකතු කර ඇත -->
+          <form id="bookingForm">
+
+            <!-- Hidden inputs for Tutor Details -->
+            <input type="hidden" id="tutorId" value="SAMPLE_TUTOR_UID_123">
+            <input type="hidden" id="tutorName" value="Nadeesha Perera">
 
             <div class="form-row">
               <div class="form-group">
                 <label for="subject" class="form-label">Subject</label>
-                <select id="subject" name="subject" class="form-select">
+                <select id="subject" name="subject" class="form-select" required>
                   <option value="mathematics" selected>Mathematics</option>
                   <option value="science">Science</option>
                   <option value="english">English</option>
@@ -110,7 +115,7 @@
               </div>
               <div class="form-group">
                 <label for="grade" class="form-label">Grade</label>
-                <select id="grade" name="grade" class="form-select">
+                <select id="grade" name="grade" class="form-select" required>
                   <option value="grade-1-5">Grade 1 – 5</option>
                   <option value="grade-6-9" selected>Grade 6 – 9</option>
                   <option value="ol">G.C.E. O/L</option>
@@ -122,17 +127,17 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="date" class="form-label">Preferred date</label>
-                <input type="date" id="date" name="date" class="form-input">
+                <input type="date" id="date" name="date" class="form-input" required>
               </div>
               <div class="form-group">
                 <label for="time" class="form-label">Preferred time</label>
-                <input type="time" id="time" name="time" class="form-input">
+                <input type="time" id="time" name="time" class="form-input" required>
               </div>
             </div>
 
             <div class="form-group">
               <label for="location" class="form-label">Location</label>
-              <input type="text" id="location" name="location" class="form-input" placeholder="e.g. No. 24, Park Road, Colombo 05">
+              <input type="text" id="location" name="location" class="form-input" placeholder="e.g. No. 24, Park Road, Colombo 05" required>
               <p class="form-hint">Enter your home address, or note if you'd prefer online sessions.</p>
             </div>
 

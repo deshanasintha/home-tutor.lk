@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const form = document.getElementById('parentRegisterForm');
@@ -72,7 +72,7 @@ if (form) {
         role: "parent",
         createdAt: serverTimestamp()
       });
-
+          await signOut(auth);
       // 4. Success Alert පෙන්වීම
       if (typeof Swal !== 'undefined') {
         await Swal.fire({
@@ -86,7 +86,7 @@ if (form) {
       }
 
       // Dashboard එකට Redirect කිරීම
-      window.location.href = "parent-dashboard.html";
+      window.location.href = "login.html";
 
     } catch (error) {
       console.error("Parent Registration Error:", error);

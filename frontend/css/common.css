@@ -59,7 +59,12 @@ body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--color-ink);
-  background: var(--color-paper);
+  background-image: url('../assets/images/LoginPage.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -484,4 +489,14 @@ button {
   max-width: 56ch;
   font-size: 1.05rem;
   margin-top: var(--space-4);
+}
+/* Background visibility and readable content surfaces */
+main, section, .auth-section, .login-section {
+  background: transparent !important;
+}
+
+.card, .form-container, .admin-shell, .auth-card {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
 }

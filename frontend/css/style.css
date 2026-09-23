@@ -1,28 +1,4 @@
-/* =========================================================
-   TutorFinder — Shared Stylesheet
-   Online Home Tutor Finding Platform (Sri Lanka)
-   Author: Member 1 — Frontend Foundation & Authentication
-   -----------------------------------------------------------
-   HOW TO USE THIS FILE (read this if you are Member 2-5)
-   -----------------------------------------------------------
-   1. Link this ONE file in every page:
-        <link rel="stylesheet" href="css/style.css">
-   2. Do NOT duplicate these rules in your own pages. If you need
-      something new, ADD a new class at the bottom of this file
-      under "ADD NEW COMPONENTS BELOW" instead of writing inline
-      styles or a second stylesheet.
-   3. Reuse the existing classes listed in each section comment
-      below (navbar, buttons, cards, forms, sections, footer)
-      so every page in the project looks like one product.
-   4. Colors, spacing and fonts are defined once as CSS variables
-      in :root. Never hardcode a hex color in a page — use the
-      variable (e.g. var(--primary)) so the whole site can be
-      re-themed from this one place.
-   ========================================================= */
 
-/* -----------------------------------------------------------
-   0. DESIGN TOKENS
------------------------------------------------------------ */
 :root {
   /* Brand colors */
   --primary: #2563EB;

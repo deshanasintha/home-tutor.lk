@@ -1,25 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Find trusted home tutors in Sri Lanka by subject, grade, district and budget.">
   <title>TutorLanka | Trusted Home Tutors in Sri Lanka</title>
-  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/home.css">
-  <link rel="stylesheet" href="css/tutor.css">
-  <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
-
-  <!-- Animated Background Elements -->
-  <div class="bg-animations" aria-hidden="true">
-    <div class="particle p1"></div>
-    <div class="particle p2"></div>
-    <div class="particle p3"></div>
-  </div>
 
   <!-- Navigation Header -->
   <header class="site-header">
@@ -29,19 +24,14 @@
         <span class="brand-name">Tutor<span>Lanka</span></span>
       </a>
 
-      <input class="nav-toggle-checkbox" type="checkbox" id="nav-toggle">
-      <label class="nav-toggle-label" for="nav-toggle" aria-label="Toggle navigation menu">
-        <span></span><span></span><span></span>
-      </label>
-
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="index.html" aria-current="page">Home</a>
+        <a href="index.html" class="active">Home</a>
         <a href="search-tutors.html">Find Tutors</a>
         <a href="tutor-register.html">Become a Tutor</a>
       </nav>
 
       <div class="nav-actions">
-        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Toggle theme">🌙</button>
+        <button class="theme-toggle" type="button" aria-label="Switch theme">🌙</button>
         <a class="btn btn-outline" href="login.html">Log in</a>
         <a class="btn btn-primary" href="parent-register.html">Register</a>
       </div>
@@ -50,134 +40,257 @@
 
   <!-- Main Content -->
   <main id="main">
+
     <!-- Hero Section -->
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero">
       <div class="container hero-grid">
-        <div class="hero-copy" data-reveal>
-          <p class="section-label">Trusted tuition, closer to home</p>
-          <h1 id="hero-title">Find the right tutor without the guesswork.</h1>
-          <p class="hero-lede">Search verified home tutors across Sri Lanka by subject, grade, district and hourly rate.</p>
+        <div class="hero-copy">
+          <h1>Book a tutor the way you'd check a timetable.</h1>
+          <p class="hero-lede">Search by subject, grade and district, compare hourly rates, and message a tutor directly. No agents, no phone-tag, no guesswork.</p>
+
           <div class="hero-actions">
-            <a class="btn btn-primary" href="search-tutors.html">Find a tutor</a>
-            <a class="btn btn-outline" href="tutor-register.html">Become a tutor</a>
+            <a class="btn btn-primary btn-large" href="search-tutors.html">Find a Tutor Now</a>
+            <a class="btn btn-outline btn-large" href="tutor-register.html">Become a Tutor</a>
           </div>
-          <div class="hero-stats" aria-label="TutorLanka platform statistics">
-            <div class="hero-stat"><strong>2,400+</strong><span>Verified tutors</span></div>
-            <div class="hero-stat"><strong>25</strong><span>Districts covered</span></div>
-            <div class="hero-stat"><strong>60+</strong><span>Subjects listed</span></div>
-          </div>
+
+          <dl class="hero-stats">
+            <div class="hero-stat">
+              <dt>Verified tutors</dt>
+              <dd>2,400+</dd>
+            </div>
+            <div class="hero-stat">
+              <dt>Districts covered</dt>
+              <dd>25</dd>
+            </div>
+            <div class="hero-stat">
+              <dt>Subjects taught</dt>
+              <dd>60+</dd>
+            </div>
+          </dl>
         </div>
 
-        <div class="hero-image-wrapper" data-reveal>
-          <img src="assets/images/hero-tutor.jpg.png" alt="Hero Background">
-          <img class="hero-img" src="images/hero-bg.jpg" alt="A tutor helping a student study at home" width="900" height="680">
-          <div class="floating-badge badge-top"><span class="status-online-dot" aria-hidden="true"></span><span><strong>2,400+</strong> tutors active</span></div>
-          <div class="floating-badge badge-bottom"><span aria-hidden="true">★</span><span><strong>4.9/5</strong> parent rating</span></div>
+        <!-- Hero Image Wrapper -->
+        <div class="hero-image-wrapper">
+          <img src="assets/images/hero-tutor.png" alt="Trusted Home Tutoring in Sri Lanka" class="hero-img">
         </div>
       </div>
     </section>
 
     <!-- Search Concepts Section -->
-    <section class="search-concepts" aria-labelledby="search-title">
+    <section class="search-concepts">
       <div class="container">
-        <div class="section-intro" data-reveal>
-          <p class="section-label">Start with what matters</p>
-          <h2 id="search-title" class="section-heading">Search the way you already think about tuition.</h2>
-          <p class="section-sub">Use the details that matter most to your family and find relevant tutors faster.</p>
+        <div class="section-intro">
+          <h2 class="section-heading">Three ways to narrow the search</h2>
+          <p class="section-sub">Combine all three, or start with whichever matters most to you.</p>
         </div>
-        <div class="concept-grid">
-          <article class="concept-card" data-reveal>
-            <div class="concept-icon" aria-hidden="true">🔍</div>
-            <h3>By subject</h3>
-            <p>Find specialists in Mathematics, Science, English, ICT and more.</p>
-            <div class="concept-chips"><span class="chip">Mathematics</span><span class="chip">Science</span><span class="chip">English</span><span class="chip">ICT</span></div>
+
+        <div class="period-board">
+          <article class="period-card">
+            <h3>Subject</h3>
+            <p>From core subjects to niche electives, filtered by what your child is actually studying this term.</p>
+            <div class="concept-chips">
+              <span class="chip">Mathematics</span>
+              <span class="chip">Science</span>
+              <span class="chip">English</span>
+              <span class="chip">ICT</span>
+            </div>
           </article>
-          <article class="concept-card" data-reveal>
-            <div class="concept-icon" aria-hidden="true">📚</div>
-            <h3>By grade</h3>
-            <p>Match your child with tutors experienced at the right level.</p>
-            <div class="concept-chips"><span class="chip">Grade 1-5</span><span class="chip">O/L</span><span class="chip">A/L</span><span class="chip">Scholarship</span></div>
+
+          <article class="period-card">
+            <h3>Grade</h3>
+            <p>Tutors who already teach your syllabus — local or Cambridge, primary through A/L.</p>
+            <div class="concept-chips">
+              <span class="chip">Grade 1–5</span>
+              <span class="chip">Scholarship</span>
+              <span class="chip">O/L</span>
+              <span class="chip">A/L</span>
+            </div>
           </article>
-          <article class="concept-card" data-reveal>
-            <div class="concept-icon" aria-hidden="true">📍</div>
-            <h3>By district</h3>
-            <p>Search locally, from Colombo and Kandy to every district island-wide.</p>
-            <div class="concept-chips"><span class="chip">Colombo</span><span class="chip">Gampaha</span><span class="chip">Kandy</span><span class="chip">Galle</span></div>
+
+          <article class="period-card">
+            <h3>District</h3>
+            <p>Home visits from tutors who are actually nearby, island-wide.</p>
+            <div class="concept-chips">
+              <span class="chip">Colombo</span>
+              <span class="chip">Gampaha</span>
+              <span class="chip">Kandy</span>
+              <span class="chip">Galle</span>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
     <!-- How It Works Section -->
-    <section class="how-it-works section-band" aria-labelledby="steps-title">
+    <section class="how-it-works">
       <div class="container">
-        <div class="section-intro" data-reveal>
-          <p class="section-label">Simple from the start</p>
-          <h2 id="steps-title" class="section-heading">From search to your first lesson.</h2>
+        <div class="section-intro">
+          <h2 class="section-heading">From search to first lesson</h2>
         </div>
-        <div class="steps">
-          <article class="step" data-reveal><span class="step-number">01</span><h3>Search</h3><p>Choose a subject, grade and district.</p></article>
-          <article class="step" data-reveal><span class="step-number">02</span><h3>Compare</h3><p>Review experience, qualifications and rates.</p></article>
-          <article class="step" data-reveal><span class="step-number">03</span><h3>Request</h3><p>Send a booking request directly to a tutor.</p></article>
-          <article class="step" data-reveal><span class="step-number">04</span><h3>Learn</h3><p>Confirm the schedule and begin lessons.</p></article>
-        </div>
+
+        <ol class="steps-grid">
+          <li class="step-card">
+            <span class="step-num">1</span>
+            <h3>Search</h3>
+            <p>Set subject, grade and district.</p>
+          </li>
+
+          <li class="step-card">
+            <span class="step-num">2</span>
+            <h3>Compare</h3>
+            <p>Check qualifications, reviews and rates side by side.</p>
+          </li>
+
+          <li class="step-card">
+            <span class="step-num">3</span>
+            <h3>Request</h3>
+            <p>Send a booking request straight to the tutor.</p>
+          </li>
+
+          <li class="step-card">
+            <span class="step-num">4</span>
+            <h3>Start learning</h3>
+            <p>Confirm a time and begin lessons at home.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
     <!-- Featured Tutors Section -->
-    <section class="featured-tutors" aria-labelledby="featured-title">
+    <section class="featured-tutors">
       <div class="container">
-        <div class="featured-head" data-reveal>
-          <div><p class="section-label">Featured tutors</p><h2 id="featured-title" class="section-heading">Meet trusted tutors on the platform.</h2></div>
-          <a class="btn btn-outline" href="search-tutors.html">View all tutors</a>
+        <div class="featured-header">
+          <h2 class="section-heading">Tutors families keep rebooking</h2>
+          <a class="btn btn-outline" href="search-tutors.html">View all tutors →</a>
         </div>
-        <div class="filter-wrapper">
-          <label class="tutor-filter-label" for="tutor-filter">Quickly filter featured tutors</label>
-          <input class="tutor-filter" id="tutor-filter" type="search" placeholder="Search by name, subject or district" data-tutor-filter>
-        </div>
+
         <div class="tutor-grid">
-          <article class="tutor-card" data-tutor-card data-reveal><div class="tutor-avatar avatar-blue">IP</div><h3>Ishara Perera</h3><p class="tutor-subject">Combined Maths</p><div class="tutor-meta"><span>Colombo</span><span>Grade 10 - A/L</span><span>7 years experience</span></div><div class="tutor-footer"><strong>LKR 1,800<small>/hr</small></strong><span>★ 4.9</span></div></article>
-          <article class="tutor-card" data-tutor-card data-reveal><div class="tutor-avatar avatar-gold">DF</div><h3>Dilshan Fernando</h3><p class="tutor-subject">English Language</p><div class="tutor-meta"><span>Gampaha</span><span>Grade 6 - O/L</span><span>5 years experience</span></div><div class="tutor-footer"><strong>LKR 1,500<small>/hr</small></strong><span>★ 4.8</span></div></article>
-          <article class="tutor-card" data-tutor-card data-reveal><div class="tutor-avatar avatar-green">NR</div><h3>Nadeesha Rathnayake</h3><p class="tutor-subject">Science</p><div class="tutor-meta"><span>Kandy</span><span>Grade 9 - O/L</span><span>9 years experience</span></div><div class="tutor-footer"><strong>LKR 2,000<small>/hr</small></strong><span>★ 5.0</span></div></article>
-          <article class="tutor-card" data-tutor-card data-reveal><div class="tutor-avatar avatar-violet">KJ</div><h3>Kasun Jayasinghe</h3><p class="tutor-subject">ICT</p><div class="tutor-meta"><span>Galle</span><span>O/L - A/L</span><span>4 years experience</span></div><div class="tutor-footer"><strong>LKR 1,600<small>/hr</small></strong><span>★ 4.7</span></div></article>
+          <article class="tutor-card">
+            <div class="tutor-card-top tab-blue">
+              <div class="tutor-avatar">IP</div>
+              <span class="rating">★ 4.9</span>
+            </div>
+            <h3>Ishara Perera</h3>
+            <p class="tutor-subject">Combined Maths</p>
+            <div class="tutor-meta">
+              <span>Colombo</span>
+              <span>Grade 10 – A/L</span>
+            </div>
+            <div class="tutor-footer">
+              <strong class="price">LKR 1,800<span>/hr</span></strong>
+            </div>
+          </article>
+
+          <article class="tutor-card">
+            <div class="tutor-card-top tab-gold">
+              <div class="tutor-avatar">DF</div>
+              <span class="rating">★ 4.8</span>
+            </div>
+            <h3>Dilshan Fernando</h3>
+            <p class="tutor-subject">English Language</p>
+            <div class="tutor-meta">
+              <span>Gampaha</span>
+              <span>Grade 6 – O/L</span>
+            </div>
+            <div class="tutor-footer">
+              <strong class="price">LKR 1,500<span>/hr</span></strong>
+            </div>
+          </article>
+
+          <article class="tutor-card">
+            <div class="tutor-card-top tab-green">
+              <div class="tutor-avatar">NR</div>
+              <span class="rating">★ 5.0</span>
+            </div>
+            <h3>Nadeesha Rathnayake</h3>
+            <p class="tutor-subject">Science &amp; Biology</p>
+            <div class="tutor-meta">
+              <span>Kandy</span>
+              <span>Grade 9 – O/L</span>
+            </div>
+            <div class="tutor-footer">
+              <strong class="price">LKR 2,000<span>/hr</span></strong>
+            </div>
+          </article>
+
+          <article class="tutor-card">
+            <div class="tutor-card-top tab-violet">
+              <div class="tutor-avatar">KJ</div>
+              <span class="rating">★ 4.7</span>
+            </div>
+            <h3>Kasun Jayasinghe</h3>
+            <p class="tutor-subject">ICT / Computer Science</p>
+            <div class="tutor-meta">
+              <span>Galle</span>
+              <span>O/L – A/L</span>
+            </div>
+            <div class="tutor-footer">
+              <strong class="price">LKR 1,600<span>/hr</span></strong>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Benefits Section -->
-    <section class="benefits" aria-labelledby="benefits-title">
-      <div class="container">
-        <div class="section-intro" data-reveal><p class="section-label">Why TutorLanka</p><h2 id="benefits-title" class="section-heading">Built for how Sri Lankan families find tutors.</h2><p class="section-sub">Local relevance and clear information, without the uncertainty of a notice board.</p></div>
-        <div class="benefits-grid">
-          <article class="benefit" data-reveal><h3>Verified profiles</h3><p>See qualifications, subjects and experience in one place.</p></article>
-          <article class="benefit" data-reveal><h3>Transparent rates</h3><p>Compare hourly rates before you send a request.</p></article>
-          <article class="benefit" data-reveal><h3>District-based search</h3><p>Find tutors who genuinely serve your area.</p></article>
-          <article class="benefit" data-reveal><h3>Direct requests</h3><p>Contact tutors without chasing scattered phone numbers.</p></article>
-          <article class="benefit" data-reveal><h3>Every grade</h3><p>From primary learning to A/L exam preparation.</p></article>
-          <article class="benefit" data-reveal><h3>Made for Sri Lanka</h3><p>Designed around local districts and curricula.</p></article>
+    <!-- Dual Call To Action Section -->
+    <section class="dual-cta">
+      <div class="container cta-grid">
+        <div class="cta-box parents-box">
+          <h3>Looking for a tutor for your child?</h3>
+          <p>Browse verified tutors near you and send your first request today.</p>
+          <a class="btn btn-primary" href="parent-register.html">Register as a Parent</a>
+        </div>
+
+        <div class="cta-box tutors-box">
+          <h3>Want to teach students near you?</h3>
+          <p>Create a free profile and start receiving tuition requests directly.</p>
+          <a class="btn btn-outline-light" href="tutor-register.html">Become a Tutor</a>
         </div>
       </div>
     </section>
 
-    <!-- Call to Action Section -->
-    <section class="dual-cta" aria-label="Get started with TutorLanka">
-      <div class="dual-cta-panel for-parents"><p class="section-label">For parents</p><h2>Find a tutor your child can trust.</h2><p>Create a free account and start browsing in minutes.</p><a class="btn btn-primary" href="parent-register.html">Register as a parent</a></div>
-      <div class="dual-cta-panel for-tutors"><p class="section-label">For tutors</p><h2>Share your expertise with more students.</h2><p>Create a profile and receive relevant booking requests.</p><a class="btn btn-primary" href="tutor-register.html">Register as a tutor</a></div>
-    </section>
   </main>
 
   <!-- Footer -->
   <footer class="site-footer">
-    <div class="container footer-top">
-      <div class="footer-brand"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">Tutor<span>Lanka</span></span></a><p>A trusted way to find qualified home tutors across Sri Lanka.</p></div>
-      <div class="footer-col"><p class="footer-heading">For parents</p><ul class="footer-links"><li><a href="search-tutors.html">Find tutors</a></li><li><a href="parent-register.html">Create account</a></li><li><a href="parent-dashboard.html">Parent dashboard</a></li></ul></div>
-      <div class="footer-col"><p class="footer-heading">For tutors</p><ul class="footer-links"><li><a href="tutor-register.html">Become a tutor</a></li><li><a href="tutor-dashboard.html">Tutor dashboard</a></li></ul></div>
-      <div class="footer-col"><p class="footer-heading">Company</p><ul class="footer-links"><li><a href="#">About us</a></li><li><a href="#">Contact</a></li><li><a href="#">FAQ</a></li></ul></div>
-    </div>
-    <div class="container footer-bottom"><p>&copy; 2026 TutorLanka. All rights reserved.</p></div>
-  </footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">
+          <span class="brand-name">Tutor<span>Lanka</span></span>
+        </a>
+        <p>Connecting students with qualified home tutors across Sri Lanka.</p>
+      </div>
 
-  <script src="js/script.js"></script>
-  <script src="js/main.js"></script>
+      <div class="footer-col">
+        <h4>Parents</h4>
+        <ul>
+          <li><a href="search-tutors.html">Find Tutors</a></li>
+          <li><a href="parent-register.html">Register</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Tutors</h4>
+        <ul>
+          <li><a href="tutor-register.html">Become a Tutor</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2026 TutorLanka. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

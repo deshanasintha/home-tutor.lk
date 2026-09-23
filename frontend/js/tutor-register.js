@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const form = document.getElementById('tutorRegisterForm');
@@ -75,8 +75,16 @@ if (form) {
         createdAt: serverTimestamp()
       });
 
-      await showMessage({ icon: 'success', title: 'Registration successful', text: 'Your tutor profile has been created.', confirmButtonText: 'Go to dashboard' });
-      window.location.href = "tutor-dashboard.html";
+      await signOut(auth);
+
+      await showMessage({ 
+        icon: 'success', 
+        title: 'Registration successful', 
+        text: 'Your tutor profile has been created. Please log in.', 
+        confirmButtonText: 'Go to login' 
+      });
+
+      window.location.href = "login.html";
     } catch (error) {
       console.error("Registration Error:", error);
       const messages = {

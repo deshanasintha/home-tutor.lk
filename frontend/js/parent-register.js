@@ -73,7 +73,7 @@ if (form) {
         createdAt: serverTimestamp()
       });
           await signOut(auth);
-      // 4. Success Alert පෙන්වීම
+      // 4.sign out active session
       if (typeof Swal !== 'undefined') {
         await Swal.fire({
           icon: 'success',
@@ -81,7 +81,7 @@ if (form) {
           text: 'ඔබගේ Parent Account එක සාර්ථකව සාදන ලදී.',
           confirmButtonText: 'Go to login'
         });
-         // Dashboard එකට Redirect කිරීම
+         //success Alert & Redirect to login
       window.location.href = "login.html";
       } else {
         alert("Registration Successful!  Please login.");

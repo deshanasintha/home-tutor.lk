@@ -1,0 +1,41 @@
+ Project Issues and Fixes
+
+1. Firebase Database Issue
+
+   * We were unable to create the Firebase database because we did not have sufficient admin/editor permissions.
+   * Firebase admin access is required to create and manage the database properly.
+
+2. README.md File Issue
+
+   * We created a Markdown (`.md`) file, but there was an issue with the file extension.
+   * Because of this issue, the file could not be pushed to GitHub properly.
+
+3. Home Page Background Issue
+
+   * The background image and animation on the Home page crashed.
+   * The image was actually a JPG file, but it was referenced as a PNG file in the code.
+   * This incorrect file extension caused the background image to fail.
+
+4. CSS Image Editing Issue
+
+   * The JPG image was edited in a different CSS file.
+   * Because the image was being referenced from another CSS file, the changes were not applied correctly to the Home page.
+
+5. Firebase Booking Issue
+
+   * We tried to create the Firebase database, but we received a **405 error**.
+   * When a booking was added, the booking details did not load correctly.
+   * The main issue was that the wrong JavaScript file was used for the booking functionality.
+
+6. Required Solution
+
+   * The correct `app.js` file needs to be implemented.
+   * The booking functionality should be connected to `app.js` correctly.
+   * After implementing the correct JavaScript file, the booking data should be properly added and loaded from Firebase.
+
+7. Dashboard and Background Image Issue
+
+* Firebase access permissions were required to upload photos to the dashboard.
+* The wrong image had been uploaded for the background instead of the required image.
+* Therefore, the code had to be edited again to add the correct background image.
+* This caused additional time to be spent checking and updating the image-related code.

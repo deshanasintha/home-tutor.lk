@@ -1,12 +1,13 @@
 import { auth, db } from './firebase-config.js';
 import { createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-// 1. Firebase Storage Imports එකතු කරන ලදී
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 
-const storage = getStorage(); // Storage Instance එක සකස් කරගැනීම
+// Storage Instance එක Config එකට අදාළ App එකෙන් ලබාගැනීම
+const storage = getStorage();
 
 const form = document.getElementById('tutorRegisterForm');
+
 const showMessage = (options) => {
   if (typeof Swal !== 'undefined') return Swal.fire(options);
   window.alert(options.text || options.title || 'An unexpected error occurred.');
@@ -26,12 +27,16 @@ if (form) {
     const rawSubjects = document.getElementById('subjects')?.value.trim() || '';
     const hourlyRate = document.getElementById('hourlyRate')?.value || 0;
 
-    // Files ලබා ගැනීම (HTML Form එකේ File inputs වල IDs: 'profilePic' සහ 'certificateDoc')
+    // Files ලබා ගැනීම
     const profilePicFile = document.getElementById('profilePic')?.files[0];
     const certFile = document.getElementById('certificateDoc')?.files[0];
 
     if (password !== confirmPassword) {
-      await showMessage({ icon: 'error', title: 'Passwords do not match', text: 'Please check both password fields.' });
+      await showMessage({
+        icon: 'error',
+        title: 'Passwords do not match',
+        text: 'Please check both password fields.'
+      });
       return;
     }
 
@@ -42,7 +47,11 @@ if (form) {
       }
 
       if (typeof Swal !== 'undefined') {
-        Swal.fire({ title: 'Creating profile & uploading files...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        Swal.fire({
+          title: 'Creating profile & uploading files...',
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading()
+        });
       }
 
       // A. Authentication Account එක සැකසීම
@@ -55,14 +64,14 @@ if (form) {
 
       // 1. Profile Photo එක Upload කිරීම
       if (profilePicFile) {
-        const photoRef = ref(storage, `tutors/${user.uid}/profile_${profilePicFile.name}`);
+        const photoRef = ref(storage, `tutors/${user.uid}/profile_${Date.now()}_${profilePicFile.name}`);
         await uploadBytes(photoRef, profilePicFile);
         photoURL = await getDownloadURL(photoRef);
       }
 
-      // 2. Certificate PDF/Image එක Upload කිරීම
+      // 2. Certificate Upload කිරීම
       if (certFile) {
-        const certRef = ref(storage, `tutors/${user.uid}/certificate_${certFile.name}`);
+        const certRef = ref(storage, `tutors/${user.uid}/certificate_${Date.now()}_${certFile.name}`);
         await uploadBytes(certRef, certFile);
         certificateURL = await getDownloadURL(certRef);
       }
@@ -76,7 +85,7 @@ if (form) {
         (input) => input.value
       );
 
-      // C. Firestore Database එකට User Document එක Save කිරීම
+      // C. Firestore Database එකට Document එක Save කිරීම
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: name,
@@ -96,8 +105,8 @@ if (form) {
         availableTime: document.getElementById('availableTime')?.value || '',
         teachingMode: document.getElementById('teachingMode')?.value || '',
         hourlyRate: Number(hourlyRate),
-        photoURL: photoURL, // Upload වුණු Photo Link එක
-        certificateURL: certificateURL, // Upload වුණු Certificate Link එක
+        photoURL: photoURL,
+        certificateURL: certificateURL,
         role: "tutor",
         rating: 5.0,
         reviewCount: 0,
@@ -105,13 +114,14 @@ if (form) {
         createdAt: serverTimestamp()
       });
 
+      // Register වූ පසු Sign Out කිරීම (තවම Login නැති නිසා)
       await signOut(auth);
 
-      await showMessage({ 
-        icon: 'success', 
-        title: 'Registration successful', 
-        text: 'ඔබගේ Tutor Account එක සාර්ථකව සාදන ලදී. Please log in.', 
-        confirmButtonText: 'Go to login' 
+      await showMessage({
+        icon: 'success',
+        title: 'Registration successful',
+        text: 'ඔබගේ Tutor Account එක සාර්ථකව සාදන ලදී. Please log in.',
+        confirmButtonText: 'Go to login'
       });
 
       window.location.href = "login.html";
@@ -123,7 +133,11 @@ if (form) {
         'auth/invalid-email': 'Please enter a valid email address.'
       };
       if (typeof Swal !== 'undefined') Swal.close();
-      await showMessage({ icon: 'error', title: 'Registration failed', text: messages[error.code] || error.message });
+      await showMessage({
+        icon: 'error',
+        title: 'Registration failed',
+        text: messages[error.code] || error.message
+      });
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;

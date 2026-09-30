@@ -1,6 +1,10 @@
 import { auth, db } from './firebase-config.js';
 import { createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+// 1. Firebase Storage Imports එකතු කරන ලදී
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
+
+const storage = getStorage(); // Storage Instance එක සකස් කරගැනීම
 
 const form = document.getElementById('tutorRegisterForm');
 const showMessage = (options) => {
@@ -22,6 +26,10 @@ if (form) {
     const rawSubjects = document.getElementById('subjects')?.value.trim() || '';
     const hourlyRate = document.getElementById('hourlyRate')?.value || 0;
 
+    // Files ලබා ගැනීම (HTML Form එකේ File inputs වල IDs: 'profilePic' සහ 'certificateDoc')
+    const profilePicFile = document.getElementById('profilePic')?.files[0];
+    const certFile = document.getElementById('certificateDoc')?.files[0];
+
     if (password !== confirmPassword) {
       await showMessage({ icon: 'error', title: 'Passwords do not match', text: 'Please check both password fields.' });
       return;
@@ -34,11 +42,30 @@ if (form) {
       }
 
       if (typeof Swal !== 'undefined') {
-        Swal.fire({ title: 'Creating profile...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        Swal.fire({ title: 'Creating profile & uploading files...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       }
 
+      // A. Authentication Account එක සැකසීම
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
+      // B. Firebase Storage එකට Files Upload කිරීම
+      let photoURL = "";
+      let certificateURL = "";
+
+      // 1. Profile Photo එක Upload කිරීම
+      if (profilePicFile) {
+        const photoRef = ref(storage, `tutors/${user.uid}/profile_${profilePicFile.name}`);
+        await uploadBytes(photoRef, profilePicFile);
+        photoURL = await getDownloadURL(photoRef);
+      }
+
+      // 2. Certificate PDF/Image එක Upload කිරීම
+      if (certFile) {
+        const certRef = ref(storage, `tutors/${user.uid}/certificate_${certFile.name}`);
+        await uploadBytes(certRef, certFile);
+        certificateURL = await getDownloadURL(certRef);
+      }
 
       const subjectsArray = rawSubjects
         ? rawSubjects.split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
@@ -49,6 +76,7 @@ if (form) {
         (input) => input.value
       );
 
+      // C. Firestore Database එකට User Document එක Save කිරීම
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: name,
@@ -68,6 +96,8 @@ if (form) {
         availableTime: document.getElementById('availableTime')?.value || '',
         teachingMode: document.getElementById('teachingMode')?.value || '',
         hourlyRate: Number(hourlyRate),
+        photoURL: photoURL, // Upload වුණු Photo Link එක
+        certificateURL: certificateURL, // Upload වුණු Certificate Link එක
         role: "tutor",
         rating: 5.0,
         reviewCount: 0,

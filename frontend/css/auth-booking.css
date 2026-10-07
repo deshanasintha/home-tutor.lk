@@ -631,3 +631,43 @@ button, input, select{ font-family: inherit; font-size: inherit; }
 }
 
 .site-footer a{ color: #fff; font-weight: 600; }
+
+/* ===================== GOOGLE LOGIN BUTTON ===================== */
+
+.btn-google {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #d5d9e0;
+  margin-top: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-google:hover {
+  background: #f7f9fc;
+  border-color: #bfc5d0;
+}
+
+/* Google G */
+.google-icon {
+  font-family: Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+
+  /* Google colours */
+  background: conic-gradient(
+    from -45deg,
+    #4285F4 0deg 90deg,
+    #34A853 90deg 180deg,
+    #FBBC05 180deg 270deg,
+    #EA4335 270deg 360deg
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

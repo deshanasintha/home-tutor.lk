@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// ⚠️ ඔයාගේ Firebase Config details මෙතනට දාන්න:
+// ⚠️ Firebase Config details:
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "home-tutor-8924e.firebaseapp.com",
@@ -42,6 +42,7 @@ const db = getFirestore(app);
   const toggle = document.querySelector('.theme-toggle') || document.createElement('button');
   const hasExistingToggle = toggle.parentElement !== null;
   toggle.className = 'theme-toggle';
+  toggle.id = 'theme-toggle';
   toggle.type = 'button';
   toggle.title = 'Toggle theme';
   toggle.addEventListener('click', () => {
@@ -134,7 +135,6 @@ const db = getFirestore(app);
         if (data.district) districtsSet.add(data.district);
         if (data.subject) subjectsSet.add(data.subject);
 
-        // Firestore Data වලින් Dynamic Tutor Card එක හදාගැනීම
         const card = document.createElement('article');
         card.className = 'tutor-card';
         card.setAttribute('data-tutor-card', '');
@@ -169,7 +169,6 @@ const db = getFirestore(app);
         tutorsContainer.appendChild(card);
       });
 
-      // Stats Update කිරීම (Homepage එකේ ඇත්නම්)
       const statTutors = document.getElementById('stat-tutors');
       const statDistricts = document.getElementById('stat-districts');
       const statSubjects = document.getElementById('stat-subjects');
@@ -178,7 +177,6 @@ const db = getFirestore(app);
       if (statDistricts) statDistricts.textContent = districtsSet.size;
       if (statSubjects) statSubjects.textContent = subjectsSet.size;
 
-      // Card එකතු වූ පසු Animations Re-apply කිරීම
       applyAnimations();
       updateFilterResults();
 
@@ -221,7 +219,6 @@ const db = getFirestore(app);
     if (feeOutput && feeRange) feeOutput.textContent = `Rs. ${Number(feeRange.value).toLocaleString()}`;
   };
 
-  // Form Filter Event Listeners
   filterForm?.addEventListener('input', updateFilterResults);
   filterForm?.addEventListener('change', updateFilterResults);
   filterForm?.addEventListener('reset', () => window.setTimeout(updateFilterResults));
@@ -236,6 +233,5 @@ const db = getFirestore(app);
     }).forEach((card) => card.parentElement.append(card));
   });
 
-  // Page එක Load වෙද්දී Database Data ගෙන ඒම
   loadFirebaseTutors();
 })();

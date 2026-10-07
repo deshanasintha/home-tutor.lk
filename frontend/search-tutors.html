@@ -19,7 +19,6 @@
           <span class="brand-tag">Home Tutor Finding Platform</span>
         </span>
       </a>
-
       <nav class="main-nav">
         <a href="parent-dashboard.html">Dashboard</a>
         <a href="search-tutors.html" class="active">Search Tutors</a>
@@ -38,9 +37,9 @@
       <h1>Find the Right Tutor for Your Child</h1>
       <p>Search and filter verified home tutors across Sri Lanka by subject, grade, district and more.</p>
 
-      <form class="search-bar-row" action="#" method="get">
-        <input type="search" name="query" placeholder="Search by tutor name, subject, or keyword...">
-        <button type="submit" class="btn btn-primary">Search</button>
+      <form class="search-bar-row" id="searchBarForm" onsubmit="return false;">
+        <input type="search" id="searchInput" name="query" placeholder="Search by tutor name, subject, or keyword...">
+        <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
       </form>
     </div>
   </section>
@@ -53,19 +52,19 @@
       <aside class="filters-panel card">
         <h3>Filter Tutors</h3>
 
-        <form action="#" method="get">
+        <form id="filterForm" onsubmit="return false;">
 
           <div class="filter-group">
             <label class="filter-label" for="subjectFilter">Subject</label>
             <select id="subjectFilter" name="subject">
               <option value="">All Subjects</option>
-              <option>Mathematics</option>
-              <option>Science</option>
-              <option>English</option>
-              <option>ICT</option>
-              <option>Sinhala</option>
-              <option>Commerce</option>
-              <option>History</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Science">Science</option>
+              <option value="English">English</option>
+              <option value="ICT">ICT</option>
+              <option value="Sinhala">Sinhala</option>
+              <option value="Commerce">Commerce</option>
+              <option value="History">History</option>
             </select>
           </div>
 
@@ -73,10 +72,10 @@
             <label class="filter-label" for="gradeFilter">Grade</label>
             <select id="gradeFilter" name="grade">
               <option value="">All Grades</option>
-              <option>Grade 1 - 5</option>
-              <option>Grade 6 - 9</option>
-              <option>Grade 10 - 11 (O/L)</option>
-              <option>Grade 12 - 13 (A/L)</option>
+              <option value="Grade 1 - 5">Grade 1 - 5</option>
+              <option value="Grade 6 - 9">Grade 6 - 9</option>
+              <option value="Grade 10 - 11 (O/L)">Grade 10 - 11 (O/L)</option>
+              <option value="Grade 12 - 13 (A/L)">Grade 12 - 13 (A/L)</option>
             </select>
           </div>
 
@@ -84,14 +83,14 @@
             <label class="filter-label" for="districtFilter">District</label>
             <select id="districtFilter" name="district">
               <option value="">All Districts</option>
-              <option>Colombo</option>
-              <option>Gampaha</option>
-              <option>Kalutara</option>
-              <option>Kandy</option>
-              <option>Galle</option>
-              <option>Matara</option>
-              <option>Kurunegala</option>
-              <option>Jaffna</option>
+              <option value="Colombo">Colombo</option>
+              <option value="Gampaha">Gampaha</option>
+              <option value="Kalutara">Kalutara</option>
+              <option value="Kandy">Kandy</option>
+              <option value="Galle">Galle</option>
+              <option value="Matara">Matara</option>
+              <option value="Kurunegala">Kurunegala</option>
+              <option value="Jaffna">Jaffna</option>
             </select>
           </div>
 
@@ -109,215 +108,36 @@
             <label class="filter-label" for="rateFilter">Max Hourly Rate (Rs.)</label>
             <select id="rateFilter" name="rate">
               <option value="">Any Rate</option>
-              <option>Below Rs. 1,000</option>
-              <option>Rs. 1,000 - 1,500</option>
-              <option>Rs. 1,500 - 2,000</option>
-              <option>Above Rs. 2,000</option>
+              <option value="1000">Below Rs. 1,000</option>
+              <option value="1500">Rs. 1,000 - 1,500</option>
+              <option value="2000">Rs. 1,500 - 2,000</option>
+              <option value="above_2000">Above Rs. 2,000</option>
             </select>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+          <button type="button" id="applyFiltersBtn" class="btn btn-primary btn-block">Apply Filters</button>
         </form>
       </aside>
 
       <!-- ---------- TUTOR RESULTS ---------- -->
       <section>
         <div class="results-header">
-          <p class="results-count">Showing 6 tutors near Kalutara District</p>
-          <select class="sort-select">
-            <option>Sort by: Recommended</option>
-            <option>Sort by: Lowest Rate</option>
-            <option>Sort by: Highest Rate</option>
-            <option>Sort by: Most Experienced</option>
+          <p class="results-count" id="resultsCount">Loading tutors...</p>
+          <select class="sort-select" id="sortSelect">
+            <option value="recommended">Sort by: Recommended</option>
+            <option value="lowest">Sort by: Lowest Rate</option>
+            <option value="highest">Sort by: Highest Rate</option>
+            <option value="experience">Sort by: Most Experienced</option>
           </select>
         </div>
 
-        <div class="tutor-grid">
-
-          <!-- Tutor Card 1 -->
-          <article class="tutor-card card">
-            <div class="tutor-card-top">
-              <div class="tutor-avatar">SK</div>
-              <div>
-                <h3 class="tutor-name">Mr. Sanjeewa Kumara</h3>
-                <p class="tutor-qualification">BSc. in Mathematics, University of Colombo</p>
-              </div>
-            </div>
-
-            <div class="tutor-tags">
-              <span class="tag-pill">Mathematics</span>
-              <span class="tag-pill">Grade 10-11</span>
-            </div>
-
-            <div class="tutor-meta">
-              <span>Experience: <strong>6 years</strong></span>
-              <span>District: <strong>Kalutara</strong></span>
-              <span>Mode: <strong>Home Visit</strong></span>
-              <span>Availability: <strong>Weekdays</strong></span>
-            </div>
-
-            <div class="tutor-rate">Rs. 1,500 <span>/ hour</span></div>
-
-            <div class="tutor-card-actions">
-              <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
-              <a href="booking-request.html" class="btn btn-primary">Request Tutor</a>
-            </div>
-          </article>
-
-          <!-- Tutor Card 2 -->
-          <article class="tutor-card card">
-            <div class="tutor-card-top">
-              <div class="tutor-avatar">RF</div>
-              <div>
-                <h3 class="tutor-name">Ms. Ruwangi Fernando</h3>
-                <p class="tutor-qualification">BSc. Hons in Chemistry, University of Peradeniya</p>
-              </div>
-            </div>
-
-            <div class="tutor-tags">
-              <span class="tag-pill">Science</span>
-              <span class="tag-pill">Grade 10-11</span>
-            </div>
-
-            <div class="tutor-meta">
-              <span>Experience: <strong>4 years</strong></span>
-              <span>District: <strong>Kalutara</strong></span>
-              <span>Mode: <strong>Home Visit / Online</strong></span>
-              <span>Availability: <strong>Weekends</strong></span>
-            </div>
-
-            <div class="tutor-rate">Rs. 1,800 <span>/ hour</span></div>
-
-            <div class="tutor-card-actions">
-              <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
-              <a href="booking-request.html" class="btn btn-primary">Request Tutor</a>
-            </div>
-          </article>
-
-          <!-- Tutor Card 3 -->
-          <article class="tutor-card card">
-            <div class="tutor-card-top">
-              <div class="tutor-avatar">TW</div>
-              <div>
-                <h3 class="tutor-name">Mr. Tharindu Wickramasinghe</h3>
-                <p class="tutor-qualification">B.Ed. English, National College of Education</p>
-              </div>
-            </div>
-
-            <div class="tutor-tags">
-              <span class="tag-pill">English</span>
-              <span class="tag-pill">Grade 6-9</span>
-            </div>
-
-            <div class="tutor-meta">
-              <span>Experience: <strong>8 years</strong></span>
-              <span>District: <strong>Colombo</strong></span>
-              <span>Mode: <strong>Online</strong></span>
-              <span>Availability: <strong>Evenings</strong></span>
-            </div>
-
-            <div class="tutor-rate">Rs. 1,200 <span>/ hour</span></div>
-
-            <div class="tutor-card-actions">
-              <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
-              <a href="booking-request.html" class="btn btn-primary">Request Tutor</a>
-            </div>
-          </article>
-
-          <!-- Tutor Card 4 -->
-          <article class="tutor-card card">
-            <div class="tutor-card-top">
-              <div class="tutor-avatar">DJ</div>
-              <div>
-                <h3 class="tutor-name">Ms. Dulani Jayasuriya</h3>
-                <p class="tutor-qualification">BA in ICT, SLIIT</p>
-              </div>
-            </div>
-
-            <div class="tutor-tags">
-              <span class="tag-pill">ICT</span>
-              <span class="tag-pill">Grade 12-13 (A/L)</span>
-            </div>
-
-            <div class="tutor-meta">
-              <span>Experience: <strong>3 years</strong></span>
-              <span>District: <strong>Gampaha</strong></span>
-              <span>Mode: <strong>Online</strong></span>
-              <span>Availability: <strong>Weekdays</strong></span>
-            </div>
-
-            <div class="tutor-rate">Rs. 2,000 <span>/ hour</span></div>
-
-            <div class="tutor-card-actions">
-              <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
-              <a href="booking-request.html" class="btn btn-primary">Request Tutor</a>
-            </div>
-          </article>
-
-          <!-- Tutor Card 5 -->
-          <article class="tutor-card card">
-            <div class="tutor-card-top">
-              <div class="tutor-avatar">NP</div>
-              <div>
-                <h3 class="tutor-name">Mr. Nuwan Peiris</h3>
-                <p class="tutor-qualification">BSc. Hons in Commerce, University of Sri Jayewardenepura</p>
-              </div>
-            </div>
-
-            <div class="tutor-tags">
-              <span class="tag-pill">Commerce</span>
-              <span class="tag-pill">Grade 12-13 (A/L)</span>
-            </div>
-
-            <div class="tutor-meta">
-              <span>Experience: <strong>5 years</strong></span>
-              <span>District: <strong>Kalutara</strong></span>
-              <span>Mode: <strong>Home Visit</strong></span>
-              <span>Availability: <strong>Weekends</strong></span>
-            </div>
-
-            <div class="tutor-rate">Rs. 1,600 <span>/ hour</span></div>
-
-            <div class="tutor-card-actions">
-              <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
-              <a href="booking-request.html" class="btn btn-primary">Request Tutor</a>
-            </div>
-          </article>
-
-          <!-- Tutor Card 6 -->
-          <article class="tutor-card card">
-            <div class="tutor-card-top">
-              <div class="tutor-avatar">AH</div>
-              <div>
-                <h3 class="tutor-name">Ms. Amaya Herath</h3>
-                <p class="tutor-qualification">Diploma in Early Childhood Education</p>
-              </div>
-            </div>
-
-            <div class="tutor-tags">
-              <span class="tag-pill">All Subjects</span>
-              <span class="tag-pill">Grade 1-5</span>
-            </div>
-
-            <div class="tutor-meta">
-              <span>Experience: <strong>7 years</strong></span>
-              <span>District: <strong>Kalutara</strong></span>
-              <span>Mode: <strong>Home Visit</strong></span>
-              <span>Availability: <strong>Weekdays</strong></span>
-            </div>
-
-            <div class="tutor-rate">Rs. 1,000 <span>/ hour</span></div>
-
-            <div class="tutor-card-actions">
-              <a href="tutor-profile.html" class="btn btn-outline">View Profile</a>
-              <a href="booking-request.html" class="btn btn-primary">Request Tutor</a>
-            </div>
-          </article>
-
+        <!-- 💥 DYNAMIC TUTOR CARDS CONTAINER 💥 -->
+        <div class="tutor-grid" id="tutor-cards-container">
+          <!-- Real Data (JavaScript මගින්) මෙතැනට Render වේ -->
         </div>
 
         <!-- Pagination -->
-        <div class="pagination">
+        <div class="pagination" id="paginationContainer">
           <a href="#" class="active">1</a>
           <a href="#">2</a>
           <a href="#">3</a>
@@ -335,7 +155,9 @@
     </div>
   </footer>
 
+  <!-- JS Files -->
   <script src="js/main.js"></script>
+  <script src="js/search-results.js"></script>
 
 </body>
 </html>

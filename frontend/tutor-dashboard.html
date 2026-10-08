@@ -3,324 +3,816 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tutor Dashboard — TutorFinder</title>
-  <meta name="description" content="Manage your tuition requests, sessions, availability and earnings on TutorFinder.">
+
+  <title>Tutor Dashboard — TutorLink LK</title>
+
+  <meta
+    name="description"
+    content="Manage your tuition requests, sessions, availability and earnings on TutorLink LK."
+  >
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/theme.css">
 </head>
+
 <body>
 
-  <!-- ============ NAVBAR (shared across all pages) ============ -->
+  <!-- =========================================================
+       NAVBAR
+  ========================================================== -->
+
   <header class="navbar">
+
     <div class="navbar-inner">
+
       <a href="index.html" class="logo">
-        <span class="logo-mark">TF</span>
-        Tutor<span>Finder</span>
+        <span class="logo-mark">TL</span>
+        Tutor<span>Link LK</span>
       </a>
 
-      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+      <input
+        type="checkbox"
+        id="nav-toggle"
+        class="nav-toggle-checkbox"
+      >
 
       <nav class="nav-links">
+
         <a href="index.html">Home</a>
-        <a href="tutor-dashboard.html">Dashboard</a>
-        <a href="tutor-profile.html">My Profile</a>
+
+        <a href="tutor-dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="tutor-profile.html">
+          My Profile
+        </a>
+
         <div class="nav-cta">
-          <a href="tutor-profile.html" class="btn btn-outline">Edit Profile</a>
-          <a href="login.html" class="btn btn-primary">Logout</a>
+
+          <a
+            href="tutor-profile.html"
+            class="btn btn-outline"
+          >
+            Edit Profile
+          </a>
+
+          <a
+            href="login.html"
+            class="btn btn-primary"
+            id="logoutBtn"
+          >
+            Logout
+          </a>
+
         </div>
+
       </nav>
 
-      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
+      <label
+        for="nav-toggle"
+        class="nav-toggle-label"
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
       </label>
+
     </div>
+
   </header>
 
-  <!-- ============ PAGE HEADER / WELCOME ============ -->
+
+  <!-- =========================================================
+       PAGE HEADER
+  ========================================================== -->
+
   <section class="page-header">
+
     <div class="container">
-      <h1>Welcome back, Nadeesha</h1>
-      <p>Here's an overview of your tuition requests, sessions and earnings.</p>
+
+      <h1 id="welcomeMessage">
+        Welcome back
+      </h1>
+
+      <p>
+        Manage your tuition requests, sessions and earnings.
+      </p>
+
     </div>
+
   </section>
 
-  <section class="section" style="padding-top: var(--space-4);">
+
+  <!-- =========================================================
+       DASHBOARD
+  ========================================================== -->
+
+  <section
+    class="section"
+    style="padding-top: var(--space-4);"
+  >
+
     <div class="container">
 
-      <!-- ============ TUTOR PROFILE SUMMARY + PROFILE COMPLETION ============ -->
+
+      <!-- =====================================================
+           TUTOR PROFILE SUMMARY
+      ====================================================== -->
+
       <div class="dashboard-header card">
+
         <div class="dashboard-header-main">
-          <div class="profile-avatar-lg">NP</div>
+
+          <div
+            class="profile-avatar-lg"
+            id="profileAvatar"
+          >
+            --
+          </div>
+
           <div>
-            <h1>Nadeesha Perera</h1>
-            <p>Mathematics tutor · Colombo · ★ 4.9 (58 reviews)</p>
-            <div class="progress-wrap" style="max-width: 260px;">
+
+            <h1 id="tutorName">
+              Loading...
+            </h1>
+
+            <p id="tutorSummary">
+              Loading tutor information...
+            </p>
+
+
+            <!-- PROFILE COMPLETION -->
+
+            <div
+              class="progress-wrap"
+              style="max-width: 260px;"
+            >
+
               <div class="progress-label-row">
-                <span>Profile completion</span>
-                <strong>85%</strong>
+
+                <span>
+                  Profile completion
+                </span>
+
+                <strong id="profileCompletion">
+                  0%
+                </strong>
+
               </div>
+
               <div class="progress-track">
-                <div class="progress-fill" style="width: 85%;"></div>
+
+                <div
+                  class="progress-fill"
+                  id="profileProgress"
+                  style="width: 0%;"
+                ></div>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
+
         <div class="dashboard-header-actions">
-          <a href="tutor-profile.html" class="btn btn-primary">Edit Profile</a>
-          <a href="login.html" class="btn btn-outline">Logout</a>
+
+          <a
+            href="tutor-profile.html"
+            class="btn btn-primary"
+          >
+            Edit Profile
+          </a>
+
+          <button
+            type="button"
+            class="btn btn-outline"
+            id="dashboardLogoutBtn"
+          >
+            Logout
+          </button>
+
         </div>
+
       </div>
 
-      <!-- ============ QUICK STATS ============ -->
-      <div class="dashboard-stats-grid" style="margin-top: var(--space-3);">
+
+
+      <!-- =====================================================
+           QUICK STATS
+      ====================================================== -->
+
+      <div
+        class="dashboard-stats-grid"
+        style="margin-top: var(--space-3);"
+      >
+
+
+        <!-- NEW REQUESTS -->
+
         <div class="stat-card card">
-          <span class="stat-value">3</span>
-          <span class="stat-label">New requests</span>
+
+          <span
+            class="stat-value"
+            id="newRequestsCount"
+          >
+            0
+          </span>
+
+          <span class="stat-label">
+            New requests
+          </span>
+
         </div>
+
+
+        <!-- PENDING -->
+
         <div class="stat-card card">
-          <span class="stat-value">2</span>
-          <span class="stat-label">Pending requests</span>
+
+          <span
+            class="stat-value"
+            id="pendingRequestsCount"
+          >
+            0
+          </span>
+
+          <span class="stat-label">
+            Pending requests
+          </span>
+
         </div>
+
+
+        <!-- ACTIVE STUDENTS -->
+
         <div class="stat-card card">
-          <span class="stat-value">6</span>
-          <span class="stat-label">Active students</span>
+
+          <span
+            class="stat-value"
+            id="activeStudentsCount"
+          >
+            0
+          </span>
+
+          <span class="stat-label">
+            Active students
+          </span>
+
         </div>
+
+
+        <!-- HOURLY FEE -->
+
         <div class="stat-card card stat-card-accent">
-          <span class="stat-value">Rs. 1,800</span>
-          <span class="stat-label">Current hourly fee</span>
+
+          <span
+            class="stat-value"
+            id="hourlyFee"
+          >
+            Rs. 0
+          </span>
+
+          <span class="stat-label">
+            Current hourly fee
+          </span>
+
         </div>
+
       </div>
 
-      <!-- ============ NEW TUITION REQUESTS ============ -->
+
+
+      <!-- =====================================================
+           NEW TUITION REQUESTS
+      ====================================================== -->
+
       <div class="dashboard-section">
+
         <div class="section-title-row">
-          <h2>New tuition requests</h2>
+
+          <h2>
+            New tuition requests
+          </h2>
+
         </div>
-        <div class="list-card card">
-          <div class="list-row">
-            <div class="list-row-avatar">TW</div>
-            <div class="list-row-info">
-              <h4>Tharindu Wijesinghe (Parent)</h4>
-              <p>Mathematics · Grade 8 · Requested 8 Sep 2026</p>
-            </div>
-            <div class="list-row-meta">
-              <span class="status-badge status-pending">New</span>
-              <div class="list-row-actions">
-                <a href="#" class="btn btn-primary">Accept</a>
-                <a href="#" class="btn btn-outline">Decline</a>
-              </div>
-            </div>
+
+
+        <div
+          class="list-card card"
+          id="newRequestsList"
+        >
+
+          <!-- Firebase data will be inserted here -->
+
+          <div
+            class="empty-state"
+            id="newRequestsEmpty"
+          >
+
+            <p>
+              No new tuition requests.
+            </p>
+
           </div>
-          <div class="list-row">
-            <div class="list-row-avatar">RS</div>
-            <div class="list-row-info">
-              <h4>Roshani Silva (Parent)</h4>
-              <p>Mathematics · Grade 7 · Requested 7 Sep 2026</p>
-            </div>
-            <div class="list-row-meta">
-              <span class="status-badge status-pending">New</span>
-              <div class="list-row-actions">
-                <a href="#" class="btn btn-primary">Accept</a>
-                <a href="#" class="btn btn-outline">Decline</a>
-              </div>
-            </div>
-          </div>
+
         </div>
+
       </div>
 
-      <!-- ============ PENDING REQUESTS ============ -->
+
+
+      <!-- =====================================================
+           PENDING REQUESTS
+      ====================================================== -->
+
       <div class="dashboard-section">
+
         <div class="section-title-row">
-          <h2>Pending requests</h2>
+
+          <h2>
+            Pending requests
+          </h2>
+
         </div>
-        <div class="list-card card">
-          <div class="list-row">
-            <div class="list-row-avatar">CP</div>
-            <div class="list-row-info">
-              <h4>Chamari Perera (Parent)</h4>
-              <p>Mathematics · Grade 8 · Awaiting your response</p>
-            </div>
-            <div class="list-row-meta">
-              <span class="list-row-fee">Rs. 1,800/hr</span>
-              <span class="status-badge status-pending">Pending</span>
-            </div>
+
+
+        <div
+          class="list-card card"
+          id="pendingRequestsList"
+        >
+
+          <!-- Firebase data will be inserted here -->
+
+          <div
+            class="empty-state"
+            id="pendingRequestsEmpty"
+          >
+
+            <p>
+              No pending requests.
+            </p>
+
           </div>
+
         </div>
+
       </div>
 
-      <!-- ============ ACCEPTED REQUESTS ============ -->
+
+
+      <!-- =====================================================
+           ACCEPTED REQUESTS
+      ====================================================== -->
+
       <div class="dashboard-section">
+
         <div class="section-title-row">
-          <h2>Accepted requests</h2>
+
+          <h2>
+            Accepted requests
+          </h2>
+
         </div>
-        <div class="list-card card">
-          <div class="list-row">
-            <div class="list-row-avatar">KP</div>
-            <div class="list-row-info">
-              <h4>Kavindi Peiris (Parent)</h4>
-              <p>Mathematics · Grade 9 · Tue &amp; Thu, 5:00 PM</p>
-            </div>
-            <div class="list-row-meta">
-              <span class="list-row-fee">Rs. 1,800/hr</span>
-              <span class="status-badge status-accepted">Accepted</span>
-            </div>
+
+
+        <div
+          class="list-card card"
+          id="acceptedRequestsList"
+        >
+
+          <!-- Firebase data will be inserted here -->
+
+          <div
+            class="empty-state"
+            id="acceptedRequestsEmpty"
+          >
+
+            <p>
+              No accepted requests.
+            </p>
+
           </div>
-          <div class="list-row">
-            <div class="list-row-avatar">AF</div>
-            <div class="list-row-info">
-              <h4>Amila Fonseka (Parent)</h4>
-              <p>Mathematics · Grade 6 · Saturdays, 10:00 AM</p>
-            </div>
-            <div class="list-row-meta">
-              <span class="list-row-fee">Rs. 1,800/hr</span>
-              <span class="status-badge status-accepted">Accepted</span>
-            </div>
-          </div>
+
         </div>
+
       </div>
 
-      <!-- ============ REJECTED REQUESTS ============ -->
+
+
+      <!-- =====================================================
+           REJECTED REQUESTS
+      ====================================================== -->
+
       <div class="dashboard-section">
+
         <div class="section-title-row">
-          <h2>Rejected requests</h2>
+
+          <h2>
+            Rejected requests
+          </h2>
+
         </div>
-        <div class="list-card card">
-          <div class="list-row">
-            <div class="list-row-avatar">NJ</div>
-            <div class="list-row-info">
-              <h4>Nimal Jayawardena (Parent)</h4>
-              <p>Mathematics · Grade 11 · Schedule conflict</p>
-            </div>
-            <div class="list-row-meta">
-              <span class="status-badge status-rejected">Rejected</span>
-            </div>
+
+
+        <div
+          class="list-card card"
+          id="rejectedRequestsList"
+        >
+
+          <!-- Firebase data will be inserted here -->
+
+          <div
+            class="empty-state"
+            id="rejectedRequestsEmpty"
+          >
+
+            <p>
+              No rejected requests.
+            </p>
+
           </div>
+
         </div>
+
       </div>
 
-      <!-- ============ UPCOMING SESSIONS ============ -->
+
+
+      <!-- =====================================================
+           UPCOMING SESSIONS
+      ====================================================== -->
+
       <div class="dashboard-section">
+
         <div class="section-title-row">
-          <h2>Upcoming sessions</h2>
+
+          <h2>
+            Upcoming sessions
+          </h2>
+
         </div>
-        <div class="list-card card">
-          <div class="list-row">
-            <div class="session-date-block">
-              <span class="day">10</span>
-              <span class="month">Sep</span>
-            </div>
-            <div class="list-row-info">
-              <h4>Kavindi Peiris — Grade 9 Mathematics</h4>
-              <p>Thursday, 5:00 PM · Home visit · Colombo 05</p>
-            </div>
-            <div class="list-row-meta">
-              <span class="status-badge status-accepted">Confirmed</span>
-            </div>
+
+
+        <div
+          class="list-card card"
+          id="upcomingSessionsList"
+        >
+
+          <!-- Firebase data will be inserted here -->
+
+          <div
+            class="empty-state"
+            id="upcomingSessionsEmpty"
+          >
+
+            <p>
+              No upcoming sessions.
+            </p>
+
           </div>
-          <div class="list-row">
-            <div class="session-date-block">
-              <span class="day">12</span>
-              <span class="month">Sep</span>
-            </div>
-            <div class="list-row-info">
-              <h4>Amila Fonseka — Grade 6 Mathematics</h4>
-              <p>Saturday, 10:00 AM · Home visit · Colombo 05</p>
-            </div>
-            <div class="list-row-meta">
-              <span class="status-badge status-accepted">Confirmed</span>
-            </div>
-          </div>
+
         </div>
+
       </div>
 
-      <!-- ============ AVAILABILITY SUMMARY ============ -->
+
+
+      <!-- =====================================================
+           AVAILABILITY SUMMARY
+      ====================================================== -->
+
       <div class="dashboard-section">
+
         <div class="section-title-row">
-          <h2>Availability summary</h2>
-          <a href="tutor-profile.html">Edit availability</a>
+
+          <h2>
+            Availability summary
+          </h2>
+
+          <a href="tutor-profile.html">
+            Edit availability
+          </a>
+
         </div>
-        <div class="card" style="padding: var(--space-3);">
-          <div class="availability-tag-list">
-            <span class="badge">Weekday Evenings</span>
-            <span class="badge">Saturday Mornings</span>
-            <span class="badge">Sunday Mornings</span>
+
+
+        <div
+          class="card"
+          style="padding: var(--space-3);"
+        >
+
+          <div
+            class="availability-tag-list"
+            id="availabilityList"
+          >
+
+            <!-- Firebase availability data -->
+
+            <span
+              class="availability-empty"
+              id="availabilityEmpty"
+            >
+              No availability information.
+            </span>
+
           </div>
+
         </div>
+
       </div>
 
-      <!-- ============ EARNINGS SECTION ============ -->
+
+
+      <!-- =====================================================
+           EARNINGS
+      ====================================================== -->
+
       <div class="dashboard-section">
+
         <div class="section-title-row">
-          <h2>Earnings</h2>
+
+          <h2>
+            Earnings
+          </h2>
+
         </div>
+
+
         <div class="dashboard-stats-grid">
+
+
+          <!-- MONTHLY EARNINGS -->
+
           <div class="stat-card card">
-            <span class="stat-value">Rs. 43,200</span>
-            <span class="stat-label">Earned this month</span>
+
+            <span
+              class="stat-value"
+              id="monthlyEarnings"
+            >
+              Rs. 0
+            </span>
+
+            <span class="stat-label">
+              Earned this month
+            </span>
+
           </div>
+
+
+          <!-- COMPLETED SESSIONS -->
+
           <div class="stat-card card">
-            <span class="stat-value">24</span>
-            <span class="stat-label">Sessions completed</span>
+
+            <span
+              class="stat-value"
+              id="completedSessions"
+            >
+              0
+            </span>
+
+            <span class="stat-label">
+              Sessions completed
+            </span>
+
           </div>
+
+
+          <!-- HOURLY FEE -->
+
           <div class="stat-card card">
-            <span class="stat-value">Rs. 1,800</span>
-            <span class="stat-label">Current hourly fee</span>
+
+            <span
+              class="stat-value"
+              id="earningsHourlyFee"
+            >
+              Rs. 0
+            </span>
+
+            <span class="stat-label">
+              Current hourly fee
+            </span>
+
           </div>
+
+
+          <!-- ACTIVE STUDENTS -->
+
           <div class="stat-card card">
-            <span class="stat-value">6</span>
-            <span class="stat-label">Active students</span>
+
+            <span
+              class="stat-value"
+              id="earningsActiveStudents"
+            >
+              0
+            </span>
+
+            <span class="stat-label">
+              Active students
+            </span>
+
           </div>
+
         </div>
+
       </div>
 
     </div>
+
   </section>
 
-  <!-- ============ FOOTER (shared across all pages) ============ -->
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
   <footer class="site-footer">
+
     <div class="container">
+
       <div class="footer-grid">
+
+
+        <!-- ABOUT -->
+
         <div class="footer-about">
-          <a href="index.html" class="logo">
-            <span class="logo-mark">TF</span>
-            TutorFinder
+
+          <a
+            href="index.html"
+            class="logo"
+          >
+
+            <span class="logo-mark">
+              TL
+            </span>
+
+            TutorLink LK
+
           </a>
-          <p>Connecting parents with qualified home tutors across Sri Lanka — by subject, grade, district, availability and fee.</p>
+
+          <p>
+            Connecting parents with qualified home tutors
+            across Sri Lanka by subject, grade, district,
+            availability and fee.
+          </p>
+
         </div>
+
+
+        <!-- PLATFORM -->
+
         <div class="footer-col">
-          <h4>Platform</h4>
+
+          <h4>
+            Platform
+          </h4>
+
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="search-tutors.html">Find Tutors</a></li>
-            <li><a href="index.html#become-tutor">Become a Tutor</a></li>
+
+            <li>
+              <a href="index.html">
+                Home
+              </a>
+            </li>
+
+            <li>
+              <a href="search-tutors.html">
+                Find Tutors
+              </a>
+            </li>
+
+            <li>
+              <a href="index.html#become-tutor">
+                Become a Tutor
+              </a>
+            </li>
+
           </ul>
+
         </div>
+
+
+        <!-- ACCOUNT -->
+
         <div class="footer-col">
-          <h4>Account</h4>
+
+          <h4>
+            Account
+          </h4>
+
           <ul>
-            <li><a href="tutor-dashboard.html">My Dashboard</a></li>
-            <li><a href="login.html">Logout</a></li>
+
+            <li>
+              <a href="tutor-dashboard.html">
+                My Dashboard
+              </a>
+            </li>
+
+            <li>
+              <button
+                type="button"
+                id="footerLogoutBtn"
+                class="footer-link-button"
+              >
+                Logout
+              </button>
+            </li>
+
           </ul>
+
         </div>
+
+
+        <!-- SUPPORT -->
+
         <div class="footer-col">
-          <h4>Support</h4>
+
+          <h4>
+            Support
+          </h4>
+
           <ul>
-            <li><a href="#">Help Centre</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
+
+            <li>
+              <a href="#">
+                Help Centre
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                Contact Us
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                Privacy Policy
+              </a>
+            </li>
+
           </ul>
+
         </div>
+
       </div>
+
+
+      <!-- FOOTER BOTTOM -->
+
       <div class="footer-bottom">
-        <span>&copy; 2026 TutorFinder. University Group Project.</span>
-        <span>Made in Sri Lanka 🇱🇰</span>
+
+        <span>
+          &copy; 2026 TutorLink LK. University Group Project.
+        </span>
+
+        <span>
+          Made in Sri Lanka 🇱🇰
+        </span>
+
       </div>
+
     </div>
+
   </footer>
-<script type="module" src="js/auth-guard.js"></script>
-<script src="js/main.js"></script>
+
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+  <!-- Authentication Guard -->
+
+  <script
+    type="module"
+    src="js/auth-guard.js"
+  ></script>
+
+
+  <!-- Main JavaScript -->
+
+  <script src="js/main.js"></script>
+
+
+  <!-- Tutor Dashboard Firebase Logic -->
+
+  <script
+    type="module"
+    src="js/tutor-dashboard.js"
+  ></script>
 
 </body>
 </html>

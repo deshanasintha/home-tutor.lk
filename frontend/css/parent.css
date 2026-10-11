@@ -1,32 +1,40 @@
-/* Dashboard Main Container */
+/* Background Light Grey/Blue Tint like original screenshot */
+.dashboard-body {
+  background-color: #f3f7fc;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
 .dashboard-container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2.5rem 1rem;
 }
 
 /* Header Text */
 .welcome-header h1 {
-  font-size: 1.875rem;
+  font-size: 2.25rem;
   font-weight: 700;
   color: #111827;
+  margin-bottom: 0.5rem;
 }
 
 .welcome-header p {
   color: #6b7280;
-  margin-top: 0.25rem;
-  margin-bottom: 2rem;
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 2.5rem;
 }
 
-/* User Profile Card */
+/* Profile White Card */
 .profile-card {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   margin-bottom: 1.5rem;
   min-height: 90px;
 }
@@ -37,75 +45,100 @@
   gap: 1.25rem;
 }
 
-.avatar {
-  width: 56px;
-  height: 56px;
+/* Blue Circle Placeholder for Avatar */
+.avatar-placeholder {
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background-color: #dbeafe;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: 1.125rem;
-  color: #1d4ed8;
 }
 
-/* Stats Grid */
+/* Buttons Styling */
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-outline {
+  border: 1px solid #2563eb;
+  color: #2563eb;
+  background: transparent;
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+
+/* Stats 4 White Boxes Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-bottom: 2.5rem;
+  gap: 1.25rem;
+  margin-bottom: 3rem;
 }
 
 .stat-card {
   background: #ffffff;
-  padding: 1.25rem;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  min-height: 85px;
+  padding: 1.5rem 1.25rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  min-height: 95px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .stat-card h3 {
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   font-weight: 700;
   color: #111827;
-  line-height: 1;
+  margin: 0;
 }
 
 .stat-card p {
   color: #4b5563;
-  font-size: 0.875rem;
-  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  margin: 0.25rem 0 0 0;
+  font-weight: 500;
 }
 
-/* Sections Structure */
+/* Section Headlines */
 .requests-section, .favourites-section, .reviews-section {
-  margin-bottom: 2.25rem;
+  margin-bottom: 2.5rem;
 }
 
 .requests-section h2, .favourites-section h2, .reviews-section h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
   color: #111827;
 }
 
-.list-container {
+/* Empty White Cards Container for Lists */
+.empty-list-card {
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  min-height: 10px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  min-height: 80px;
 }
 
-.cards-grid {
+.empty-grid-card {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
+  min-height: 120px;
 }
 
 .section-header-flex {
@@ -117,6 +150,6 @@
 .link-more {
   color: #2563eb;
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 500;
 }

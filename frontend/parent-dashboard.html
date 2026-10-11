@@ -2,106 +2,250 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Parent Dashboard | Tutor Finder</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/parent.css">
-</head>
-<body class="pd-body">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutor Link LK - Student Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
 
-  <!-- Navbar -->
-  <header class="pd-nav">
-    <div class="pd-container pd-nav__inner">
-      <a href="index.html" class="pd-logo">
-        <span class="pd-logo__mark"></span>
-        <span>Tutor <span class="pd-accent">Finder</span></span>
-      </a>
-      <nav class="pd-nav__links">
-        <a href="index.html">Home</a>
-        <a href="search-tutors.html">Find Tutors</a>
-        <a href="parent-dashboard.html">Dashboard</a>
-        <a href="search-tutors.html" class="pd-btn pd-btn--outline">Search Tutors</a>
-        <button type="button" class="pd-btn pd-btn--primary" data-logout>Logout</button>
-      </nav>
+    body {
+      background-color: #f4f7fc;
+      color: #1e293b;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    /* Navbar Header */
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 20px;
+      color: #0f172a;
+    }
+
+    .logo-box {
+      width: 28px;
+      height: 28px;
+      background-color: #2563eb;
+      border-radius: 6px;
+    }
+
+    .logo span {
+      color: #2563eb;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #475569;
+      font-weight: 500;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #2563eb;
+    }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: #cbd5e1;
+      color: #334155;
+      text-decoration: none;
+    }
+
+    .btn-outline:hover {
+      border-color: #94a3b8;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    /* Hero Welcome Banner */
+    .welcome-header {
+      margin-bottom: 28px;
+    }
+
+    .welcome-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .welcome-header p {
+      color: #64748b;
+      font-size: 15px;
+    }
+
+    /* Quick Action / Filter Bar */
+    .quick-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      background: #ffffff;
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .quick-bar p {
+      font-size: 14px;
+      color: #475569;
+      font-weight: 500;
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      border: 1px solid #f1f5f9;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    .empty-state {
+      background-color: #f8fafc;
+      border: 1px dashed #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="logo">
+      <div class="logo-box"></div>
+      Tutor <span>Link LK</span>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Find Tutors</a>
+      <a href="#">Dashboard</a>
+      <a href="#">Search Tutors</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-outline">Edit Profile</a>
+      <a href="#" class="btn btn-primary">Logout</a>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="pd-hero">
-    <div class="pd-container">
-      <h1 id="welcomeTitle">Welcome back</h1>
+  <!-- Main Content Area -->
+  <div class="container">
+    
+    <!-- Welcome Banner -->
+    <div class="welcome-header">
+      <h1>Welcome back</h1>
       <p>Here's what's happening with your tuition requests and sessions.</p>
     </div>
-  </section>
 
-  <main class="pd-container pd-main">
+    <!-- Quick Action Section -->
+    <div class="quick-bar">
+      <p>Looking for a new tutor?</p>
+      <a href="#" class="btn btn-primary">Find More Tutors</a>
+    </div>
 
-    <!-- Profile card -->
-    <section class="pd-card pd-profile">
-      <div class="pd-profile__left">
-        <div class="pd-avatar pd-avatar--lg" id="profileInitials"></div>
-        <div>
-          <h2 id="profileName"></h2>
-          <p class="pd-muted" id="profileMeta"></p>
-        </div>
-      </div>
-      <div class="pd-profile__actions">
-        <a href="search-tutors.html" class="pd-btn pd-btn--primary">Search Tutors</a>
-        <button type="button" class="pd-btn pd-btn--outline" data-logout>Logout</button>
-      </div>
-    </section>
+    <!-- Pending requests -->
+    <div class="section-card">
+      <h2 class="section-title">Pending requests</h2>
+      <div class="empty-state">No pending requests.</div>
+    </div>
 
-    <!-- Stats -->
-    <section class="pd-stats">
-      <div class="pd-card pd-stat"><strong id="statPending"></strong><span>Pending requests</span></div>
-      <div class="pd-card pd-stat"><strong id="statAccepted"></strong><span>Accepted requests</span></div>
-      <div class="pd-card pd-stat"><strong id="statSessions"></strong><span>Upcoming session</span></div>
-      <div class="pd-card pd-stat"><strong id="statFavourites"></strong><span>Favourite tutors</span></div>
-    </section>
+    <!-- Accepted requests -->
+    <div class="section-card">
+      <h2 class="section-title">Accepted requests</h2>
+      <div class="empty-state">No accepted requests.</div>
+    </div>
 
-    <!-- Pending -->
-    <section class="pd-section">
-      <h3>Pending requests</h3>
-      <div class="pd-card pd-list" id="pendingList"></div>
-    </section>
+    <!-- Rejected requests -->
+    <div class="section-card">
+      <h2 class="section-title">Rejected requests</h2>
+      <div class="empty-state">No rejected requests.</div>
+    </div>
 
-    <!-- Accepted -->
-    <section class="pd-section">
-      <h3>Accepted requests</h3>
-      <div class="pd-card pd-list" id="acceptedList"></div>
-    </section>
+    <!-- Upcoming tuition sessions -->
+    <div class="section-card">
+      <h2 class="section-title">Upcoming tuition sessions</h2>
+      <div class="empty-state">No upcoming sessions.</div>
+    </div>
 
-    <!-- Rejected -->
-    <section class="pd-section">
-      <h3>Rejected requests</h3>
-      <div class="pd-card pd-list" id="rejectedList"></div>
-    </section>
+    <!-- Favourite tutors -->
+    <div class="section-card">
+      <h2 class="section-title">Favourite tutors</h2>
+      <div class="empty-state">No favourite tutors saved yet.</div>
+    </div>
 
-    <!-- Upcoming sessions -->
-    <section class="pd-section">
-      <h3>Upcoming tuition sessions</h3>
-      <div class="pd-card pd-list" id="sessionList"></div>
-    </section>
+    <!-- Recent reviews you've written -->
+    <div class="section-card">
+      <h2 class="section-title">Recent reviews you've written</h2>
+      <div class="empty-state">No reviews written yet.</div>
+    </div>
 
-    <!-- Favourites -->
-    <section class="pd-section">
-      <div class="pd-section__head">
-        <h3>Favourite tutors</h3>
-        <a href="search-tutors.html" class="pd-link">Find more tutors</a>
-      </div>
-      <div class="pd-fav-grid" id="favouriteGrid"></div>
-    </section>
+  </div>
 
-    <!-- Reviews -->
-    <section class="pd-section">
-      <h3>Recent reviews you've written</h3>
-      <div class="pd-card pd-list" id="reviewList"></div>
-    </section>
-
-  </main>
-
-  <script src="js/parent-dashboard.js"></script>
 </body>
 </html>

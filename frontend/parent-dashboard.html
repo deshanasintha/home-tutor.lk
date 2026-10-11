@@ -3,122 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parent Dashboard - Tutor Finder</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <title>Parent Dashboard - TutorLink LK</title>
+  <!-- Member 2 ගේ CSS ගොනුව සම්බන්ධ කරන තැන -->
   <link rel="stylesheet" href="../css/parent.css">
 </head>
-<body class="dashboard-body">
+<body>
 
-  <!-- Top Navbar -->
-  <header class="navbar">
-    <div class="logo">
-      <span class="logo-icon"></span>
-      <h2>Tutor <span>Finder</span></h2>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">TF</span>
+        <div>
+          Tutor Finder
+          <span class="brand-tag">Parent Portal</span>
+        </div>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="search-tutors.html">Find Tutors</a>
+        <a href="parent-dashboard.html" class="active">Dashboard</a>
+      </nav>
+      <div class="header-actions">
+        <a href="search-tutors.html" class="btn btn-outline btn-sm">Search Tutors</a>
+        <button id="logoutBtn" class="btn btn-primary btn-sm">Logout</button>
+      </div>
     </div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="search-tutors.html">Find Tutors</a>
-      <a href="parent-dashboard.html" class="active">Dashboard</a>
-      <a href="search-tutors.html" class="btn-outline">Search Tutors</a>
-      <button id="logoutBtn" class="btn-primary">Logout</button>
-    </nav>
   </header>
 
-  <main class="dashboard-container">
+  <!-- Main Dashboard Shell -->
+  <main class="container dashboard-shell">
     
-    <!-- Welcome Header -->
-    <section class="welcome-header">
-      <h1>Welcome back</h1>
-      <p>Here's what's happening with your tuition requests and sessions.</p>
-    </section>
-
-    <!-- User Profile Card (Empty Placeholder Container) -->
-    <section class="profile-card">
-      <div class="profile-left">
-        <div class="avatar-placeholder" id="userAvatar"></div>
-        <div class="user-details">
-          <h2 id="userName"></h2>
-          <p id="userSubInfo"></p>
+    <!-- Sidebar -->
+    <aside class="sidebar card">
+      <div class="sidebar-profile">
+        <div class="avatar-circle" id="userAvatar"></div>
+        <div>
+          <div class="name" id="userName"></div>
+          <div class="role-tag" id="userRole">Parent Account</div>
         </div>
       </div>
-      <div class="profile-actions">
-        <a href="search-tutors.html" class="btn-primary">Search Tutors</a>
-        <button id="cardLogoutBtn" class="btn-outline">Logout</button>
-      </div>
-    </section>
+      <a href="parent-dashboard.html" class="sidebar-link active">Dashboard</a>
+      <a href="search-tutors.html" class="sidebar-link">Find Tutors</a>
+      <a href="#logout" class="sidebar-link logout" id="sidebarLogout">Logout</a>
+    </aside>
 
-    <!-- Stats Summary Cards (Empty Stat Boxes) -->
-    <section class="stats-grid">
-      <div class="stat-card">
-        <h3 id="pendingCount"></h3>
-        <p>Pending requests</p>
-      </div>
-      <div class="stat-card">
-        <h3 id="acceptedCount"></h3>
-        <p>Accepted requests</p>
-      </div>
-      <div class="stat-card">
-        <h3 id="upcomingCount"></h3>
-        <p>Upcoming session</p>
-      </div>
-      <div class="stat-card">
-        <h3 id="favouriteCount"></h3>
-        <p>Favourite tutors</p>
-      </div>
-    </section>
+    <!-- Main Content Column -->
+    <div class="main-col">
+      
+      <!-- Welcome Banner -->
+      <section class="welcome-banner">
+        <div>
+          <h1 id="welcomeTitle">Welcome back</h1>
+          <p>Here's what's happening with your tuition requests and sessions.</p>
+        </div>
+      </section>
 
-    <!-- Pending Requests Container -->
-    <section class="requests-section">
-      <h2>Pending requests</h2>
-      <div id="pendingRequestsContainer" class="empty-list-card">
-        <!-- Dynamic content will load here -->
-      </div>
-    </section>
+      <!-- Stats Row (4 Cards) -->
+      <section class="stats-row">
+        <div class="card stat-card">
+          <div class="stat-number" id="pendingCount"></div>
+          <div class="stat-label">Pending requests</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-number" id="acceptedCount"></div>
+          <div class="stat-label">Accepted requests</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-number" id="upcomingCount"></div>
+          <div class="stat-label">Upcoming session</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-number" id="favouriteCount"></div>
+          <div class="stat-label">Favourite tutors</div>
+        </div>
+      </section>
 
-    <!-- Accepted Requests Container -->
-    <section class="requests-section">
-      <h2>Accepted requests</h2>
-      <div id="acceptedRequestsContainer" class="empty-list-card">
-        <!-- Dynamic content will load here -->
-      </div>
-    </section>
+      <!-- Pending Requests Section -->
+      <section class="card card-padded">
+        <div class="section-heading">
+          <h2>Pending requests</h2>
+        </div>
+        <div id="pendingRequestsContainer">
+          <p class="empty-note">No pending requests at the moment.</p>
+        </div>
+      </section>
 
-    <!-- Rejected Requests Container -->
-    <section class="requests-section">
-      <h2>Rejected requests</h2>
-      <div id="rejectedRequestsContainer" class="empty-list-card">
-        <!-- Dynamic content will load here -->
-      </div>
-    </section>
+      <!-- Accepted Requests Section -->
+      <section class="card card-padded">
+        <div class="section-heading">
+          <h2>Accepted requests</h2>
+        </div>
+        <div id="acceptedRequestsContainer">
+          <p class="empty-note">No accepted requests yet.</p>
+        </div>
+      </section>
 
-    <!-- Upcoming Tuition Sessions Container -->
-    <section class="requests-section">
-      <h2>Upcoming tuition sessions</h2>
-      <div id="upcomingSessionsContainer" class="empty-list-card">
-        <!-- Dynamic content will load here -->
-      </div>
-    </section>
+      <!-- Rejected Requests Section -->
+      <section class="card card-padded">
+        <div class="section-heading">
+          <h2>Rejected requests</h2>
+        </div>
+        <div id="rejectedRequestsContainer">
+          <p class="empty-note">No rejected requests.</p>
+        </div>
+      </section>
 
-    <!-- Favourite Tutors Container -->
-    <section class="favourites-section">
-      <div class="section-header-flex">
-        <h2>Favourite tutors</h2>
-        <a href="search-tutors.html" class="link-more">Find more tutors</a>
-      </div>
-      <div id="favouriteTutorsContainer" class="empty-grid-card">
-        <!-- Dynamic content will load here -->
-      </div>
-    </section>
+      <!-- Upcoming Tuition Sessions Section -->
+      <section class="card card-padded">
+        <div class="section-heading">
+          <h2>Upcoming tuition sessions</h2>
+        </div>
+        <div id="upcomingSessionsContainer">
+          <p class="empty-note">No upcoming sessions scheduled.</p>
+        </div>
+      </section>
 
-    <!-- Recent Reviews Container -->
-    <section class="reviews-section">
-      <h2>Recent reviews you've written</h2>
-      <div id="recentReviewsContainer" class="empty-list-card">
-        <!-- Dynamic content will load here -->
-      </div>
-    </section>
+      <!-- Favourite Tutors Section -->
+      <section class="card card-padded">
+        <div class="section-heading">
+          <h2>Favourite tutors</h2>
+          <a href="search-tutors.html" class="see-all">Find more tutors</a>
+        </div>
+        <div id="favouriteTutorsContainer">
+          <p class="empty-note">You have no favourite tutors saved.</p>
+        </div>
+      </section>
 
+      <!-- Recent Reviews Section -->
+      <section class="card card-padded">
+        <div class="section-heading">
+          <h2>Recent reviews you've written</h2>
+        </div>
+        <div id="recentReviewsContainer">
+          <p class="empty-note">You haven't written any reviews yet.</p>
+        </div>
+      </section>
+
+    </div>
   </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 TutorLink LK. All rights reserved.</p>
+    </div>
+  </footer>
 
   <script src="../js/parent-dashboard.js"></script>
 </body>

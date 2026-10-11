@@ -3,150 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parent Dashboard | TutorLink LK</title>
-  <link rel="stylesheet" href="css/parent.css">
-  <link rel="stylesheet" href="css/theme.css">
+  <title>Parent Dashboard - Tutor Finder</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/parent.css">
 </head>
 <body>
 
-  <!-- ===================== HEADER ===================== -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="brand">
-        <span class="brand-mark">TL</span>
-        <span>
-          TutorLink LK
-          <span class="brand-tag">Home Tutor Finding Platform</span>
-        </span>
-      </a>
-
-      <nav class="main-nav">
-        <a href="parent-dashboard.html" class="active">Dashboard</a>
-        <a href="search-tutors.html">Search Tutors</a>
-        <a href="index.html">Home</a>
-      </nav>
-
-      <div class="header-actions">
-        <a href="search-tutors.html" class="btn btn-primary btn-sm">Search Tutors</a>
-        <a href="login.html" class="btn btn-outline btn-sm" id="logoutBtn">Logout</a>
-      </div>
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="logo">
+      <span class="logo-icon"></span>
+      <h2>Tutor <span>Finder</span></h2>
     </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="search-tutors.html">Find Tutors</a>
+      <a href="parent-dashboard.html" class="active">Dashboard</a>
+      <a href="search-tutors.html" class="btn-outline">Search Tutors</a>
+      <button id="logoutBtn" class="btn-primary">Logout</button>
+    </nav>
   </header>
 
-  <!-- ===================== DASHBOARD HERO ===================== -->
-  <section class="dashboard-hero">
-    <div class="container">
-      <h1>Welcome back, <span id="welcomeUserName">Parent</span></h1>
+  <main class="dashboard-container">
+    
+    <!-- Welcome Header -->
+    <section class="welcome-header">
+      <h1>Welcome back</h1>
       <p>Here's what's happening with your tuition requests and sessions.</p>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===================== MAIN CONTENT ===================== -->
-  <main class="container py-4">
-
-    <!-- USER PROFILE SUMMARY CARD -->
-    <div class="card profile-summary-card mb-4">
-      <div class="profile-card-inner">
-        <div class="user-avatar-lg" id="parentAvatar">P</div>
-        <div class="user-info-text">
-          <h3 id="parentName">Loading...</h3>
-          <p id="parentMeta" class="text-muted">Parent account</p>
-        </div>
-        <div class="profile-actions ms-auto">
-          <a href="search-tutors.html" class="btn btn-primary">Search Tutors</a>
-          <a href="login.html" class="btn btn-outline">Logout</a>
+    <!-- User Profile Card (Dummy Text Cleaned) -->
+    <section class="profile-card">
+      <div class="profile-left">
+        <div class="avatar" id="userAvatar"></div>
+        <div class="user-details">
+          <h2 id="userName"></h2>
+          <p id="userSubInfo"></p>
         </div>
       </div>
-    </div>
+      <div class="profile-actions">
+        <a href="search-tutors.html" class="btn-primary">Search Tutors</a>
+        <button id="cardLogoutBtn" class="btn-outline">Logout</button>
+      </div>
+    </section>
 
-    <!-- STATS COUNTER GRID -->
-    <div class="stats-grid mb-5">
-      <div class="stat-card card">
-        <h2 id="statPendingCount">0</h2>
+    <!-- Stats Summary Grid (Dummy Numbers Cleaned) -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <h3 id="pendingCount"></h3>
         <p>Pending requests</p>
       </div>
-      <div class="stat-card card">
-        <h2 id="statAcceptedCount">0</h2>
+      <div class="stat-card">
+        <h3 id="acceptedCount"></h3>
         <p>Accepted requests</p>
       </div>
-      <div class="stat-card card">
-        <h2 id="statUpcomingCount">0</h2>
-        <p>Upcoming sessions</p>
+      <div class="stat-card">
+        <h3 id="upcomingCount"></h3>
+        <p>Upcoming session</p>
       </div>
-      <div class="stat-card card">
-        <h2 id="statFavouriteCount">0</h2>
+      <div class="stat-card">
+        <h3 id="favouriteCount"></h3>
         <p>Favourite tutors</p>
       </div>
-    </div>
+    </section>
 
-    <!-- REQUESTS & SESSIONS SECTIONS -->
-    <div class="dashboard-sections-layout">
+    <!-- Pending Requests -->
+    <section class="requests-section">
+      <h2>Pending requests</h2>
+      <div id="pendingRequestsContainer" class="list-container">
+        <!-- Backend dynamic data goes here -->
+      </div>
+    </section>
 
-      <!-- PENDING REQUESTS -->
-      <section class="dashboard-section mb-4">
-        <h3>Pending requests</h3>
-        <div id="pendingRequestsContainer" class="requests-list">
-          <!-- Dynamic Pending Requests (JavaScript මගින් එකතු වේ) -->
-        </div>
-      </section>
+    <!-- Accepted Requests -->
+    <section class="requests-section">
+      <h2>Accepted requests</h2>
+      <div id="acceptedRequestsContainer" class="list-container">
+        <!-- Backend dynamic data goes here -->
+      </div>
+    </section>
 
-      <!-- ACCEPTED REQUESTS -->
-      <section class="dashboard-section mb-4">
-        <h3>Accepted requests</h3>
-        <div id="acceptedRequestsContainer" class="requests-list">
-          <!-- Dynamic Accepted Requests (JavaScript මගින් එකතු වේ) -->
-        </div>
-      </section>
+    <!-- Rejected Requests -->
+    <section class="requests-section">
+      <h2>Rejected requests</h2>
+      <div id="rejectedRequestsContainer" class="list-container">
+        <!-- Backend dynamic data goes here -->
+      </div>
+    </section>
 
-      <!-- REJECTED REQUESTS -->
-      <section class="dashboard-section mb-4">
-        <h3>Rejected requests</h3>
-        <div id="rejectedRequestsContainer" class="requests-list">
-          <!-- Dynamic Rejected Requests (JavaScript මගින් එකතු වේ) -->
-        </div>
-      </section>
+    <!-- Upcoming Tuition Sessions -->
+    <section class="requests-section">
+      <h2>Upcoming tuition sessions</h2>
+      <div id="upcomingSessionsContainer" class="list-container">
+        <!-- Backend dynamic data goes here -->
+      </div>
+    </section>
 
-      <!-- UPCOMING TUITION SESSIONS -->
-      <section class="dashboard-section mb-4">
-        <h3>Upcoming tuition sessions</h3>
-        <div id="upcomingSessionsContainer" class="sessions-list">
-          <!-- Dynamic Upcoming Sessions (JavaScript මගින් එකතු වේ) -->
-        </div>
-      </section>
+    <!-- Favourite Tutors -->
+    <section class="favourites-section">
+      <div class="section-header-flex">
+        <h2>Favourite tutors</h2>
+        <a href="search-tutors.html" class="link-more">Find more tutors</a>
+      </div>
+      <div id="favouriteTutorsContainer" class="cards-grid">
+        <!-- Backend dynamic data goes here -->
+      </div>
+    </section>
 
-      <!-- FAVOURITE TUTORS -->
-      <section class="dashboard-section mb-4">
-        <div class="section-header-flex">
-          <h3>Favourite tutors</h3>
-          <a href="search-tutors.html" class="link-primary">Find more tutors</a>
-        </div>
-        <div id="favouriteTutorsContainer" class="favourite-tutors-grid">
-          <!-- Dynamic Favourite Tutors (JavaScript මගින් එකතු වේ) -->
-        </div>
-      </section>
-
-      <!-- RECENT REVIEWS WRITTEN -->
-      <section class="dashboard-section mb-4">
-        <h3>Recent reviews you've written</h3>
-        <div id="recentReviewsContainer" class="reviews-list">
-          <!-- Dynamic Reviews (JavaScript මගින් එකතු වේ) -->
-        </div>
-      </section>
-
-    </div>
+    <!-- Recent Reviews Written -->
+    <section class="reviews-section">
+      <h2>Recent reviews you've written</h2>
+      <div id="recentReviewsContainer" class="list-container">
+        <!-- Backend dynamic data goes here -->
+      </div>
+    </section>
 
   </main>
 
-  <!-- ===================== FOOTER ===================== -->
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 TutorLink LK. Connecting parents with trusted home tutors island-wide.</p>
-    </div>
-  </footer>
-
-  <!-- JS Files -->
-  <script src="js/main.js"></script>
-  <script src="js/parent-dashboard.js"></script>
-
+  <script src="../js/parent-dashboard.js"></script>
 </body>
 </html>

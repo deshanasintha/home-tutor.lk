@@ -172,6 +172,20 @@
       color: #94a3b8;
       font-size: 14px;
     }
+
+    .booking-entry {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 0;
+    }
+
+    .booking-entry:last-child {
+      border-bottom: 0;
+    }
+
+    .booking-entry h3 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
   </style>
 </head>
 <body>
@@ -188,9 +202,9 @@
       <a href="parent-dashboard.html">Dashboard</a>
       <a href="search-tutors.html">Search Tutors</a>
     </nav>
-    <div class="nav-actions">
+    <div class="nav-actions header-actions">
       <a href="#" class="btn btn-outline">Edit Profile</a>
-      <a href="login.html" class="btn btn-primary">Logout</a>
+      <button type="button" class="btn btn-primary" id="parentLogoutBtn">Logout</button>
     </div>
   </header>
 
@@ -199,8 +213,9 @@
     
     <!-- Welcome Banner -->
     <div class="welcome-header">
-      <h1>Welcome back</h1>
+      <h1 id="welcomeMessage">Welcome back</h1>
       <p>Here's what's happening with your tuition requests and sessions.</p>
+      <p id="dashboardStatus" role="status" aria-live="polite">Loading your dashboard...</p>
     </div>
 
     <!-- Quick Action Section -->
@@ -211,41 +226,43 @@
 
     <!-- Pending requests -->
     <div class="section-card">
-      <h2 class="section-title">Pending requests</h2>
-      <div class="empty-state">No pending requests.</div>
+      <h2 class="section-title">Pending requests <span id="pendingCount">—</span></h2>
+      <div class="empty-state" id="pendingRequestsList">Loading booking requests...</div>
     </div>
 
     <!-- Accepted requests -->
     <div class="section-card">
-      <h2 class="section-title">Accepted requests</h2>
-      <div class="empty-state">No accepted requests.</div>
+      <h2 class="section-title">Accepted requests <span id="acceptedCount">—</span></h2>
+      <div class="empty-state" id="acceptedRequestsList">Loading booking requests...</div>
     </div>
 
     <!-- Rejected requests -->
     <div class="section-card">
-      <h2 class="section-title">Rejected requests</h2>
-      <div class="empty-state">No rejected requests.</div>
+      <h2 class="section-title">Rejected requests <span id="rejectedCount">—</span></h2>
+      <div class="empty-state" id="rejectedRequestsList">Loading booking requests...</div>
     </div>
 
     <!-- Upcoming tuition sessions -->
     <div class="section-card">
-      <h2 class="section-title">Upcoming tuition sessions</h2>
-      <div class="empty-state">No upcoming sessions.</div>
+      <h2 class="section-title">Upcoming tuition sessions <span id="upcomingCount">—</span></h2>
+      <div class="empty-state" id="upcomingSessionsList">Loading booking requests...</div>
     </div>
 
     <!-- Favourite tutors -->
     <div class="section-card">
       <h2 class="section-title">Favourite tutors</h2>
-      <div class="empty-state">No favourite tutors saved yet.</div>
+      <div class="empty-state">Favourite tutors are not currently stored in Firestore.</div>
     </div>
 
     <!-- Recent reviews you've written -->
     <div class="section-card">
       <h2 class="section-title">Recent reviews you've written</h2>
-      <div class="empty-state">No reviews written yet.</div>
+      <div class="empty-state">Reviews are not currently stored in Firestore.</div>
     </div>
 
   </div>
 
+  <script type="module" src="js/auth-guard.js"></script>
+  <script type="module" src="js/parent-dashboard.js"></script>
 </body>
 </html>

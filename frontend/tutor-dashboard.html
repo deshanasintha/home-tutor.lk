@@ -288,6 +288,20 @@
       font-size: 14px;
     }
 
+    .booking-entry {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 0;
+    }
+
+    .booking-entry:last-child {
+      border-bottom: 0;
+    }
+
+    .booking-entry h3 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
     /* Footer */
     footer.site-footer {
       border-top: 1px solid #e2e8f0;
@@ -333,6 +347,7 @@
     <div class="welcome-header">
       <h1 id="welcomeMessage">Welcome back</h1>
       <p>Manage your tuition requests, sessions and earnings.</p>
+      <p id="dashboardStatus" role="status" aria-live="polite">Loading your dashboard...</p>
     </div>
 
     <!-- TUTOR PROFILE SUMMARY CARD -->
@@ -346,7 +361,7 @@
           <div class="progress-wrap">
             <div class="progress-label-row">
               <span>Profile completion</span>
-              <strong id="profileCompletion">0%</strong>
+              <strong id="profileCompletion">—</strong>
             </div>
             <div class="progress-track">
               <div class="progress-fill" id="profileProgress" style="width: 0%;"></div>
@@ -364,26 +379,26 @@
     <!-- STATS GRID -->
     <div class="dashboard-stats-grid">
       <div class="stat-card card">
-        <span class="stat-value" id="newRequestsCount">0</span>
-        <span class="stat-label">New requests</span>
+        <span class="stat-value" id="newRequestsCount">—</span>
+        <span class="stat-label">Total booking requests</span>
       </div>
       <div class="stat-card card">
-        <span class="stat-value" id="pendingRequestsCount">0</span>
+        <span class="stat-value" id="pendingRequestsCount">—</span>
         <span class="stat-label">Pending requests</span>
       </div>
       <div class="stat-card card">
-        <span class="stat-value" id="activeStudentsCount">0</span>
+        <span class="stat-value" id="activeStudentsCount">—</span>
         <span class="stat-label">Active students</span>
       </div>
       <div class="stat-card card stat-card-accent">
-        <span class="stat-value" id="hourlyFee">Rs. 0</span>
+        <span class="stat-value" id="hourlyFee">Loading...</span>
         <span class="stat-label">Current hourly fee</span>
       </div>
     </div>
 
     <!-- NEW TUITION REQUESTS -->
     <div class="dashboard-section">
-      <div class="section-title-row"><h2>New tuition requests</h2></div>
+      <div class="section-title-row"><h2>All booking requests</h2></div>
       <div class="card" id="newRequestsList">
         <div class="empty-state" id="newRequestsEmpty">No new tuition requests.</div>
       </div>
@@ -439,22 +454,23 @@
       <div class="section-title-row"><h2>Earnings</h2></div>
       <div class="dashboard-stats-grid">
         <div class="stat-card card">
-          <span class="stat-value" id="monthlyEarnings">Rs. 0</span>
+          <span class="stat-value" id="monthlyEarnings">Not tracked</span>
           <span class="stat-label">Earned this month</span>
         </div>
         <div class="stat-card card">
-          <span class="stat-value" id="completedSessions">0</span>
+          <span class="stat-value" id="completedSessions">Not tracked</span>
           <span class="stat-label">Sessions completed</span>
         </div>
         <div class="stat-card card">
-          <span class="stat-value" id="earningsHourlyFee">Rs. 0</span>
+          <span class="stat-value" id="earningsHourlyFee">Loading...</span>
           <span class="stat-label">Current hourly fee</span>
         </div>
         <div class="stat-card card">
-          <span class="stat-value" id="earningsActiveStudents">0</span>
+          <span class="stat-value" id="earningsActiveStudents">—</span>
           <span class="stat-label">Active students</span>
         </div>
       </div>
+      <p class="empty-state">Completed lessons and payments are not recorded by the current Firestore booking schema.</p>
     </div>
 
   </div>
@@ -471,7 +487,7 @@
 
   <!-- JAVASCRIPT SCRIPTS -->
   <script type="module" src="js/auth-guard.js"></script>
-  <script src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
   <script type="module" src="js/tutor-dashboard.js"></script>
 
 </body>

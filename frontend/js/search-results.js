@@ -8,8 +8,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   const feeRangeInput = document.querySelector('input[data-filter="price"]');
   const feeOutput = document.querySelector('[data-fee-output]');
   const resetButton = document.querySelector('.filter-reset');
-  const formResetBtn = filterForm ? filterForm.querySelector('button[type="reset"]') : null;
-  const parentContainer = document.getElementById('tutors-container') || document.querySelector('.tutor-grid');
+  const formResetBtn = filterForm
+    ? filterForm.querySelector('button[type="reset"]')
+    : null;
+
+  const parentContainer =
+    document.getElementById('tutor-cards-container') ||
+    document.getElementById('tutors-container') ||
+    document.querySelector('.tutor-grid');
 
   let tutorCards = [];
 
@@ -19,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       const querySnapshot = await getDocs(collection(db, "users"));
-     
+
       // Clear Existing HTML Static Cards
       parentContainer.innerHTML = '';
 
@@ -28,74 +34,155 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Tutor Role එක ඇති අය පමණක් Render කිරීම
         if (tutor.role === 'tutor') {
+          const tutorId = docSnap.id;
+
           const card = document.createElement('article');
           card.className = 'tutor-card card';
           card.setAttribute('data-tutor-card', '');
-          card.setAttribute('data-subject', tutor.subjects || '');
+          card.setAttribute(
+            'data-subject',
+            Array.isArray(tutor.subjects)
+              ? tutor.subjects.join(' ')
+              : (tutor.subjects || '')
+          );
           card.setAttribute('data-district', tutor.district || '');
           card.setAttribute('data-grade', tutor.gradeLevels || '');
           card.setAttribute('data-price', tutor.hourlyRate || 0);
           card.setAttribute('data-rating', tutor.rating || 5.0);
-          card.setAttribute('data-availability', (tutor.days || []).join(' '));
+          card.setAttribute(
+            'data-availability',
+            (Array.isArray(tutor.days) ? tutor.days : []).join(' ')
+          );
 
-          const initials = tutor.name ? tutor.name.split(' ').map(n => n[0]).join('') : 'T';
+          const tutorName = tutor.name || tutor.fullName || 'Anonymous Tutor';
+
+          const initials = tutorName
+            .split(' ')
+            .map(n => n[0])
+            .join('');
+
           const imageHTML = tutor.photoURL
-            ? `<img src="${tutor.photoURL}" alt="${tutor.name}" class="tutor-avatar-img">`
+            ? `<img src="${tutor.photoURL}" alt="${tutorName}" class="tutor-avatar-img">`
             : `<div class="tutor-avatar">${initials}</div>`;
 
+          // Create Tutor Card
           card.innerHTML = `
             <div class="tutor-card-top">
               ${imageHTML}
               <span class="rating">★ ${tutor.rating || '5.0'}</span>
             </div>
-            <h3>${tutor.name || 'Anonymous Tutor'}</h3>
-            <p class="tutor-subject">${tutor.subjects || 'Not specified'}</p>
+
+            <h3>${tutorName}</h3>
+
+            <p class="tutor-subject">
+              ${
+                Array.isArray(tutor.subjects)
+                  ? tutor.subjects.join(', ')
+                  : (tutor.subjects || 'Not specified')
+              }
+            </p>
+
             <div class="tutor-meta">
               <span>📍 ${tutor.district || 'Islandwide'}</span>
               <span>🎓 ${tutor.gradeLevels || 'All Grades'}</span>
             </div>
+
             <div class="tutor-footer">
-              <strong class="price">LKR ${Number(tutor.hourlyRate || 0).toLocaleString()}<span>/hr</span></strong>
-              <button type="button" class="btn btn-primary" onclick="handleBookTutor('${tutor.uid}', '${tutor.name}', '${tutor.subjects}', ${tutor.hourlyRate})">Book Now</button>
+              <strong class="price">
+                LKR ${Number(tutor.hourlyRate || 0).toLocaleString()}<span>/hr</span>
+              </strong>
+
+              <div class="tutor-actions">
+                <button
+                  type="button"
+                  class="btn btn-primary book-tutor-btn">
+                  Book Now
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-outline chat-tutor-btn">
+                  Chat with Tutor
+                </button>
+              </div>
             </div>
           `;
+
+          // Book Now Button
+          const bookButton = card.querySelector('.book-tutor-btn');
+
+          bookButton.addEventListener('click', () => {
+            const subject = Array.isArray(tutor.subjects)
+              ? tutor.subjects.join(', ')
+              : (tutor.subjects || '');
+
+            window.handleBookTutor(
+              tutorId,
+              tutorName,
+              subject,
+              Number(tutor.hourlyRate || 0)
+            );
+          });
+
+          // Chat with Tutor Button
+          const chatButton = card.querySelector('.chat-tutor-btn');
+
+          chatButton.addEventListener('click', () => {
+            window.handleChatTutor(tutorId);
+          });
 
           parentContainer.appendChild(card);
         }
       });
 
       // Render වූ පසු Card List එක Update කිරීම
-      tutorCards = Array.from(document.querySelectorAll('[data-tutor-card]'));
-     
+      tutorCards = Array.from(
+        parentContainer.querySelectorAll('[data-tutor-card]')
+      );
+
       // Filter & Sort පළමු වරට Execute කිරීම
       applyFiltersAndSort();
 
     } catch (error) {
       console.error("Firestore Error:", error);
+      parentContainer.innerHTML =
+        '<p>Unable to load tutors. Please try again later.</p>';
     }
   }
 
   // 2. Fee Range Slider Value Update
   if (feeRangeInput && feeOutput) {
     feeRangeInput.addEventListener('input', (e) => {
-      feeOutput.textContent = `Rs. ${parseInt(e.target.value, 10).toLocaleString()}`;
+      feeOutput.textContent =
+        `Rs. ${parseInt(e.target.value, 10).toLocaleString()}`;
+
       applyFiltersAndSort();
     });
   }
 
   // 3. Dynamic Filter Logic
   function applyFiltersAndSort() {
-    if (!filterForm || tutorCards.length === 0) return;
+    if (!filterForm || tutorCards.length === 0) {
+      sortCards();
+      return;
+    }
 
     const formData = new FormData(filterForm);
+
     const selectedSubject = formData.get('subject') || '';
     const selectedGrade = formData.get('grade') || '';
     const selectedDistrict = formData.get('district') || '';
-    const selectedPriceMax = parseFloat(feeRangeInput ? feeRangeInput.value : Infinity);
+
+    const selectedPriceMax = feeRangeInput
+      ? parseFloat(feeRangeInput.value)
+      : Infinity;
+
     const selectedRating = parseFloat(formData.get('rating') || '0');
-   
+
     const selectedAvailabilities = Array.from(
-      filterForm.querySelectorAll('input[name="availability"]:checked')
+      filterForm.querySelectorAll(
+        'input[name="availability"]:checked'
+      )
     ).map(cb => cb.value);
 
     let visibleCount = 0;
@@ -108,16 +195,36 @@ document.addEventListener('DOMContentLoaded', async () => {
       const rating = parseFloat(card.dataset.rating || '0');
       const availability = card.dataset.availability || '';
 
-      const matchesSubject = !selectedSubject || subject.toLowerCase().includes(selectedSubject.toLowerCase());
-      const matchesDistrict = !selectedDistrict || district.toLowerCase().includes(selectedDistrict.toLowerCase());
-      const matchesGrade = !selectedGrade || grade.toLowerCase().includes(selectedGrade.toLowerCase());
+      const matchesSubject =
+        !selectedSubject ||
+        subject.toLowerCase().includes(selectedSubject.toLowerCase());
+
+      const matchesDistrict =
+        !selectedDistrict ||
+        district.toLowerCase().includes(selectedDistrict.toLowerCase());
+
+      const matchesGrade =
+        !selectedGrade ||
+        grade.toLowerCase().includes(selectedGrade.toLowerCase());
+
       const matchesPrice = price <= selectedPriceMax;
+
       const matchesRating = rating >= selectedRating;
 
-      const matchesAvailability = selectedAvailabilities.length === 0 ||
-        selectedAvailabilities.some(avail => availability.includes(avail));
+      const matchesAvailability =
+        selectedAvailabilities.length === 0 ||
+        selectedAvailabilities.some(avail =>
+          availability.toLowerCase().includes(avail.toLowerCase())
+        );
 
-      if (matchesSubject && matchesDistrict && matchesGrade && matchesPrice && matchesRating && matchesAvailability) {
+      if (
+        matchesSubject &&
+        matchesDistrict &&
+        matchesGrade &&
+        matchesPrice &&
+        matchesRating &&
+        matchesAvailability
+      ) {
         card.style.display = '';
         visibleCount++;
       } else {
@@ -135,6 +242,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 4. Sorting Logic
   function sortCards() {
     if (!sortSelect || tutorCards.length === 0) return;
+
     const sortValue = sortSelect.value;
     const container = tutorCards[0].parentNode;
 
@@ -144,11 +252,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       const ratingA = parseFloat(a.dataset.rating || '0');
       const ratingB = parseFloat(b.dataset.rating || '0');
 
-      if (sortValue === 'Highest rated') {
+      if (
+        sortValue === 'Highest rated' ||
+        sortValue === 'highest'
+      ) {
         return ratingB - ratingA;
-      } else if (sortValue === 'Lowest fee') {
+      }
+
+      if (
+        sortValue === 'Lowest fee' ||
+        sortValue === 'lowest'
+      ) {
         return priceA - priceB;
       }
+
+      if (sortValue === 'highest') {
+        return priceB - priceA;
+      }
+
       return 0;
     });
 
@@ -156,28 +277,45 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Filter Listeners
-  if (filterForm) filterForm.addEventListener('change', applyFiltersAndSort);
-  if (sortSelect) sortSelect.addEventListener('change', applyFiltersAndSort);
+  if (filterForm) {
+    filterForm.addEventListener('change', applyFiltersAndSort);
+  }
+
+  if (sortSelect) {
+    sortSelect.addEventListener('change', applyFiltersAndSort);
+  }
 
   // Reset Listeners
   const resetFilters = () => {
     setTimeout(() => {
       if (feeRangeInput && feeOutput) {
-        feeOutput.textContent = `Rs. ${parseInt(feeRangeInput.value, 10).toLocaleString()}`;
+        feeOutput.textContent =
+          `Rs. ${parseInt(feeRangeInput.value, 10).toLocaleString()}`;
       }
+
       applyFiltersAndSort();
     }, 10);
   };
 
-  if (resetButton) resetButton.addEventListener('click', resetFilters);
-  if (formResetBtn) formResetBtn.addEventListener('click', resetFilters);
+  if (resetButton) {
+    resetButton.addEventListener('click', resetFilters);
+  }
+
+  if (formResetBtn) {
+    formResetBtn.addEventListener('click', resetFilters);
+  }
 
   // Load Firestore Data
   await loadTutorsFromFirestore();
 });
 
 // 5. Global Booking Function (Book Now Button එකට)
-window.handleBookTutor = async function(tutorUid, tutorName, subject, hourlyRate) {
+window.handleBookTutor = function(
+  tutorUid,
+  tutorName,
+  subject,
+  hourlyRate
+) {
   const currentUser = auth.currentUser;
 
   if (!currentUser) {
@@ -189,7 +327,31 @@ window.handleBookTutor = async function(tutorUid, tutorName, subject, hourlyRate
   const bookingDetails = new URLSearchParams({
     tutorId: tutorUid,
     tutorName,
-    subject,
+    subject
   });
+
   window.location.href = `booking.html?${bookingDetails.toString()}`;
+};
+
+// 6. Global Chat Function (Chat with Tutor Button එකට)
+window.handleChatTutor = function(tutorUid) {
+  const currentUser = auth.currentUser;
+
+  if (!currentUser) {
+    alert("Chat කරන්න කලින් කරුණාකර Login වන්න.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  // Parent තමන්ගේම Tutor ID එකට chat කිරීම වැළැක්වීම
+  if (currentUser.uid === tutorUid) {
+    alert("ඔබට ඔබගේම account එකට chat කරන්න බැහැ.");
+    return;
+  }
+
+  const chatDetails = new URLSearchParams({
+    tutorId: tutorUid
+  });
+
+  window.location.href = `chat.html?${chatDetails.toString()}`;
 };

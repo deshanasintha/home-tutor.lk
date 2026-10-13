@@ -133,8 +133,24 @@
 
         <!-- 💥 DYNAMIC TUTOR CARDS CONTAINER 💥 -->
         <div class="tutor-grid" id="tutor-cards-container">
-          <!-- Real Data (JavaScript මගින්) මෙතැනට Render වේ -->
-        </div>
+
+          <!-- Sample Tutor Card -->
+          <div class="tutor-card">
+              <h3>Nadeesha Perera</h3>
+              <p><strong>Subject:</strong> Mathematics</p>
+              <p><strong>District:</strong> Colombo</p>
+              <p><strong>Grade:</strong> Grade 10 - 11 (O/L)</p>
+              <p><strong>Hourly Rate:</strong> Rs. 1,500</p>
+              <p><strong>Rating:</strong> ⭐ 4.8</p>
+      
+              <button
+                  type="button"
+                  onclick="window.handleChatTutor('sample-tutor-001')">
+                  Chat with Tutor
+              </button>
+          </div>
+      
+      </div>
 
         <!-- Pagination -->
         <div class="pagination" id="paginationContainer">
@@ -157,7 +173,11 @@
 
   <!-- JS Files -->
   <script type="module" src="js/main.js"></script>
-  <script type="module" src="js/search-results.js"></script>
-
+  <!--script type="module" src="js/search-results.js"></script>-->
+  <script>
+    window.handleChatTutor = function(tutorId) {
+        window.location.href = "chat.html?tutorId=" + encodeURIComponent(tutorId);
+    };
+</script>
 </body>
 </html>

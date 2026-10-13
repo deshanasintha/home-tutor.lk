@@ -1,19 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-// ⚠️ Firebase Config details:
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "home-tutor-8924e.firebaseapp.com",
-  projectId: "home-tutor-8924e",
-  storageBucket: "home-tutor-8924e.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { db } from './firebase-config.js';
+import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 
 (() => {
   const root = document.documentElement;
@@ -104,8 +90,9 @@ const db = getFirestore(app);
   // =========================================================
   // FIREBASE FIRESTORE DATA FETCHING & FILTERING LOGIC
   // =========================================================
-  const filterForm = document.querySelector('[data-results-filters]');
-  const tutorsContainer = document.getElementById('tutors-container') || document.querySelector('.tutor-grid');
+  const hasDedicatedResultsScript = Boolean(document.querySelector('script[src$="search-results.js"]'));
+  const filterForm = hasDedicatedResultsScript ? null : document.querySelector('[data-results-filters]');
+  const tutorsContainer = document.querySelector('.featured-tutors .tutor-grid');
   const resultCount = document.querySelector('[data-results-count]');
   const feeRange = filterForm?.querySelector('[data-filter="price"]');
   const feeOutput = document.querySelector('[data-fee-output]');
@@ -115,65 +102,101 @@ const db = getFirestore(app);
     if (!tutorsContainer) return;
 
     try {
-      const querySnapshot = await getDocs(collection(db, "tutors"));
-      
-      if (querySnapshot.empty) {
-        tutorsContainer.innerHTML = `<p class="no-tutors">තවම Tutors ලා ලියාපදිංචි වී නොමැත.</p>`;
-        if (resultCount) resultCount.textContent = '0';
-        return;
-      }
+      const querySnapshot = await getDocs(collection(db, 'users'));
+      const tutors = querySnapshot.docs
+        .map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }))
+        .filter((tutor) => tutor.role === 'tutor'
+          && ['approved', 'verified'].includes(
+            typeof tutor.status === 'string' ? tutor.status.toLowerCase() : ''
+          ));
 
-      tutorsContainer.innerHTML = '';
-      let totalTutors = 0;
+      tutorsContainer.replaceChildren();
       const districtsSet = new Set();
       const subjectsSet = new Set();
 
-      querySnapshot.forEach((docSnap) => {
-        const data = docSnap.data();
-        totalTutors++;
-
-        if (data.district) districtsSet.add(data.district);
-        if (data.subject) subjectsSet.add(data.subject);
+      tutors.forEach((data) => {
+        if (typeof data.district === 'string' && data.district.trim()) {
+          districtsSet.add(data.district.trim().toLowerCase());
+        }
+        const subjects = Array.isArray(data.subjectsArray)
+          ? data.subjectsArray
+          : typeof data.subjects === 'string' ? data.subjects.split(',') : [];
+        subjects.forEach((subject) => {
+          if (typeof subject === 'string' && subject.trim()) subjectsSet.add(subject.trim().toLowerCase());
+        });
 
         const card = document.createElement('article');
         card.className = 'tutor-card';
-        card.setAttribute('data-tutor-card', '');
-        card.setAttribute('data-subject', data.subject || '');
-        card.setAttribute('data-grade', data.grade || '');
-        card.setAttribute('data-district', data.district || '');
-        card.setAttribute('data-price', data.hourlyRate || 0);
-        card.setAttribute('data-rating', data.rating || 0);
-        card.setAttribute('data-availability', data.availability || '');
+        const top = document.createElement('div');
+        top.className = 'tutor-card-top tab-blue';
+        if (typeof data.photoURL === 'string' && data.photoURL) {
+          const image = document.createElement('img');
+          image.src = data.photoURL;
+          image.alt = typeof data.name === 'string' ? data.name : 'Tutor profile';
+          image.className = 'tutor-avatar-img';
+          top.appendChild(image);
+        } else {
+          const avatar = document.createElement('div');
+          avatar.className = 'tutor-avatar';
+          avatar.textContent = typeof data.name === 'string'
+            ? data.name.split(/\s+/).filter(Boolean).map((part) => part[0]).join('').slice(0, 2).toUpperCase()
+            : 'T';
+          top.appendChild(avatar);
+        }
 
-        const initials = data.name ? data.name.split(' ').map(n => n[0]).join('') : 'T';
-        const imageHTML = data.photoURL 
-          ? `<img src="${data.photoURL}" alt="${data.name}" class="tutor-avatar-img">`
-          : `<div class="tutor-avatar">${initials}</div>`;
+        const reviewCount = Number(data.reviewCount);
+        const rating = Number(data.rating);
+        const ratingElement = document.createElement('span');
+        ratingElement.className = 'rating';
+        ratingElement.textContent = reviewCount > 0 && Number.isFinite(rating) ? `★ ${rating}` : 'New';
+        top.appendChild(ratingElement);
+        card.appendChild(top);
 
-        card.innerHTML = `
-          <div class="tutor-card-top tab-blue">
-            ${imageHTML}
-            <span class="rating">★ ${data.rating || 'New'}</span>
-          </div>
-          <h3>${data.name || 'Anonymous Tutor'}</h3>
-          <p class="tutor-subject">${data.subject || 'Not specified'}</p>
-          <div class="tutor-meta">
-            <span>📍 ${data.district || 'Islandwide'}</span>
-            <span>🎓 ${data.grade || 'All Grades'}</span>
-          </div>
-          <div class="tutor-footer">
-            <strong class="price">LKR ${Number(data.hourlyRate || 0).toLocaleString()}<span>/hr</span></strong>
-          </div>
-        `;
+        const name = document.createElement('h3');
+        name.textContent = typeof data.name === 'string' ? data.name : 'Tutor name not provided';
+        card.appendChild(name);
 
+        const subject = document.createElement('p');
+        subject.className = 'tutor-subject';
+        subject.textContent = typeof data.subjects === 'string' && data.subjects.trim()
+          ? data.subjects
+          : 'Subjects not specified';
+        card.appendChild(subject);
+
+        const meta = document.createElement('div');
+        meta.className = 'tutor-meta';
+        const district = document.createElement('span');
+        district.textContent = typeof data.district === 'string' && data.district ? data.district : 'District not specified';
+        const grade = document.createElement('span');
+        grade.textContent = typeof data.gradeLevels === 'string' && data.gradeLevels ? data.gradeLevels : 'Grades not specified';
+        meta.append(district, grade);
+        card.appendChild(meta);
+
+        const footer = document.createElement('div');
+        footer.className = 'tutor-footer';
+        const price = document.createElement('strong');
+        price.className = 'price';
+        const hourlyRate = Number(data.hourlyRate);
+        price.textContent = Number.isFinite(hourlyRate) && hourlyRate > 0
+          ? `LKR ${hourlyRate.toLocaleString()}/hr`
+          : 'Rate not specified';
+        footer.appendChild(price);
+        card.appendChild(footer);
         tutorsContainer.appendChild(card);
       });
+
+      if (!tutors.length) {
+        const emptyState = document.createElement('p');
+        emptyState.className = 'no-tutors';
+        emptyState.textContent = 'No verified tutor profiles are available yet.';
+        tutorsContainer.appendChild(emptyState);
+      }
 
       const statTutors = document.getElementById('stat-tutors');
       const statDistricts = document.getElementById('stat-districts');
       const statSubjects = document.getElementById('stat-subjects');
 
-      if (statTutors) statTutors.textContent = totalTutors;
+      if (statTutors) statTutors.textContent = String(tutors.length);
       if (statDistricts) statDistricts.textContent = districtsSet.size;
       if (statSubjects) statSubjects.textContent = subjectsSet.size;
 
@@ -182,7 +205,15 @@ const db = getFirestore(app);
 
     } catch (error) {
       console.error("Error fetching tutors from Firestore:", error);
-      showToast('Error loading tutor profiles.');
+      tutorsContainer.replaceChildren();
+      const errorMessage = document.createElement('p');
+      errorMessage.className = 'no-tutors';
+      errorMessage.textContent = 'Unable to load tutor profiles. Please try again later.';
+      tutorsContainer.appendChild(errorMessage);
+      ['stat-tutors', 'stat-districts', 'stat-subjects'].forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = '—';
+      });
     }
   };
 

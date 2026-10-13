@@ -1,151 +1,152 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Authentication Check
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token") || "test_token";
+import { auth, db } from './firebase-config.js';
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
+import { collection, doc, onSnapshot, query, where } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 
-    /*
-    if (!token || token === "test_token") {
-        window.location.href = "login.html";
-        return;
+const statusElement = document.getElementById('dashboardStatus');
+const nameElement = document.getElementById('welcomeMessage');
+let stopBookingsListener;
+const groups = {
+  pending: {
+    count: document.getElementById('pendingCount'),
+    list: document.getElementById('pendingRequestsList'),
+    empty: 'No pending requests.'
+  },
+  accepted: {
+    count: document.getElementById('acceptedCount'),
+    list: document.getElementById('acceptedRequestsList'),
+    empty: 'No accepted requests.'
+  },
+  rejected: {
+    count: document.getElementById('rejectedCount'),
+    list: document.getElementById('rejectedRequestsList'),
+    empty: 'No rejected requests.'
+  },
+  upcoming: {
+    count: document.getElementById('upcomingCount'),
+    list: document.getElementById('upcomingSessionsList'),
+    empty: 'No upcoming sessions.'
+  }
+};
+
+const setStatus = (message, isError = false) => {
+  if (!statusElement) return;
+  statusElement.textContent = message;
+  statusElement.setAttribute('role', isError ? 'alert' : 'status');
+};
+
+const statusOf = (booking) => typeof booking.status === 'string' ? booking.status.toLowerCase() : '';
+
+const bookingCard = (booking) => {
+  const card = document.createElement('article');
+  card.className = 'booking-entry';
+
+  const title = document.createElement('h3');
+  title.textContent = booking.subject || 'Subject not specified';
+  card.appendChild(title);
+
+  const details = [
+    booking.tutorName ? `Tutor: ${booking.tutorName}` : '',
+    booking.grade ? `Grade: ${booking.grade}` : '',
+    booking.preferredDate ? `Date: ${booking.preferredDate}` : '',
+    booking.preferredTime ? `Time: ${booking.preferredTime}` : '',
+    booking.status ? `Status: ${booking.status}` : 'Status: Not specified'
+  ].filter(Boolean);
+
+  const description = document.createElement('p');
+  description.textContent = details.join(' · ');
+  card.appendChild(description);
+  return card;
+};
+
+const renderGroup = (group, bookings) => {
+  group.count.textContent = String(bookings.length);
+  group.list.replaceChildren();
+
+  if (bookings.length === 0) {
+    group.list.className = 'empty-state';
+    group.list.textContent = group.empty;
+    return;
+  }
+
+  group.list.className = 'booking-list';
+  bookings.forEach((booking) => group.list.appendChild(bookingCard(booking)));
+};
+
+const classifyBookings = (bookings) => {
+  const pending = bookings.filter((booking) => statusOf(booking) === 'pending');
+  const accepted = bookings.filter((booking) => ['accepted', 'confirmed'].includes(statusOf(booking)));
+  const rejected = bookings.filter((booking) => ['rejected', 'declined'].includes(statusOf(booking)));
+  const now = Date.now();
+  const upcoming = accepted.filter(({ preferredDate, preferredTime }) => {
+    if (!preferredDate) return false;
+    const date = new Date(`${preferredDate}T${preferredTime || '00:00'}`);
+    return !Number.isNaN(date.getTime()) && date.getTime() >= now;
+  });
+  const recognized = new Set([...pending, ...accepted, ...rejected].map(({ id }) => id));
+  const unrecognizedCount = bookings.filter(({ id }) => !recognized.has(id)).length;
+
+  renderGroup(groups.pending, pending);
+  renderGroup(groups.accepted, accepted);
+  renderGroup(groups.rejected, rejected);
+  renderGroup(groups.upcoming, upcoming);
+
+  setStatus(unrecognizedCount
+    ? `${bookings.length} booking requests loaded. ${unrecognizedCount} have a status this dashboard does not recognize.`
+    : `${bookings.length} booking request${bookings.length === 1 ? '' : 's'} loaded.`);
+};
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) return;
+
+  const profileUnsubscribe = onSnapshot(doc(db, 'users', user.uid), (profileSnapshot) => {
+    if (!profileSnapshot.exists()) {
+      setStatus('Your user profile could not be found.', true);
+      stopBookingsListener?.();
+      return;
     }
-    */
 
-    fetchDashboardData(token);
+    const profile = profileSnapshot.data();
+    if (!['parent', 'student'].includes(profile.role)) {
+      setStatus('This dashboard is only available to parent and student accounts.', true);
+      stopBookingsListener?.();
+      return;
+    }
+
+    if (nameElement) nameElement.textContent = `Welcome back${profile.name ? `, ${profile.name}` : ''}`;
+    if (stopBookingsListener) return;
+
+    const bookingsQuery = query(collection(db, 'bookings'), where('parentId', '==', user.uid));
+    stopBookingsListener = onSnapshot(bookingsQuery, (snapshot) => {
+      const bookings = snapshot.docs.map((booking) => ({ id: booking.id, ...booking.data() }));
+      classifyBookings(bookings);
+    }, (error) => {
+      console.error('Error loading parent bookings:', error);
+      Object.values(groups).forEach((group) => {
+        group.count.textContent = '—';
+        group.list.className = 'empty-state';
+        group.list.textContent = 'Unable to load booking data.';
+      });
+      setStatus('Unable to load your booking requests. Please try again later.', true);
+    });
+
+    window.addEventListener('pagehide', stopBookingsListener, { once: true });
+  }, (error) => {
+    console.error('Error loading parent profile:', error);
+    setStatus('Unable to load your profile. Please try again later.', true);
+  });
+
+  window.addEventListener('pagehide', () => {
+    profileUnsubscribe();
+    stopBookingsListener?.();
+  }, { once: true });
 });
 
-async function fetchDashboardData(token) {
-    try {
-        const response = await fetch("/api/parent/dashboard", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to load dashboard data from API");
-        }
-
-        const data = await response.json();
-        updateDashboardUI(data);
-
-    } catch (error) {
-        console.warn("Backend API not connected. Loading fallback data for testing...", error);
-        
-        // Mock Data for UI Testing
-        const mockData = {
-            parent: { name: "Chamari Perera", district: "Colombo", joinedDate: "Jan 2026" },
-            stats: { pendingRequests: 2, acceptedRequests: 3, upcomingSessions: 1, favouriteTutors: 4 },
-            pendingRequests: [
-                { tutorInitials: "KJ", tutorName: "Kasun Jayasuriya", subject: "Mathematics", grade: "10-11 (O/L)", rate: 2200, note: "Requested 8 Sep 2026" },
-                { tutorInitials: "IF", tutorName: "Ishara Fernando", subject: "English", grade: "1-5", rate: 1200, note: "Requested 6 Sep 2026" }
-            ],
-            acceptedRequests: [
-                { tutorInitials: "NP", tutorName: "Nadeesha Perera", subject: "Mathematics", grade: "6-9", rate: 1800, note: "Tue & Thu, 5:00 PM" },
-                { tutorInitials: "SR", tutorName: "Sanjaya Rathnayake", subject: "Science", grade: "6-9", rate: 1500, note: "Saturdays, 9:00 AM" }
-            ],
-            rejectedRequests: [
-                { tutorInitials: "MG", tutorName: "Manoj Gunasekara", subject: "ICT", grade: "10-11 (O/L)", rate: 1600, note: "Not available on requested days" }
-            ],
-            upcomingSessions: [
-                { day: "10", month: "SEP", tutorName: "Nadeesha Perera", subject: "Mathematics", time: "Thursday, 5:00 PM", mode: "Home visit", location: "Colombo 05" },
-                { day: "13", month: "SEP", tutorName: "Sanjaya Rathnayake", subject: "Science", time: "Saturday, 9:00 AM", mode: "Home visit", location: "Colombo 05" }
-            ],
-            favouriteTutors: [
-                { id: "1", initials: "NP", name: "Nadeesha Perera", subject: "Mathematics", rating: "4.9" },
-                { id: "2", initials: "DW", name: "Dilani Wickramasinghe", subject: "Combined Maths", rating: "4.8" },
-                { id: "3", initials: "SR", name: "Sanjaya Rathnayake", subject: "Science", rating: "4.6" }
-            ]
-        };
-
-        updateDashboardUI(mockData);
-    }
-}
-
-function updateDashboardUI(data) {
-    setElementText("welcomeUserName", data.parent?.name || "Parent");
-    setElementText("parentName", data.parent?.name || "Parent Name");
-    setElementText("parentMeta", `Parent account · ${data.parent?.district || "Colombo"} · Member since ${data.parent?.joinedDate || "2026"}`);
-
-    setElementText("statPendingCount", data.stats?.pendingRequests || 0);
-    setElementText("statAcceptedCount", data.stats?.acceptedRequests || 0);
-    setElementText("statUpcomingCount", data.stats?.upcomingSessions || 0);
-    setElementText("statFavouriteCount", data.stats?.favouriteTutors || 0);
-
-    renderRequests("pendingRequestsContainer", data.pendingRequests, "Pending", "status-pending");
-    renderRequests("acceptedRequestsContainer", data.acceptedRequests, "Accepted", "status-accepted");
-    renderRequests("rejectedRequestsContainer", data.rejectedRequests, "Rejected", "status-rejected");
-
-    renderUpcomingSessions("upcomingSessionsContainer", data.upcomingSessions);
-    renderFavouriteTutors("favouriteTutorsContainer", data.favouriteTutors);
-}
-
-function setElementText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-}
-
-function renderRequests(containerId, requestsList, statusLabel, statusClass) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    if (!requestsList || requestsList.length === 0) {
-        container.innerHTML = `<p class="text-muted">No ${statusLabel.toLowerCase()} requests found.</p>`;
-        return;
-    }
-
-    container.innerHTML = requestsList.map(req => `
-        <div class="request-item">
-            <div class="user-avatar">${req.tutorInitials || 'TU'}</div>
-            <div class="request-details">
-                <h4>${req.tutorName}</h4>
-                <p>${req.subject} · Grade ${req.grade} ${req.note ? '· ' + req.note : ''}</p>
-            </div>
-            <div class="request-rate">Rs. ${req.rate}/hr</div>
-            <span class="status-badge ${statusClass}">${statusLabel}</span>
-        </div>
-    `).join("");
-}
-
-function renderUpcomingSessions(containerId, sessions) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    if (!sessions || sessions.length === 0) {
-        container.innerHTML = `<p class="text-muted">No upcoming sessions scheduled.</p>`;
-        return;
-    }
-
-    container.innerHTML = sessions.map(session => `
-        <div class="session-item">
-            <div class="date-box">
-                <span class="day">${session.day}</span>
-                <span class="month">${session.month}</span>
-            </div>
-            <div class="session-details">
-                <h4>${session.tutorName} — ${session.subject}</h4>
-                <p>${session.time} · ${session.mode} · ${session.location}</p>
-            </div>
-            <span class="status-badge status-accepted">Confirmed</span>
-        </div>
-    `).join("");
-}
-
-function renderFavouriteTutors(containerId, tutors) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    if (!tutors || tutors.length === 0) {
-        container.innerHTML = `<p class="text-muted">No favourite tutors saved yet.</p>`;
-        return;
-    }
-
-    container.innerHTML = tutors.map(tutor => `
-        <div class="favourite-card">
-            <div class="user-avatar">${tutor.initials}</div>
-            <h4>${tutor.name}</h4>
-            <p>${tutor.subject} · ★ ${tutor.rating}</p>
-            <a href="tutor-profile.html?id=${tutor.id}" class="btn btn-outline-sm">View Profile</a>
-        </div>
-    `).join("");
-}
+document.getElementById('parentLogoutBtn')?.addEventListener('click', async () => {
+  try {
+    await signOut(auth);
+    window.location.href = 'login.html';
+  } catch (error) {
+    console.error('Error signing out:', error);
+    setStatus('Unable to log out. Please try again.', true);
+  }
+});

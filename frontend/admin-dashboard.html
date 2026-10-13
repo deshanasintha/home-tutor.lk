@@ -29,7 +29,7 @@
         <a href="#booking-requests" class="admin-nav-link">📩 Booking Requests</a>
         <a href="#reports" class="admin-nav-link">📈 Reports</a>
         <a href="#settings" class="admin-nav-link">⚙️ Settings</a>
-        <a href="login.html" class="admin-nav-link logout">🚪 Logout</a>
+        <a href="login.html" class="admin-nav-link logout" id="adminLogout">🚪 Logout</a>
       </nav>
     </aside>
 
@@ -42,15 +42,16 @@
           <p>Manage parents, tutors, verifications and bookings across TutorLink LK.</p>
         </div>
         <div class="admin-profile-chip">
-          <div class="admin-avatar">AD</div>
+          <div class="admin-avatar" id="adminAvatar">--</div>
           <div>
-            <div class="name">Admin User</div>
-            <div class="role">Platform Administrator</div>
+          <div class="name" id="adminName">Loading profile...</div>
+          <div class="role" id="adminEmail"></div>
           </div>
         </div>
       </div>
 
       <div class="admin-content">
+        <p id="dashboardStatus" role="status" aria-live="polite">Loading dashboard data...</p>
 
         <!-- ===================== 1. DASHBOARD OVERVIEW ===================== -->
         <section id="dashboard" class="admin-section">
@@ -65,7 +66,7 @@
             <div class="card stat-card">
               <div class="stat-icon">👪</div>
               <div>
-                <div class="stat-number">1,248</div>
+                <div class="stat-number" id="totalParents">—</div>
                 <div class="stat-label">Total Parents</div>
               </div>
             </div>
@@ -73,7 +74,7 @@
             <div class="card stat-card accent">
               <div class="stat-icon">🎓</div>
               <div>
-                <div class="stat-number">376</div>
+                <div class="stat-number" id="totalTutors">—</div>
                 <div class="stat-label">Total Tutors</div>
               </div>
             </div>
@@ -81,7 +82,7 @@
             <div class="card stat-card success">
               <div class="stat-icon">✅</div>
               <div>
-                <div class="stat-number">298</div>
+                <div class="stat-number" id="verifiedTutors">—</div>
                 <div class="stat-label">Verified Tutors</div>
               </div>
             </div>
@@ -89,7 +90,7 @@
             <div class="card stat-card warning">
               <div class="stat-icon">⏳</div>
               <div>
-                <div class="stat-number">27</div>
+                <div class="stat-number" id="pendingTutors">—</div>
                 <div class="stat-label">Pending Tutor Approvals</div>
               </div>
             </div>
@@ -97,7 +98,7 @@
             <div class="card stat-card">
               <div class="stat-icon">📩</div>
               <div>
-                <div class="stat-number">142</div>
+                <div class="stat-number" id="totalBookings">—</div>
                 <div class="stat-label">Booking Requests</div>
               </div>
             </div>
@@ -105,8 +106,8 @@
             <div class="card stat-card success">
               <div class="stat-icon">🟢</div>
               <div>
-                <div class="stat-number">563</div>
-                <div class="stat-label">Active Users (30 days)</div>
+                <div class="stat-number" id="totalStudents">—</div>
+                <div class="stat-label">Student Profiles</div>
               </div>
             </div>
           </div>
@@ -124,11 +125,11 @@
 
           <div class="card table-card">
             <div class="table-toolbar">
-              <input type="search" class="table-search" placeholder="Search parents by name or email...">
-              <select class="table-filter-select">
-                <option>All Statuses</option>
-                <option>Active</option>
-                <option>Suspended</option>
+              <input type="search" class="table-search" id="parentSearch" placeholder="Search parents by name or email...">
+              <select class="table-filter-select" id="parentStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="suspended">Suspended</option>
               </select>
             </div>
 
@@ -142,9 +143,8 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
-               
-
+              <tbody id="parentsTableBody">
+                <tr><td colspan="5">Loading parent accounts...</td></tr>
               </tbody>
             </table>
           </div>
@@ -162,12 +162,12 @@
 
           <div class="card table-card">
             <div class="table-toolbar">
-              <input type="search" class="table-search" placeholder="Search tutors by name or subject...">
-              <select class="table-filter-select">
-                <option>All Statuses</option>
-                <option>Verified</option>
-                <option>Pending</option>
-                <option>Rejected</option>
+              <input type="search" class="table-search" id="tutorSearch" placeholder="Search tutors by name or subject...">
+              <select class="table-filter-select" id="tutorStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="verified">Verified</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
               </select>
             </div>
 
@@ -182,7 +182,9 @@
                   <th>Actions</th>
                 </tr>
               </thead>
-
+              <tbody id="tutorsTableBody">
+                <tr><td colspan="6">Loading tutor accounts...</td></tr>
+              </tbody>
             </table>
           </div>
         </section>
@@ -197,7 +199,9 @@
             </div>
           </div>
 
-          <div class="verify-grid">
+          <div class="verify-grid" id="verificationList">
+            <p>Loading tutor applications...</p>
+          </div>
 
         </section>
 
@@ -213,12 +217,12 @@
 
           <div class="card table-card">
             <div class="table-toolbar">
-              <input type="search" class="table-search" placeholder="Search by request ID or name...">
-              <select class="table-filter-select">
-                <option>All Statuses</option>
-                <option>Pending</option>
-                <option>Confirmed</option>
-                <option>Declined</option>
+              <input type="search" class="table-search" id="bookingSearch" placeholder="Search by request ID or name...">
+              <select class="table-filter-select" id="bookingStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="declined">Declined</option>
               </select>
             </div>
 
@@ -233,8 +237,8 @@
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody>
-       
+              <tbody id="bookingsTableBody">
+                <tr><td colspan="6">Loading booking requests...</td></tr>
               </tbody>
             </table>
           </div>
@@ -254,21 +258,21 @@
             <div class="card stat-card">
               <div class="stat-icon">📈</div>
               <div>
-                <div class="stat-number">86%</div>
+                <div class="stat-number" id="confirmationRate">—</div>
                 <div class="stat-label">Booking Confirmation Rate</div>
               </div>
             </div>
             <div class="card stat-card accent">
               <div class="stat-icon">⏱️</div>
               <div>
-                <div class="stat-number">1.8 days</div>
-                <div class="stat-label">Avg. Tutor Response Time</div>
+                <div class="stat-number" id="resolvedBookings">—</div>
+                <div class="stat-label">Resolved Booking Requests</div>
               </div>
             </div>
             <div class="card stat-card success">
               <div class="stat-icon">🌍</div>
               <div>
-                <div class="stat-number">19</div>
+                <div class="stat-number" id="districtsCovered">—</div>
                 <div class="stat-label">Districts Covered</div>
               </div>
             </div>
@@ -288,15 +292,15 @@
           <div class="card" style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-md); max-width: 480px;">
             <div>
               <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Admin Name</h4>
-              <p style="font-size: 0.85rem; color: var(--color-text-muted);">Admin User</p>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted);" id="settingsAdminName">Loading...</p>
             </div>
             <div>
               <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Admin Email</h4>
-              <p style="font-size: 0.85rem; color: var(--color-text-muted);">admin@tutorlinklk.com</p>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted);" id="settingsAdminEmail">Loading...</p>
             </div>
             <div>
               <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Role</h4>
-              <p style="font-size: 0.85rem; color: var(--color-text-muted);">Super Administrator</p>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted);" id="settingsAdminRole">Loading...</p>
             </div>
             <a href="#" class="btn btn-outline btn-block">Edit Settings</a>
           </div>
@@ -306,7 +310,8 @@
     </div>
   </div>
 <script type="module" src="js/auth-guard.js"></script>
-<script src="js/main.js"></script>
+<script type="module" src="js/admin-dashboard.js"></script>
+<script type="module" src="js/main.js"></script>
 
 </body>
 </html>

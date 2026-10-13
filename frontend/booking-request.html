@@ -49,38 +49,38 @@
           <p class="summary-heading">Selected Tutor</p>
 
           <div class="tutor-summary-top">
-            <div class="tutor-summary-avatar">SK</div>
+            <div class="tutor-summary-avatar" id="tutorSummaryAvatar">--</div>
             <div>
-              <h3>Mr. Sanjeewa Kumara</h3>
-              <p>BSc. in Mathematics, University of Colombo</p>
+              <h3 id="tutorSummaryName">Loading tutor...</h3>
+              <p id="tutorSummaryQualification">Loading tutor profile...</p>
             </div>
           </div>
 
           <div class="summary-detail-list">
             <div class="summary-detail-row">
               <span class="label">Subject</span>
-              <span class="value">Mathematics</span>
+              <span class="value" id="tutorSummarySubject">—</span>
             </div>
             <div class="summary-detail-row">
               <span class="label">Grade</span>
-              <span class="value">Grade 10 - 11 (O/L)</span>
+              <span class="value" id="tutorSummaryGrades">—</span>
             </div>
             <div class="summary-detail-row">
               <span class="label">District</span>
-              <span class="value">Kalutara</span>
+              <span class="value" id="tutorSummaryDistrict">—</span>
             </div>
             <div class="summary-detail-row">
               <span class="label">Experience</span>
-              <span class="value">6 years</span>
+              <span class="value" id="tutorSummaryExperience">—</span>
             </div>
             <div class="summary-detail-row">
               <span class="label">Mode</span>
-              <span class="value">Home Visit</span>
+              <span class="value" id="tutorSummaryMode">—</span>
             </div>
           </div>
 
           <div class="summary-rate-box">
-            <div class="rate-amount">Rs. 1,500</div>
+            <div class="rate-amount" id="tutorSummaryRate">—</div>
             <div class="rate-unit">per hour</div>
           </div>
 
@@ -93,17 +93,18 @@
           <form id="bookingForm" action="#" method="post">
 
             <!-- Hidden Inputs for Tutor Details -->
-            <input type="hidden" id="tutorId" name="tutorId" value="SK_TUTOR_001">
-            <input type="hidden" id="tutorName" name="tutorName" value="Mr. Sanjeewa Kumara">
-            <input type="hidden" id="subject" name="subject" value="Mathematics">
-            <input type="hidden" id="grade" name="grade" value="Grade 10 - 11 (O/L)">
+            <input type="hidden" id="tutorId" name="tutorId">
+            <input type="hidden" id="tutorName" name="tutorName">
+            <input type="hidden" id="subject" name="subject">
+            <input type="hidden" id="grade" name="grade">
+            <p id="tutorLoadStatus" role="status" aria-live="polite">Loading selected tutor...</p>
 
             <!-- Parent Details -->
             <p class="form-section-title">Your Details</p>
             <div class="form-grid">
               <div class="form-group">
                 <label for="parentName">Parent Name</label>
-                <input type="text" id="parentName" name="parentName" placeholder="e.g. Nimali Perera" required>
+                <input type="text" id="parentName" name="parentName" required>
               </div>
 
               <div class="form-group">
@@ -143,7 +144,7 @@
             <div class="form-grid">
               <div class="form-group full-width">
                 <label for="location">Location / Address</label>
-                <input type="text" id="location" name="location" placeholder="e.g. Kalutara Town" required>
+                <input type="text" id="location" name="location" required>
               </div>
 
               <div class="form-group full-width">
@@ -159,7 +160,7 @@
 
             <div class="form-actions">
               <a href="search-tutors.html" class="btn btn-ghost btn-block">Cancel</a>
-              <button type="submit" class="btn btn-primary btn-block">Submit Request</button>
+              <button type="submit" class="btn btn-primary btn-block" disabled>Submit Request</button>
             </div>
 
           </form>
@@ -182,7 +183,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
   <script type="module" src="js/app.js"></script>
 
 </body>

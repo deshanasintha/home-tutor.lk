@@ -24,6 +24,7 @@ if (form) {
     const email = document.getElementById('email')?.value.trim() || '';
     const password = document.getElementById('password')?.value || '';
     const confirmPassword = document.getElementById('confirmPassword')?.value || '';
+    const phone = document.getElementById('phone')?.value.trim() || ''; // Phone අංකය ලබා ගැනීම
     const rawSubjects = document.getElementById('subjects')?.value.trim() || '';
     const hourlyRate = document.getElementById('hourlyRate')?.value || 0;
 
@@ -31,11 +32,34 @@ if (form) {
     const profilePicFile = document.getElementById('profilePic')?.files[0];
     const certFile = document.getElementById('certificateDoc')?.files[0];
 
+    // 1. Passwords සමානදැයි පරීක්ෂා කිරීම
     if (password !== confirmPassword) {
       await showMessage({
         icon: 'error',
         title: 'Passwords do not match',
         text: 'Please check both password fields.'
+      });
+      return;
+    }
+
+    // 2. 🟢 Phone Number Validation (Sri Lankan Format: 07XXXXXXXX)
+    const phoneRegex = /^07[0-8,9][0-9]{7}$/;
+    if (!phoneRegex.test(phone)) {
+      await showMessage({
+        icon: 'error',
+        title: 'වැරදි දුරකථන අංකයක්!',
+        text: 'කරුණාකර නිවැරදි Sri Lankan දුරකථන අංකයක් ඇතුළත් කරන්න (උදා: 0712345678).'
+      });
+      return;
+    }
+
+    // 3. 🟢 Email Validation (Basic format check)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      await showMessage({
+        icon: 'error',
+        title: 'වැරදි ඊමේල් ලිපිනයක්!',
+        text: 'කරුණාකර නිවැරදි ඊමේල් ලිපිනයක් ඇතුළත් කරන්න.'
       });
       return;
     }
@@ -58,7 +82,7 @@ if (form) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 📧 B. Email එකට Verification Link එක යැවීම (අලුතින් එකතු විය!)
+      // 📧 B. Email එකට Verification Link එක යැවීම
       await sendEmailVerification(user);
 
       // C. Firebase Storage එකට Files Upload කිරීම
@@ -93,7 +117,7 @@ if (form) {
         uid: user.uid,
         name: name,
         email: email,
-        phone: document.getElementById('phone')?.value.trim() || '',
+        phone: phone,
         district: document.getElementById('district')?.value || '',
         city: document.getElementById('city')?.value.trim() || '',
         qualification: document.getElementById('qualification')?.value || '',

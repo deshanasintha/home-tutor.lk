@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const form = document.getElementById('loginForm');
@@ -38,6 +38,23 @@ if (form) {
 
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
+
+            // ====================================================
+            // 📧 ඊමේල් එක Verify කර ඇත්දැයි බැලීම (මෙතැනදී එකතු විය!)
+            // ====================================================
+            if (!user.emailVerified) {
+                // Verify කර නැත්නම් වහාම system එකෙන් logout කරයි
+                await signOut(auth);
+
+                await showMessage({
+                    icon: 'warning',
+                    title: 'Email Not Verified',
+                    text: 'කරුණාකර ඔබගේ ඊමේල් ලිපිනයට (Inbox / Spam) ගොස් Verification Link එක Click කර Account එක Verify කරගන්න.'
+                });
+                return; // Dashboard එකට යාම නවත්වයි
+            }
+            // ====================================================
+
             const userDoc = await getDoc(doc(db, 'users', user.uid));
 
             if (!userDoc.exists()) {
@@ -82,7 +99,7 @@ if (form) {
                 text: messages[error.code] || error.message
             });
         } finally {
-            // Error එකක් ආවොත් Submit Button එක නැවත සක්‍රීය කිරීම
+            // Error එකක් ආවොත් හෝ return වුණොත් Submit Button එක නැවත සක්‍රීය කිරීම
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.innerText = originalBtnText;

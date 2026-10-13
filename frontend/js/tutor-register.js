@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 
@@ -58,7 +58,10 @@ if (form) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // B. Firebase Storage එකට Files Upload කිරීම
+      // 📧 B. Email එකට Verification Link එක යැවීම (අලුතින් එකතු විය!)
+      await sendEmailVerification(user);
+
+      // C. Firebase Storage එකට Files Upload කිරීම
       let photoURL = "";
       let certificateURL = "";
 
@@ -85,7 +88,7 @@ if (form) {
         (input) => input.value
       );
 
-      // C. Firestore Database එකට Document එක Save කිරීම
+      // D. Firestore Database එකේ Document එක Save කිරීම
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: name,
@@ -108,19 +111,20 @@ if (form) {
         photoURL: photoURL,
         certificateURL: certificateURL,
         role: "tutor",
+        isEmailVerified: false, // ඊමේල් එක verify කර නැති බවට status එක
         rating: 5.0,
         reviewCount: 0,
         status: "pending",
         createdAt: serverTimestamp()
       });
 
-      // Register වූ පසු Sign Out කිරීම (තවම Login නැති නිසා)
+      // Register වූ පසු Sign Out කිරීම (Verify කරනකන් login වීම වැළැක්වීමට)
       await signOut(auth);
 
       await showMessage({
         icon: 'success',
         title: 'Registration successful',
-        text: 'ඔබගේ Tutor Account එක සාර්ථකව සාදන ලදී. Please log in.',
+        text: 'ඔබගේ Tutor Account එක සාර්ථකව සාදන ලදී. Verification Link එකක් ඔබගේ ඊමේල් ලිපිනයට (Inbox / Spam) එවා ඇත. කරුණාකර එය verify කර login වන්න.',
         confirmButtonText: 'Go to login'
       });
 

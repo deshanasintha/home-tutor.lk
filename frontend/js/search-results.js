@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
   const filterForm = document.querySelector('[data-results-filters]');
@@ -186,21 +186,10 @@ window.handleBookTutor = async function(tutorUid, tutorName, subject, hourlyRate
     return;
   }
 
-  try {
-    await addDoc(collection(db, "bookings"), {
-      parentId: currentUser.uid,
-      parentEmail: currentUser.email,
-      tutorId: tutorUid,
-      tutorName: tutorName,
-      subject: subject,
-      hourlyRate: Number(hourlyRate),
-      status: "pending",
-      createdAt: serverTimestamp()
-    });
-
-    alert("Booking Request එක සාර්ථකව යැව්වා!");
-  } catch (error) {
-    console.error("Booking Error:", error);
-    alert("Request එක යැවීමට නොහැකි විය: " + error.message);
-  }
+  const bookingDetails = new URLSearchParams({
+    tutorId: tutorUid,
+    tutorName,
+    subject,
+  });
+  window.location.href = `booking.html?${bookingDetails.toString()}`;
 };

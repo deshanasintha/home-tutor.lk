@@ -22,7 +22,7 @@ if (form) {
     const mode = document.getElementById('mode')?.value || '';
     const subjects = document.getElementById('subjects')?.value.trim() || '';
 
-    // Passwords සමානදැයි පරීක්ෂා කිරීම
+    // 1. Passwords සමානදැයි පරීක්ෂා කිරීම
     if (password !== confirmPassword) {
       if (typeof Swal !== 'undefined') {
         Swal.fire({
@@ -32,6 +32,21 @@ if (form) {
         });
       } else {
         alert("Passwords do not match.");
+      }
+      return;
+    }
+
+    // 2. Phone Number Validation (Sri Lankan Format: 07XXXXXXXX)
+    const phoneRegex = /^07[0-8,9][0-9]{7}$/;
+    if (!phoneRegex.test(phone)) {
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          icon: 'error',
+          title: 'වැරදි දුරකථන අංකයක්!',
+          text: 'කරුණාකර නිවැරදි Sri Lankan දුරකථන අංකයක් ඇතුළත් කරන්න (උදා: 0712345678).'
+        });
+      } else {
+        alert("කරුණාකර නිවැරදි Sri Lankan දුරකථන අංකයක් ඇතුළත් කරන්න (උදා: 0712345678).");
       }
       return;
     }
@@ -54,11 +69,11 @@ if (form) {
         });
       }
 
-      // 2. Firebase Authentication හරහා Account එක සාදා ගැනීම
+      // 2. Firebase Authentication හරහා Account එක සැකසීම
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 3. 📧 Email එකට Verification Link එක යැවීම (මෙතැනදී එකතු විය!)
+      // 3. 📧 Email එකට Verification Link එක යැවීම
       await sendEmailVerification(user);
 
       // 4. Firestore Database එකේ Parent Data Save කිරීම

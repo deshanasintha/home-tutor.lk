@@ -266,3 +266,80 @@ import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/12.19.0/
 
   loadFirebaseTutors();
 })();
+
+// =========================================================
+// TOP RECOMMENDED TUTORS (Mock Data & Rendering Logic)
+// =========================================================
+const topTutors = [
+  {
+    name: "Mr. Sahan Siriwardana",
+    subject: "Information & Communication Technology (O/L & A/L)",
+    rating: 4.9,
+    reviewsCount: 38
+  },
+  {
+    name: "Mrs. A.M.R Eshandi",
+    subject: "Science & Chemistry",
+    rating: 4.8,
+    reviewsCount: 25
+  },
+  {
+    name: "Mr. Hasira Koswaththa",
+    subject: "Physics (A/L)",
+    rating: 4.7,
+    reviewsCount: 19
+  }
+];
+
+function loadTopTutors() {
+  const container = document.getElementById('top-tutors-container');
+  if (!container) return;
+
+  container.innerHTML = topTutors.map(tutor => `
+    <div class="tutor-card">
+      <span class="badge">Top Recommended</span>
+      <h3>${tutor.name}</h3>
+      <p class="subject">${tutor.subject}</p>
+      <div class="rating">
+        ⭐ ${tutor.rating} <span>(${tutor.reviewsCount} reviews)</span>
+      </div>
+      <button class="view-profile-btn" onclick="alert('${tutor.name} ගේ ප්‍රොފައިල් එකට යයි!')">View Profile</button>
+    </div>
+  `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', loadTopTutors);
+
+
+// =========================================================
+// RATING SUBMISSION SYSTEM (localStorage)
+// =========================================================
+function submitRating(tutorName, ratingValue) {
+  // පරණ ඩේටා බ්‍රව්සර් එකෙන් ගන්නවා
+  let ratingsList = JSON.parse(localStorage.getItem('tutorRatings')) || [];
+  
+  // අලුත් රේටින්ග් එක ඇඩ් කරනවා
+  ratingsList.push({
+    tutor: tutorName,
+    rating: Number(ratingValue),
+    date: new Date().toLocaleDateString()
+  });
+
+  // නැවත Browser එකේ localStorage එකට සේව් කරනවා
+  localStorage.setItem('tutorRatings', JSON.stringify(ratingsList));
+  
+  alert("ස්තූතියි! ඔබේ රේටින්ග් එක සාර්ථකව ඇඩ් විය.");
+}
+
+// HTML ෆෝම් එකේ Submit බොත්තම එබුනම ක්‍රියාත්මක වන ෆන්ක්ෂන් එක
+function handleRatingSubmit() {
+  const tutorNameInput = document.getElementById('tutor-name-input');
+  const ratingValueInput = document.getElementById('rating-value-input');
+  
+  if (!tutorNameInput || !ratingValueInput) return;
+
+  const tutorName = tutorNameInput.value;
+  const ratingValue = ratingValueInput.value;
+  
+  submitRating(tutorName, ratingValue);
+}

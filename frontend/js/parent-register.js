@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const form = document.getElementById('parentRegisterForm');
@@ -22,7 +22,7 @@ if (form) {
     const mode = document.getElementById('mode')?.value || '';
     const subjects = document.getElementById('subjects')?.value.trim() || '';
 
-    // Passwords සමානදැයි පරීක්ෂා කිරීම
+    // 1. Passwords සමානදැයි පරීක්ෂා කිරීම
     if (password !== confirmPassword) {
       if (typeof Swal !== 'undefined') {
         Swal.fire({
@@ -32,6 +32,21 @@ if (form) {
         });
       } else {
         alert("Passwords do not match.");
+      }
+      return;
+    }
+
+    // 2. Phone Number Validation (Sri Lankan Format: 07XXXXXXXX)
+    const phoneRegex = /^07[0-8,9][0-9]{7}$/;
+    if (!phoneRegex.test(phone)) {
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          icon: 'error',
+          title: 'වැරදි දුරකථන අංකයක්!',
+          text: 'කරුණාකර නිවැරදි Sri Lankan දුරකථන අංකයක් ඇතුළත් කරන්න (උදා: 0712345678).'
+        });
+      } else {
+        alert("කරුණාකර නිවැරදි Sri Lankan දුරකථන අංකයක් ඇතුළත් කරන්න (උදා: 0712345678).");
       }
       return;
     }
@@ -54,11 +69,14 @@ if (form) {
         });
       }
 
-      // 2. Firebase Authentication හරහා Account එක සාදා ගැනීම
+      // 2. Firebase Authentication හරහා Account එක සැකසීම
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 3. Firestore Database එකේ Parent Data Save කිරීම
+      // 3. 📧 Email එකට Verification Link එක යැවීම
+      await sendEmailVerification(user);
+
+      // 4. Firestore Database එකේ Parent Data Save කිරීම
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: name,
@@ -70,25 +88,26 @@ if (form) {
         mode: mode,
         subjects: subjects,
         role: "parent",
+        isEmailVerified: false, // ඊමේල් එක verify කර නැති බවට status එකක් තැබීම
         createdAt: serverTimestamp()
       });
-          await signOut(auth);
-      // 4.sign out active session
+
+      // 5. Sign out active session (Verify කරනකන් login වීම වැළැක්වීමට)
+      await signOut(auth);
+
+      // 6. Success Alert & Redirect to login
       if (typeof Swal !== 'undefined') {
         await Swal.fire({
           icon: 'success',
           title: 'Registration Successful!',
-          text: 'ඔබගේ Parent Account එක සාර්ථකව සාදන ලදී.',
+          text: 'සාර්ථකයි! Verification Link එකක් ඔබගේ ඊමේල් ලිපිනයට (Inbox / Spam) එවා ඇත. කරුණාකර එය Click කර Verify කරගන්න.',
           confirmButtonText: 'Go to login'
         });
-         //success Alert & Redirect to login
-      window.location.href = "login.html";
+        window.location.href = "login.html";
       } else {
-        alert("Registration Successful!  Please login.");
+        alert("Registration Successful! Please check your email and login.");
         window.location.href = "login.html";
       }
-
-    
 
     } catch (error) {
       console.error("Parent Registration Error:", error);

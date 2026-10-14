@@ -1967,3 +1967,63 @@ textarea:focus-visible {
     flex: 1;
   }
 }
+
+.tutors-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.tutor-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  width: 250px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.tutor-card .badge {
+  background-color: #ff9800;
+  color: white;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.tutor-card h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.tutor-card .subject {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.tutor-card .rating {
+  color: #f39c12;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.view-profile-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.view-profile-btn:hover {
+  background-color: #0056b3;
+}

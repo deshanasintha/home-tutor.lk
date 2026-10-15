@@ -4,7 +4,7 @@ import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 
 // Storage Instance එක Config එකට අදාළ App එකෙන් ලබාගැනීම
-const storage = getStorage();
+
 
 const form = document.getElementById('tutorRegisterForm');
 
@@ -29,9 +29,9 @@ if (form) {
     const hourlyRate = document.getElementById('hourlyRate')?.value || 0;
 
     // Files ලබා ගැනීම
+   // Files ලබා ගැනීම සහ LinkedIn URL එක ගැනීම
     const profilePicFile = document.getElementById('profilePic')?.files[0];
-    const certFile = document.getElementById('certificateDoc')?.files[0];
-
+    const linkedinUrl = document.getElementById('linkedinUrl')?.value.trim() || '';
     // 1. Passwords සමානදැයි පරීක්ෂා කිරීම
     if (password !== confirmPassword) {
       await showMessage({
@@ -96,12 +96,7 @@ if (form) {
         photoURL = await getDownloadURL(photoRef);
       }
 
-      // 2. Certificate Upload කිරීම
-      if (certFile) {
-        const certRef = ref(storage, `tutors/${user.uid}/certificate_${Date.now()}_${certFile.name}`);
-        await uploadBytes(certRef, certFile);
-        certificateURL = await getDownloadURL(certRef);
-      }
+  //edit this part
 
       const subjectsArray = rawSubjects
         ? rawSubjects.split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
@@ -133,7 +128,7 @@ if (form) {
         teachingMode: document.getElementById('teachingMode')?.value || '',
         hourlyRate: Number(hourlyRate),
         photoURL: photoURL,
-        certificateURL: certificateURL,
+        linkedinUrl: linkedinUrl, // certificateURL වෙනුවට මෙය දමන්න
         role: "tutor",
         isEmailVerified: false, // ඊමේල් එක verify කර නැති බවට status එක
         rating: 5.0,

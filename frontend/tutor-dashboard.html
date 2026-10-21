@@ -4,491 +4,87 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tutor Dashboard — TutorLink LK</title>
-  <meta name="description" content="Manage your tuition requests, sessions, availability and earnings on TutorLink LK.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background-color: #f4f7fc;
-      color: #1e293b;
-      min-height: 100vh;
-      padding-bottom: 50px;
-    }
-
-    /* Navbar Header */
-    header.navbar {
-      background-color: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 16px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 20px;
-      color: #0f172a;
-      text-decoration: none;
-    }
-
-    .logo-box {
-      width: 28px;
-      height: 28px;
-      background-color: #2563eb;
-      border-radius: 6px;
-    }
-
-    .logo span {
-      color: #2563eb;
-    }
-
-    nav.nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-
-    nav.nav-links a {
-      text-decoration: none;
-      color: #475569;
-      font-weight: 500;
-      font-size: 14px;
-      transition: color 0.2s;
-    }
-
-    nav.nav-links a:hover {
-      color: #2563eb;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn {
-      padding: 9px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: 1px solid transparent;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn-outline {
-      background: #ffffff;
-      border-color: #cbd5e1;
-      color: #334155;
-    }
-
-    .btn-outline:hover {
-      border-color: #94a3b8;
-      background-color: #f8fafc;
-    }
-
-    .btn-primary {
-      background-color: #2563eb;
-      color: #ffffff;
-    }
-
-    .btn-primary:hover {
-      background-color: #1d4ed8;
-    }
-
-    /* Main Layout Container */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 32px 20px;
-    }
-
-    /* Welcome Section */
-    .welcome-header {
-      margin-bottom: 28px;
-    }
-
-    .welcome-header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 6px;
-    }
-
-    .welcome-header p {
-      color: #64748b;
-      font-size: 15px;
-    }
-
-    /* Cards Styling */
-    .card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      border: 1px solid #f1f5f9;
-    }
-
-    /* Profile Header Box */
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .dashboard-header-main {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .profile-avatar-lg {
-      width: 64px;
-      height: 64px;
-      background-color: #dbeafe;
-      color: #2563eb;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 20px;
-    }
-
-    .tutor-info h1 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #0f172a;
-    }
-
-    .tutor-info p {
-      color: #64748b;
-      font-size: 14px;
-      margin-top: 2px;
-    }
-
-    .progress-wrap {
-      width: 220px;
-      margin-top: 10px;
-    }
-
-    .progress-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: #64748b;
-      margin-bottom: 4px;
-    }
-
-    .progress-track {
-      background: #e2e8f0;
-      height: 6px;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      background: #2563eb;
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
-
-    /* Grid for Stats */
-    .dashboard-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      margin-bottom: 0;
-      padding: 24px;
-    }
-
-    .stat-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: #0f172a;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      font-size: 14px;
-      color: #64748b;
-      font-weight: 500;
-    }
-
-    .stat-card-accent {
-      background-color: #0f172a;
-      color: #ffffff;
-      border: none;
-    }
-
-    .stat-card-accent .stat-value {
-      color: #ffffff;
-    }
-
-    .stat-card-accent .stat-label {
-      color: #94a3b8;
-    }
-
-    /* Section titles & empty states */
-    .dashboard-section {
-      margin-bottom: 24px;
-    }
-
-    .section-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .section-title-row h2 {
-      font-size: 16px;
-      font-weight: 600;
-      color: #0f172a;
-    }
-
-    .section-title-row a {
-      color: #2563eb;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .empty-state {
-      background-color: #f8fafc;
-      border: 1px dashed #e2e8f0;
-      border-radius: 8px;
-      padding: 16px;
-      color: #94a3b8;
-      font-size: 14px;
-    }
-
-    .booking-entry {
-      border-bottom: 1px solid #e2e8f0;
-      padding: 12px 0;
-    }
-
-    .booking-entry:last-child {
-      border-bottom: 0;
-    }
-
-    .booking-entry h3 {
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
-
-    /* Footer */
-    footer.site-footer {
-      border-top: 1px solid #e2e8f0;
-      padding: 20px 0;
-      margin-top: 40px;
-      background: #ffffff;
-    }
-
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: #64748b;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: #f4f7fc; color: #1e293b; min-height: 100vh; padding-bottom: 50px; }
+    header.navbar { background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: #0f172a; text-decoration: none; }
+    .logo-box { width: 28px; height: 28px; background-color: #2563eb; border-radius: 6px; }
+    .logo span { color: #2563eb; }
+    nav.nav-links { display: flex; align-items: center; gap: 28px; }
+    nav.nav-links a { text-decoration: none; color: #475569; font-weight: 500; font-size: 14px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+    .card { background: #ffffff; border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; }
+    .btn { padding: 9px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; border: 1px solid transparent; text-decoration: none; display: inline-block; }
+    .btn-outline { background: #ffffff; border-color: #cbd5e1; color: #334155; }
+    .btn-primary { background-color: #2563eb; color: #ffffff; }
+    .dashboard-section { margin-bottom: 24px; }
+    .section-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .section-title-row h2 { font-size: 16px; font-weight: 600; color: #0f172a; }
+    .empty-state { background-color: #f8fafc; border: 1px dashed #e2e8f0; border-radius: 8px; padding: 16px; color: #94a3b8; font-size: 14px; }
+    .booking-entry { border-bottom: 1px solid #e2e8f0; padding: 12px 0; display: flex; justify-content: space-between; align-items: center; }
   </style>
 </head>
-
 <body>
 
-  <!-- NAVBAR HEADER -->
   <header class="navbar">
     <a href="index.html" class="logo">
       <div class="logo-box"></div>
       Tutor <span>Link LK</span>
     </a>
-
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="tutor-dashboard.html">Dashboard</a>
-      <a href="tutor-profile.html">My Profile</a>
     </nav>
-
-    <div class="nav-actions">
-      <a href="tutor-profile.html" class="btn btn-outline">Edit Profile</a>
-      <a href="login.html" class="btn btn-primary" id="logoutBtn">Logout</a>
-    </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
   <div class="container">
-
-    <!-- WELCOME HEADER -->
     <div class="welcome-header">
-      <h1 id="welcomeMessage">Welcome back</h1>
-      <p>Manage your tuition requests, sessions and earnings.</p>
-      <p id="dashboardStatus" role="status" aria-live="polite">Loading your dashboard...</p>
+      <h1>Tutor Dashboard</h1>
+      <p id="dashboardStatus">Loading dashboard...</p>
     </div>
 
-    <!-- TUTOR PROFILE SUMMARY CARD -->
-    <div class="dashboard-header card">
-      <div class="dashboard-header-main">
-        <div class="profile-avatar-lg" id="profileAvatar">--</div>
-        <div class="tutor-info">
-          <h1 id="tutorName">Loading...</h1>
-          <p id="tutorSummary">Loading tutor information...</p>
-
-          <div class="progress-wrap">
-            <div class="progress-label-row">
-              <span>Profile completion</span>
-              <strong id="profileCompletion">—</strong>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" id="profileProgress" style="width: 0%;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="nav-actions">
-        <a href="tutor-profile.html" class="btn btn-primary">Edit Profile</a>
-        <button type="button" class="btn btn-outline" id="dashboardLogoutBtn">Logout</button>
-      </div>
-    </div>
-
-    <!-- STATS GRID -->
-    <div class="dashboard-stats-grid">
-      <div class="stat-card card">
-        <span class="stat-value" id="newRequestsCount">—</span>
-        <span class="stat-label">Total booking requests</span>
-      </div>
-      <div class="stat-card card">
-        <span class="stat-value" id="pendingRequestsCount">—</span>
-        <span class="stat-label">Pending requests</span>
-      </div>
-      <div class="stat-card card">
-        <span class="stat-value" id="activeStudentsCount">—</span>
-        <span class="stat-label">Active students</span>
-      </div>
-      <div class="stat-card card stat-card-accent">
-        <span class="stat-value" id="hourlyFee">Loading...</span>
-        <span class="stat-label">Current hourly fee</span>
-      </div>
-    </div>
-
-    <!-- NEW TUITION REQUESTS -->
-    <div class="dashboard-section">
-      <div class="section-title-row"><h2>All booking requests</h2></div>
-      <div class="card" id="newRequestsList">
-        <div class="empty-state" id="newRequestsEmpty">No new tuition requests.</div>
-      </div>
-    </div>
-
-    <!-- PENDING REQUESTS -->
-    <div class="dashboard-section">
-      <div class="section-title-row"><h2>Pending requests</h2></div>
-      <div class="card" id="pendingRequestsList">
-        <div class="empty-state" id="pendingRequestsEmpty">No pending requests.</div>
-      </div>
-    </div>
-
-    <!-- ACCEPTED REQUESTS -->
-    <div class="dashboard-section">
-      <div class="section-title-row"><h2>Accepted requests</h2></div>
-      <div class="card" id="acceptedRequestsList">
-        <div class="empty-state" id="acceptedRequestsEmpty">No accepted requests.</div>
-      </div>
-    </div>
-
-    <!-- REJECTED REQUESTS -->
-    <div class="dashboard-section">
-      <div class="section-title-row"><h2>Rejected requests</h2></div>
-      <div class="card" id="rejectedRequestsList">
-        <div class="empty-state" id="rejectedRequestsEmpty">No rejected requests.</div>
-      </div>
-    </div>
-
-    <!-- UPCOMING SESSIONS -->
-    <div class="dashboard-section">
-      <div class="section-title-row"><h2>Upcoming sessions</h2></div>
-      <div class="card" id="upcomingSessionsList">
-        <div class="empty-state" id="upcomingSessionsEmpty">No upcoming sessions.</div>
-      </div>
-    </div>
-
-    <!-- AVAILABILITY SUMMARY -->
+    <!-- AVAILABILITY MANAGEMENT SECTION -->
     <div class="dashboard-section">
       <div class="section-title-row">
-        <h2>Availability summary</h2>
-        <a href="tutor-profile.html">Edit availability</a>
+        <h2>Add Available Time Slot</h2>
       </div>
       <div class="card">
-        <div id="availabilityList">
-          <div class="empty-state" id="availabilityEmpty">No availability information.</div>
-        </div>
+        <form id="tutorAvailabilityForm" style="display: flex; flex-direction: column; gap: 15px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+            <div>
+              <label style="font-size: 13px; font-weight: 500; color: #64748b; display: block; margin-bottom: 5px;">Date</label>
+              <input type="date" id="availDate" class="btn btn-outline" style="width: 100%; text-align: left;" required />
+            </div>
+            <div>
+              <label style="font-size: 13px; font-weight: 500; color: #64748b; display: block; margin-bottom: 5px;">Start Time</label>
+              <input type="time" id="availStartTime" class="btn btn-outline" style="width: 100%; text-align: left;" required />
+            </div>
+            <div>
+              <label style="font-size: 13px; font-weight: 500; color: #64748b; display: block; margin-bottom: 5px;">End Time</label>
+              <input type="time" id="availEndTime" class="btn btn-outline" style="width: 100%; text-align: left;" required />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self: flex-start;">Save Availability Slot</button>
+        </form>
       </div>
     </div>
 
-    <!-- EARNINGS -->
+    <!-- MY SAVED AVAILABILITY LIST -->
     <div class="dashboard-section">
-      <div class="section-title-row"><h2>Earnings</h2></div>
-      <div class="dashboard-stats-grid">
-        <div class="stat-card card">
-          <span class="stat-value" id="monthlyEarnings">Not tracked</span>
-          <span class="stat-label">Earned this month</span>
-        </div>
-        <div class="stat-card card">
-          <span class="stat-value" id="completedSessions">Not tracked</span>
-          <span class="stat-label">Sessions completed</span>
-        </div>
-        <div class="stat-card card">
-          <span class="stat-value" id="earningsHourlyFee">Loading...</span>
-          <span class="stat-label">Current hourly fee</span>
-        </div>
-        <div class="stat-card card">
-          <span class="stat-value" id="earningsActiveStudents">—</span>
-          <span class="stat-label">Active students</span>
-        </div>
+      <div class="section-title-row">
+        <h2>My Current Availability Slots</h2>
       </div>
-      <p class="empty-state">Completed lessons and payments are not recorded by the current Firestore booking schema.</p>
+      <div class="card" id="savedAvailabilityList">
+        <div class="empty-state">No availability slots added yet.</div>
+      </div>
     </div>
 
   </div>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-bottom">
-        <span>&copy; 2026 TutorLink LK. University Group Project.</span>
-        <span>Made in Sri Lanka 🇱🇰</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- JAVASCRIPT SCRIPTS -->
   <script type="module" src="js/auth-guard.js"></script>
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/tutor-dashboard.js"></script>
-
 </body>
 </html>

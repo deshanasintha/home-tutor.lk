@@ -586,3 +586,14 @@ html[data-theme="dark"] .hero-img:hover {
 @media (prefers-reduced-motion: reduce) {
   .btn { transition: none; }
 }
+
+
+/* Black text */
+.parents-box h3,
+.parents-box p {
+    color: #000000 !important;
+}
+
+.parents-box {
+    background: #ADD8E6 !important;
+}

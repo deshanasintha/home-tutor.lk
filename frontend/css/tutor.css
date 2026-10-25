@@ -742,3 +742,46 @@ button, input, select{ font-family: inherit; font-size: inherit; }
   .auth-header h1{ font-size: 1.5rem; }
   .photo-upload-row{ flex-direction: column; align-items: flex-start; }
 }
+
+
+/* =====================================================
+   Dark Mode Fixes for Tutor & Search Module
+   ===================================================== */
+
+body.dark-mode {
+    --color-bg: #111827;
+    --color-surface: #1F2937;
+    --color-border: #374151;
+    --color-text: #F3F4F6;
+    --color-text-muted: #9CA3AF;
+    --color-text-light: #6B7280;
+    --color-primary-dark: #60A5FA;
+}
+
+/* Header and Hero section titles fix in Dark Mode */
+body.dark-mode .auth-header h1,
+body.dark-mode .auth-header p,
+body.dark-mode .profile-hero-info h1,
+body.dark-mode .profile-hero-info .qualification-line,
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4 {
+    color: #ffffff !important;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode .hero-meta-row,
+body.dark-mode .hero-meta-row span {
+    color: #DCE6FA !important;
+}
+
+/* Search bar and input text fixes in Dark Mode */
+body.dark-mode .form-group input,
+body.dark-mode .form-group select,
+body.dark-mode .form-group textarea {
+    background: var(--color-surface) !important;
+    color: var(--color-text) !important;
+    border-color: var(--color-border) !important;
+}

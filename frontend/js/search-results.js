@@ -1,357 +1,173 @@
 import { auth, db } from './firebase-config.js';
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const filterForm = document.querySelector('[data-results-filters]');
-  const resultsCount = document.querySelector('[data-results-count]');
-  const sortSelect = document.querySelector('[data-filter="sort"]');
-  const feeRangeInput = document.querySelector('input[data-filter="price"]');
-  const feeOutput = document.querySelector('[data-fee-output]');
-  const resetButton = document.querySelector('.filter-reset');
-  const formResetBtn = filterForm
-    ? filterForm.querySelector('button[type="reset"]')
-    : null;
+const container = document.getElementById('tutor-cards-container');
+const resultsCount = document.getElementById('resultsCount');
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+const subjectFilter = document.getElementById('subjectFilter');
+const gradeFilter = document.getElementById('gradeFilter');
+const districtFilter = document.getElementById('districtFilter');
+const rateFilter = document.getElementById('rateFilter');
+const sortSelect = document.getElementById('sortSelect');
+const filterForm = document.getElementById('filterForm');
+const applyBtn = document.getElementById('applyFiltersBtn');
 
-  const parentContainer =
-    document.getElementById('tutor-cards-container') ||
-    document.getElementById('tutors-container') ||
-    document.querySelector('.tutor-grid');
+// Pagination eka fake nisa hide karanawa
+document.getElementById('paginationContainer')?.remove();
 
-  let tutorCards = [];
+let tutors = [];
 
-  // 1. Firestore එකෙන් Tutors ලා Load කර Card Render කිරීම
-  async function loadTutorsFromFirestore() {
-    if (!parentContainer) return;
+// Text eka safe karanna (kisiwek HTML eka damma nam page eka bindinne nae)
+const safe = (text) => String(text ?? '').replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+));
 
-    try {
-      const querySnapshot = await getDocs(collection(db, "users"));
+// subjects array ekak hari, "Maths, Science" wage text ekak hari ekama widiyata ganna
+const toText = (value) => (Array.isArray(value) ? value.join(', ') : (typeof value === 'string' ? value : ''));
 
-      // Clear Existing HTML Static Cards
-      parentContainer.innerHTML = '';
+function buildCard(t) {
+  const card = document.createElement('article');
+  card.className = 'tutor-card card';
 
-      querySnapshot.forEach((docSnap) => {
-        const tutor = docSnap.data();
+  const initials = t.name.split(/\s+/).filter(Boolean).map((p) => p[0]).join('').slice(0, 2).toUpperCase() || 'T';
+  const avatar = t.photoURL
+    ? `<img src="${safe(t.photoURL)}" alt="${safe(t.name)}" class="tutor-avatar-img">`
+    : `<div class="tutor-avatar">${safe(initials)}</div>`;
+  const ratingText = t.reviewCount > 0 && t.rating > 0 ? `★ ${t.rating}` : 'New';
+  const priceText = t.rate > 0 ? `LKR ${t.rate.toLocaleString()}` : 'Rate not specified';
 
-        // Tutor Role එක ඇති අය පමණක් Render කිරීම
-        if (tutor.role === 'tutor') {
-          const tutorId = docSnap.id;
+  card.innerHTML = `
+    <div class="tutor-card-top">
+      ${avatar}
+      <span class="rating">${safe(ratingText)}</span>
+    </div>
+    <h3>${safe(t.name)}</h3>
+    <p class="tutor-subject">${safe(t.subjects || 'Subjects not specified')}</p>
+    <div class="tutor-meta">
+      <span>📍 ${safe(t.district || 'Islandwide')}</span>
+      <span>🎓 ${safe(t.grade || 'All Grades')}</span>
+    </div>
+    <div class="tutor-footer">
+      <strong class="price">${safe(priceText)}<span>${t.rate > 0 ? '/hr' : ''}</span></strong>
+      <div class="tutor-actions">
+        <button type="button" class="btn btn-primary book-tutor-btn">Book Now</button>
+        <button type="button" class="btn btn-outline chat-tutor-btn">Chat with Tutor</button>
+      </div>
+    </div>
+  `;
 
-          const card = document.createElement('article');
-          card.className = 'tutor-card card';
-          card.setAttribute('data-tutor-card', '');
-          card.setAttribute(
-            'data-subject',
-            Array.isArray(tutor.subjects)
-              ? tutor.subjects.join(' ')
-              : (tutor.subjects || '')
-          );
-          card.setAttribute('data-district', tutor.district || '');
-          card.setAttribute('data-grade', tutor.gradeLevels || '');
-          card.setAttribute('data-price', tutor.hourlyRate || 0);
-          card.setAttribute('data-rating', tutor.rating || 5.0);
-          card.setAttribute(
-            'data-availability',
-            (Array.isArray(tutor.days) ? tutor.days : []).join(' ')
-          );
+  card.querySelector('.book-tutor-btn').addEventListener('click', () => {
+    window.handleBookTutor(t.id, t.name, t.subjects, t.rate);
+  });
+  card.querySelector('.chat-tutor-btn').addEventListener('click', () => {
+    window.handleChatTutor(t.id);
+  });
 
-          const tutorName = tutor.name || tutor.fullName || 'Anonymous Tutor';
+  return card;
+}
 
-          const initials = tutorName
-            .split(' ')
-            .map(n => n[0])
-            .join('');
+function matchesRate(rate, selected) {
+  if (!selected) return true;
+  if (selected === '1000') return rate < 1000;
+  if (selected === '1500') return rate >= 1000 && rate <= 1500;
+  if (selected === '2000') return rate > 1500 && rate <= 2000;
+  if (selected === 'above_2000') return rate > 2000;
+  return true;
+}
 
-          const imageHTML = tutor.photoURL
-            ? `<img src="${tutor.photoURL}" alt="${tutorName}" class="tutor-avatar-img">`
-            : `<div class="tutor-avatar">${initials}</div>`;
+function render() {
+  const query = searchInput.value.trim().toLowerCase();
+  const subject = subjectFilter.value.toLowerCase();
+  const grade = gradeFilter.value.toLowerCase();
+  const district = districtFilter.value.toLowerCase();
+  const rate = rateFilter.value;
+  const availability = [...filterForm.querySelectorAll('input[name="availability"]:checked')].map((box) => box.value);
 
-          // Create Tutor Card
-          card.innerHTML = `
-            <div class="tutor-card-top">
-              ${imageHTML}
-              <span class="rating">★ ${tutor.rating || '5.0'}</span>
-            </div>
+  const list = tutors.filter((t) => {
+    const okQuery = !query || `${t.name} ${t.subjects}`.toLowerCase().includes(query);
+    const okSubject = !subject || t.subjects.toLowerCase().includes(subject);
+    const okGrade = !grade || t.grade.toLowerCase().includes(grade);
+    const okDistrict = !district || t.district.toLowerCase() === district;
+    const okRate = matchesRate(t.rate, rate);
+    const okAvailability = availability.length === 0 || availability.some((a) => t.days.includes(a));
+    return okQuery && okSubject && okGrade && okDistrict && okRate && okAvailability;
+  });
 
-            <h3>${tutorName}</h3>
+  if (sortSelect.value === 'lowest') list.sort((a, b) => a.rate - b.rate);
+  if (sortSelect.value === 'highest') list.sort((a, b) => b.rate - a.rate);
+  if (sortSelect.value === 'experience') list.sort((a, b) => b.experience - a.experience);
 
-            <p class="tutor-subject">
-              ${
-                Array.isArray(tutor.subjects)
-                  ? tutor.subjects.join(', ')
-                  : (tutor.subjects || 'Not specified')
-              }
-            </p>
+  container.replaceChildren();
+  if (list.length === 0) {
+    const empty = document.createElement('p');
+    empty.textContent = 'No tutors found.';
+    container.appendChild(empty);
+  } else {
+    list.forEach((t) => container.appendChild(t.card));
+  }
+  resultsCount.textContent = `${list.length} tutor${list.length === 1 ? '' : 's'} found`;
+}
 
-            <div class="tutor-meta">
-              <span>📍 ${tutor.district || 'Islandwide'}</span>
-              <span>🎓 ${tutor.gradeLevels || 'All Grades'}</span>
-            </div>
+async function loadTutors() {
+  try {
+    const snapshot = await getDocs(collection(db, 'users'));
 
-            <div class="tutor-footer">
-              <strong class="price">
-                LKR ${Number(tutor.hourlyRate || 0).toLocaleString()}<span>/hr</span>
-              </strong>
-
-              <div class="tutor-actions">
-                <button
-                  type="button"
-                  class="btn btn-primary book-tutor-btn">
-                  Book Now
-                </button>
-
-                <button
-                  type="button"
-                  class="btn btn-outline chat-tutor-btn">
-                  Chat with Tutor
-                </button>
-              </div>
-            </div>
-          `;
-
-          // Book Now Button
-          const bookButton = card.querySelector('.book-tutor-btn');
-
-          bookButton.addEventListener('click', () => {
-            const subject = Array.isArray(tutor.subjects)
-              ? tutor.subjects.join(', ')
-              : (tutor.subjects || '');
-
-            window.handleBookTutor(
-              tutorId,
-              tutorName,
-              subject,
-              Number(tutor.hourlyRate || 0)
-            );
-          });
-
-          // Chat with Tutor Button
-          const chatButton = card.querySelector('.chat-tutor-btn');
-
-          chatButton.addEventListener('click', () => {
-            window.handleChatTutor(tutorId);
-          });
-
-          parentContainer.appendChild(card);
-        }
+    tutors = snapshot.docs
+      .map((d) => ({ id: d.id, ...d.data() }))
+      .filter((u) => u.role === 'tutor')
+      .map((u) => {
+        const tutor = {
+          id: u.id,
+          name: u.name || u.fullName || 'Tutor name not provided',
+          photoURL: u.photoURL || '',
+          subjects: toText(u.subjectsArray || u.subjects),
+          district: typeof u.district === 'string' ? u.district : '',
+          grade: toText(u.gradeLevels),
+          rate: Number(u.hourlyRate) || 0,
+          rating: Number(u.rating) || 0,
+          reviewCount: Number(u.reviewCount) || 0,
+          experience: Number(u.experience) || 0,
+          days: toText(u.days).toLowerCase()
+        };
+        tutor.card = buildCard(tutor);
+        return tutor;
       });
 
-      // Render වූ පසු Card List එක Update කිරීම
-      tutorCards = Array.from(
-        parentContainer.querySelectorAll('[data-tutor-card]')
-      );
-
-      // Filter & Sort පළමු වරට Execute කිරීම
-      applyFiltersAndSort();
-
-    } catch (error) {
-      console.error("Firestore Error:", error);
-      parentContainer.innerHTML =
-        '<p>Unable to load tutors. Please try again later.</p>';
-    }
+    render();
+  } catch (error) {
+    console.error('Firestore Error:', error);
+    container.innerHTML = '<p>Unable to load tutors. Please try again later.</p>';
+    resultsCount.textContent = '';
   }
+}
 
-  // 2. Fee Range Slider Value Update
-  if (feeRangeInput && feeOutput) {
-    feeRangeInput.addEventListener('input', (e) => {
-      feeOutput.textContent =
-        `Rs. ${parseInt(e.target.value, 10).toLocaleString()}`;
+// Buttons / filters
+searchBtn.addEventListener('click', render);
+searchInput.addEventListener('input', render);
+applyBtn.addEventListener('click', render);
+sortSelect.addEventListener('change', render);
+filterForm.addEventListener('change', render);
 
-      applyFiltersAndSort();
-    });
-  }
-
-  // 3. Dynamic Filter Logic
-  function applyFiltersAndSort() {
-    if (!filterForm || tutorCards.length === 0) {
-      sortCards();
-      return;
-    }
-
-    const formData = new FormData(filterForm);
-
-    const selectedSubject = formData.get('subject') || '';
-    const selectedGrade = formData.get('grade') || '';
-    const selectedDistrict = formData.get('district') || '';
-
-    const selectedPriceMax = feeRangeInput
-      ? parseFloat(feeRangeInput.value)
-      : Infinity;
-
-    const selectedRating = parseFloat(formData.get('rating') || '0');
-
-    const selectedAvailabilities = Array.from(
-      filterForm.querySelectorAll(
-        'input[name="availability"]:checked'
-      )
-    ).map(cb => cb.value);
-
-    let visibleCount = 0;
-
-    tutorCards.forEach(card => {
-      const subject = card.dataset.subject || '';
-      const district = card.dataset.district || '';
-      const grade = card.dataset.grade || '';
-      const price = parseFloat(card.dataset.price || '0');
-      const rating = parseFloat(card.dataset.rating || '0');
-      const availability = card.dataset.availability || '';
-
-      const matchesSubject =
-        !selectedSubject ||
-        subject.toLowerCase().includes(selectedSubject.toLowerCase());
-
-      const matchesDistrict =
-        !selectedDistrict ||
-        district.toLowerCase().includes(selectedDistrict.toLowerCase());
-
-      const matchesGrade =
-        !selectedGrade ||
-        grade.toLowerCase().includes(selectedGrade.toLowerCase());
-
-      const matchesPrice = price <= selectedPriceMax;
-
-      const matchesRating = rating >= selectedRating;
-
-      const matchesAvailability =
-        selectedAvailabilities.length === 0 ||
-        selectedAvailabilities.some(avail =>
-          availability.toLowerCase().includes(avail.toLowerCase())
-        );
-
-      if (
-        matchesSubject &&
-        matchesDistrict &&
-        matchesGrade &&
-        matchesPrice &&
-        matchesRating &&
-        matchesAvailability
-      ) {
-        card.style.display = '';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
-      }
-    });
-
-    if (resultsCount) {
-      resultsCount.textContent = visibleCount;
-    }
-
-    sortCards();
-  }
-
-  // 4. Sorting Logic
-  function sortCards() {
-    if (!sortSelect || tutorCards.length === 0) return;
-
-    const sortValue = sortSelect.value;
-    const container = tutorCards[0].parentNode;
-
-    const sortedCards = [...tutorCards].sort((a, b) => {
-      const priceA = parseFloat(a.dataset.price || '0');
-      const priceB = parseFloat(b.dataset.price || '0');
-      const ratingA = parseFloat(a.dataset.rating || '0');
-      const ratingB = parseFloat(b.dataset.rating || '0');
-
-      if (
-        sortValue === 'Highest rated' ||
-        sortValue === 'highest'
-      ) {
-        return ratingB - ratingA;
-      }
-
-      if (
-        sortValue === 'Lowest fee' ||
-        sortValue === 'lowest'
-      ) {
-        return priceA - priceB;
-      }
-
-      if (sortValue === 'highest') {
-        return priceB - priceA;
-      }
-
-      return 0;
-    });
-
-    sortedCards.forEach(card => container.appendChild(card));
-  }
-
-  // Filter Listeners
-  if (filterForm) {
-    filterForm.addEventListener('change', applyFiltersAndSort);
-  }
-
-  if (sortSelect) {
-    sortSelect.addEventListener('change', applyFiltersAndSort);
-  }
-
-  // Reset Listeners
-  const resetFilters = () => {
-    setTimeout(() => {
-      if (feeRangeInput && feeOutput) {
-        feeOutput.textContent =
-          `Rs. ${parseInt(feeRangeInput.value, 10).toLocaleString()}`;
-      }
-
-      applyFiltersAndSort();
-    }, 10);
-  };
-
-  if (resetButton) {
-    resetButton.addEventListener('click', resetFilters);
-  }
-
-  if (formResetBtn) {
-    formResetBtn.addEventListener('click', resetFilters);
-  }
-
-  // Load Firestore Data
-  await loadTutorsFromFirestore();
-});
-
-// 5. Global Booking Function (Book Now Button එකට)
-window.handleBookTutor = function(
-  tutorUid,
-  tutorName,
-  subject,
-  hourlyRate
-) {
-  const currentUser = auth.currentUser;
-
-  if (!currentUser) {
-    alert("Booking එකක් දාන්න කලින් කරුණාකර Login වන්න.");
-    window.location.href = "login.html";
+// Book Now
+window.handleBookTutor = (tutorId, tutorName, subject) => {
+  if (!auth.currentUser) {
+    alert('Booking ekak danna kalin karunakara Login wenna.');
+    window.location.href = 'login.html';
     return;
   }
-
-  const bookingDetails = new URLSearchParams({
-    tutorId: tutorUid,
-    tutorName,
-    subject
-  });
-
-  window.location.href = `booking.html?${bookingDetails.toString()}`;
+  const details = new URLSearchParams({ tutorId, tutorName, subject });
+  window.location.href = `booking.html?${details.toString()}`;
 };
 
-// 6. Global Chat Function (Chat with Tutor Button එකට)
-window.handleChatTutor = function(tutorUid) {
-  const currentUser = auth.currentUser;
-
-  if (!currentUser) {
-    alert("Chat කරන්න කලින් කරුණාකර Login වන්න.");
-    window.location.href = "login.html";
+// Chat with Tutor
+window.handleChatTutor = (tutorId) => {
+  if (!auth.currentUser) {
+    alert('Chat karanna kalin karunakara Login wenna.');
+    window.location.href = 'login.html';
     return;
   }
-
-  // Parent තමන්ගේම Tutor ID එකට chat කිරීම වැළැක්වීම
-  if (currentUser.uid === tutorUid) {
-    alert("ඔබට ඔබගේම account එකට chat කරන්න බැහැ.");
-    return;
-  }
-
-  const chatDetails = new URLSearchParams({
-    tutorId: tutorUid
-  });
-
-  window.location.href = `chat.html?${chatDetails.toString()}`;
+  window.location.href = `chat.html?tutorId=${encodeURIComponent(tutorId)}`;
 };
+
+loadTutors();

@@ -268,48 +268,75 @@ import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/12.19.0/
 })();
 
 // =========================================================
-// TOP RECOMMENDED TUTORS (Mock Data & Rendering Logic)
+// TOP RECOMMENDED TUTORS (Firebase eken real data)
 // =========================================================
-const topTutors = [
-  {
-    name: "Mr. Sahan Siriwardana",
-    subject: "Information & Communication Technology (O/L & A/L)",
-    rating: 4.9,
-    reviewsCount: 38
-  },
-  {
-    name: "Mrs. A.M.R Eshandi",
-    subject: "Science & Chemistry",
-    rating: 4.8,
-    reviewsCount: 25
-  },
-  {
-    name: "Mr. Hasira Koswaththa",
-    subject: "Physics (A/L)",
-    rating: 4.7,
-    reviewsCount: 19
-  }
-];
-
-function loadTopTutors() {
+async function loadTopTutors() {
   const container = document.getElementById('top-tutors-container');
   if (!container) return;
 
-  container.innerHTML = topTutors.map(tutor => `
-    <div class="tutor-card">
-      <span class="badge">Top Recommended</span>
-      <h3>${tutor.name}</h3>
-      <p class="subject">${tutor.subject}</p>
-      <div class="rating">
-        ⭐ ${tutor.rating} <span>(${tutor.reviewsCount} reviews)</span>
-      </div>
-      <button class="view-profile-btn" onclick="alert('${tutor.name} ගේ ප්‍රොފައިල් එකට යයි!')">View Profile</button>
-    </div>
-  `).join('');
+  container.innerHTML = '<p class="no-tutors">Loading top tutors...</p>';
+
+  try {
+    const snapshot = await getDocs(collection(db, 'users'));
+
+    const tutors = snapshot.docs
+      .map((d) => ({ id: d.id, ...d.data() }))
+      .filter((u) => u.role === 'tutor')
+      .sort((a, b) =>
+        (Number(b.rating) || 0) - (Number(a.rating) || 0) ||
+        (Number(b.reviewCount) || 0) - (Number(a.reviewCount) || 0)
+      )
+      .slice(0, 3); // hondama 3 k pennanawa
+
+    container.replaceChildren();
+
+    if (!tutors.length) {
+      container.innerHTML = '<p class="no-tutors">No recommended tutors yet.</p>';
+      return;
+    }
+
+    tutors.forEach((t) => {
+      const subjects = Array.isArray(t.subjectsArray)
+        ? t.subjectsArray.join(', ')
+        : (typeof t.subjects === 'string' ? t.subjects : '');
+      const rating = Number(t.rating) || 0;
+      const reviews = Number(t.reviewCount) || 0;
+
+      const card = document.createElement('article');
+      card.className = 'tutor-card top-tutor-card';
+
+      const badge = document.createElement('span');
+      badge.className = 'top-badge';
+      badge.textContent = 'Top Recommended';
+
+      const name = document.createElement('h3');
+      name.textContent = t.name || t.fullName || 'Tutor';
+
+      const subject = document.createElement('p');
+      subject.className = 'top-subject';
+      subject.textContent = subjects || 'Subjects not specified';
+
+      const ratingRow = document.createElement('div');
+      ratingRow.className = 'top-rating';
+      ratingRow.textContent = reviews > 0
+        ? `⭐ ${rating} (${reviews} reviews)`
+        : '⭐ New tutor';
+
+      const btn = document.createElement('a');
+      btn.className = 'btn btn-primary view-profile-btn';
+      btn.href = 'search-tutors.html';
+      btn.textContent = 'View Profile';
+
+      card.append(badge, name, subject, ratingRow, btn);
+      container.appendChild(card);
+    });
+  } catch (error) {
+    console.error('Top tutors error:', error);
+    container.innerHTML = '<p class="no-tutors">Unable to load tutors. Please try again later.</p>';
+  }
 }
 
-document.addEventListener('DOMContentLoaded', loadTopTutors);
-
+loadTopTutors();
 
 // =========================================================
 // RATING SUBMISSION SYSTEM (localStorage)

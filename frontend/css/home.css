@@ -597,3 +597,124 @@ html[data-theme="dark"] .hero-img:hover {
 .parents-box {
     background: #ADD8E6 !important;
 }
+#top-tutors-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Card eke pradhana style eka */
+.top-tutor-card {
+  position: relative;
+  overflow: hidden;
+  padding: 28px 24px 24px;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  opacity: 0;
+  animation: cardFadeUp 0.6s ease forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Udin thiyena color paata */
+.top-tutor-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: var(--card-accent);
+}
+
+/* Card 3 tama wenas wenas colors */
+.top-tutor-card:nth-child(3n+1) {
+  --card-accent: linear-gradient(90deg, #F59E0B, #F97316);
+  background: linear-gradient(160deg, #FFFBEB 0%, #FEF3C7 100%);
+  border-color: #FDE68A;
+  animation-delay: 0.1s;
+}
+.top-tutor-card:nth-child(3n+2) {
+  --card-accent: linear-gradient(90deg, #3B82F6, #6366F1);
+  background: linear-gradient(160deg, #EFF6FF 0%, #DBEAFE 100%);
+  border-color: #BFDBFE;
+  animation-delay: 0.25s;
+}
+.top-tutor-card:nth-child(3n+3) {
+  --card-accent: linear-gradient(90deg, #10B981, #14B8A6);
+  background: linear-gradient(160deg, #ECFDF5 0%, #D1FAE5 100%);
+  border-color: #A7F3D0;
+  animation-delay: 0.4s;
+}
+
+.top-tutor-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Text colors (light mode eke hariyata penenna) */
+.top-tutor-card h3 { color: #1E293B; }
+.top-tutor-card .top-subject { color: #475569; }
+.top-tutor-card .top-rating { color: #1E293B; }
+
+/* "Top Recommended" badge eka */
+.top-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #92400E;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] .top-tutor-card:nth-child(3n+1) {
+  background: linear-gradient(160deg, #422006 0%, #78350F 100%);
+  border-color: #92400E;
+}
+:root[data-theme="dark"] .top-tutor-card:nth-child(3n+2) {
+  background: linear-gradient(160deg, #172554 0%, #1E3A8A 100%);
+  border-color: #1D4ED8;
+}
+:root[data-theme="dark"] .top-tutor-card:nth-child(3n+3) {
+  background: linear-gradient(160deg, #052E16 0%, #065F46 100%);
+  border-color: #047857;
+}
+:root[data-theme="dark"] .top-tutor-card h3,
+:root[data-theme="dark"] .top-tutor-card .top-rating { color: #F8FAFC; }
+:root[data-theme="dark"] .top-tutor-card .top-subject { color: #CBD5E1; }
+:root[data-theme="dark"] .top-badge {
+  background: rgba(0, 0, 0, 0.35);
+  color: #FDE68A;
+}
+.period-card {
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.period-card:hover {
+  transform: translateY(-6px);
+  background: #FFFBEB;
+}
+
+.period-card .chip {
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.period-card .chip:hover {
+  background: #F59E0B;
+  color: #fff;
+  transform: scale(1.06);
+  cursor: pointer;
+}
+
+:root[data-theme="dark"] .period-card:hover {
+  background: #1F2937;
+}
+a.chip {
+  text-decoration: none;
+  color: inherit;
+}

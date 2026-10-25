@@ -396,147 +396,173 @@
   <!-- Chat functionality will be connected in the next step -->
   <script type="module">
     import { auth, db } from "./js/firebase-config.js";
-    
-    import { onAuthStateChanged } from
-        "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-    
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
     import {
-        doc,
-        getDoc,
-        setDoc,
-        collection,
-        addDoc,
-        query,
-        where,
-        orderBy,
-        onSnapshot,
-        serverTimestamp
+      doc, getDoc, setDoc, collection, addDoc,
+      query, where, orderBy, onSnapshot, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-    
+
     const chatForm = document.getElementById("chatForm");
     const messageInput = document.getElementById("messageInput");
     const chatMessages = document.getElementById("chatMessages");
     const sendButton = document.getElementById("sendButton");
-    
-    const params = new URLSearchParams(window.location.search);
-    const tutorId = params.get("tutorId");
-    
+    const tutorNameEl = document.getElementById("tutorName");
+    const tutorDetailsEl = document.getElementById("tutorDetails");
+    const tutorAvatarEl = document.getElementById("tutorAvatar");
+
+    const tutorId = new URLSearchParams(window.location.search).get("tutorId");
+
     let currentUser = null;
     let chatId = null;
-    let stopListening = null;
-    
-    function showChatMessage(text) {
-        const item = document.createElement("p");
-        item.textContent = text;
-        chatMessages.appendChild(item);
+    let tutorName = "Tutor";
+
+    // Dummy text eka wenuwata loading pennanawa
+    tutorNameEl.textContent = "Loading...";
+    tutorDetailsEl.textContent = "";
+    tutorAvatarEl.textContent = "";
+
+    function showStatus(text) {
+      chatMessages.innerHTML = "";
+      const box = document.createElement("div");
+      box.className = "chat-empty";
+      box.textContent = text;
+      chatMessages.appendChild(box);
     }
-    
+
+    // Firebase eken tutor ge nama, subject ganna
+    async function loadTutorInfo() {
+      try {
+        const snap = await getDoc(doc(db, "users", tutorId));
+        if (!snap.exists()) {
+          tutorNameEl.textContent = "Tutor not found";
+          tutorAvatarEl.textContent = "?";
+          return;
+        }
+        const t = snap.data();
+        tutorName = t.name || t.fullName || "Tutor";
+        const subjects = Array.isArray(t.subjectsArray)
+          ? t.subjectsArray.join(", ")
+          : Array.isArray(t.subjects)
+            ? t.subjects.join(", ")
+            : (typeof t.subjects === "string" ? t.subjects : "");
+
+        tutorNameEl.textContent = tutorName;
+        tutorDetailsEl.textContent = subjects ? `${subjects} Tutor` : "Tutor";
+        tutorAvatarEl.textContent = tutorName
+          .split(/\s+/).filter(Boolean).map((p) => p[0]).join("").slice(0, 2).toUpperCase();
+      } catch (error) {
+        console.error("Tutor info error:", error);
+        tutorNameEl.textContent = "Tutor";
+      }
+    }
+
+    function renderMessages(snapshot) {
+      chatMessages.innerHTML = "";
+
+      if (snapshot.empty) {
+        showStatus("Start your conversation. Send the first message to your tutor.");
+        return;
+      }
+
+      snapshot.forEach((messageDoc) => {
+        const m = messageDoc.data();
+        const mine = m.senderId === currentUser.uid;
+
+        const wrap = document.createElement("div");
+        wrap.className = `message ${mine ? "sent" : "received"}`;
+
+        const sender = document.createElement("span");
+        sender.className = "message-sender";
+        sender.textContent = mine ? "You" : tutorName;
+
+        const bubble = document.createElement("div");
+        bubble.className = "message-bubble";
+        bubble.textContent = m.text;
+
+        const time = document.createElement("span");
+        time.className = "message-time";
+        time.textContent = m.createdAt?.toDate
+          ? m.createdAt.toDate().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+          : "";
+
+        wrap.append(sender, bubble, time);
+        chatMessages.appendChild(wrap);
+      });
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
     onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-            window.location.href = "login.html";
-            return;
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      if (!tutorId) {
+        showStatus("Tutor information is missing.");
+        return;
+      }
+
+      currentUser = user;
+      loadTutorInfo();
+
+      try {
+        chatId = `${user.uid}_${tutorId}`;
+        const chatRef = doc(db, "chats", chatId);
+        const chatSnapshot = await getDoc(chatRef);
+
+        if (!chatSnapshot.exists()) {
+          await setDoc(chatRef, {
+            parentId: user.uid,
+            tutorId: tutorId,
+            createdAt: serverTimestamp()
+          });
         }
-    
-        if (!tutorId) {
-            showChatMessage("Tutor information is missing.");
-            return;
-        }
-    
-        currentUser = user;
-    
-        try {
-            // Create one chat for this parent and tutor.
-            chatId = `${user.uid}_${tutorId}`;
-    
-            const chatRef = doc(db, "chats", chatId);
-            const chatSnapshot = await getDoc(chatRef);
-    
-            if (!chatSnapshot.exists()) {
-                await setDoc(chatRef, {
-                    parentId: user.uid,
-                    tutorId: tutorId,
-                    createdAt: serverTimestamp()
-                });
-            }
-    
-            // Listen for messages from both participants.
-            const messagesQuery = query(
-                collection(db, "messages"),
-                where("chatId", "==", chatId),
-                orderBy("createdAt", "asc")
-            );
-    
-            stopListening = onSnapshot(
-                messagesQuery,
-                (snapshot) => {
-                    chatMessages.innerHTML = "";
-    
-                    snapshot.forEach((messageDoc) => {
-                        const message = messageDoc.data();
-                        const item = document.createElement("div");
-    
-                        item.textContent =
-                            (message.senderId === currentUser.uid
-                                ? "You: "
-                                : "Other: ") + message.text;
-    
-                        item.style.padding = "10px";
-                        item.style.margin = "8px 0";
-                        item.style.borderRadius = "10px";
-                        item.style.overflowWrap = "anywhere";
-                        item.style.background =
-                            message.senderId === currentUser.uid
-                                ? "#EAF0FB"
-                                : "#F1F1F1";
-                        item.style.color = "#223047";
-    
-                        chatMessages.appendChild(item);
-                    });
-    
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                },
-                (error) => {
-                    console.error("Message loading error:", error);
-                    showChatMessage(
-                        "Could not load messages. Check Firestore permissions."
-                    );
-                }
-            );
-        } catch (error) {
-            console.error("Chat setup error:", error);
-            showChatMessage(
-                "Could not start chat. Check the console for details."
-            );
-        }
+
+        const messagesQuery = query(
+          collection(db, "messages"),
+          where("chatId", "==", chatId),
+          orderBy("createdAt", "asc")
+        );
+
+        onSnapshot(
+          messagesQuery,
+          renderMessages,
+          (error) => {
+            console.error("Message loading error:", error);
+            showStatus("Could not load messages. Check the console for details.");
+          }
+        );
+      } catch (error) {
+        console.error("Chat setup error:", error);
+        showStatus("Could not start chat. Check the console for details.");
+      }
     });
-    
+
     chatForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-    
-        const text = messageInput.value.trim();
-    
-        if (!text || !currentUser || !chatId) {
-            return;
-        }
-    
-        sendButton.disabled = true;
-    
-        try {
-            await addDoc(collection(db, "messages"), {
-                chatId: chatId,
-                senderId: currentUser.uid,
-                text: text,
-                createdAt: serverTimestamp()
-            });
-    
-            messageInput.value = "";
-        } catch (error) {
-            console.error("Message sending error:", error);
-            alert("Message could not be saved. Check Firestore permissions.");
-        } finally {
-            sendButton.disabled = false;
-        }
+      event.preventDefault();
+
+      const text = messageInput.value.trim();
+      if (!text || !currentUser || !chatId) return;
+
+      sendButton.disabled = true;
+
+      try {
+        await addDoc(collection(db, "messages"), {
+          chatId: chatId,
+          senderId: currentUser.uid,
+          receiverId: tutorId,
+          text: text,
+          createdAt: serverTimestamp()
+        });
+        messageInput.value = "";
+      } catch (error) {
+        console.error("Message sending error:", error);
+        alert("Message could not be saved. Check the console for details.");
+      } finally {
+        sendButton.disabled = false;
+      }
     });
-    </script>
+  </script>
 </body>
 </html>

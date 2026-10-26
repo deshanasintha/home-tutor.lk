@@ -785,3 +785,21 @@ body.dark-mode .form-group textarea {
     color: var(--color-text) !important;
     border-color: var(--color-border) !important;
 }
+
+
+/* Dark mode එකේදී මැද කොටසෙ (hero section) background එක සහ අකුරු පැහැදිලි කිරීමට */
+body.dark-mode .hero,
+body.dark-mode .search-hero,
+body.dark-mode .hero-section,
+body.dark-mode [class*="hero"] {
+    background-color: #111827 !important; /* පසුබිම අඳුරු පැහැයට හැරේ */
+}
+
+body.dark-mode .hero h1,
+body.dark-mode .hero p,
+body.dark-mode .search-hero h1,
+body.dark-mode .search-hero p,
+body.dark-mode .hero-section h1,
+body.dark-mode .hero-section p {
+    color: #ffffff !important; /* අකුරු සුදු පාටින් පැහැදිලිව පෙනේ */
+}

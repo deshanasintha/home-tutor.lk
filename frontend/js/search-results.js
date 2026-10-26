@@ -169,5 +169,12 @@ window.handleChatTutor = (tutorId) => {
   }
   window.location.href = `chat.html?tutorId=${encodeURIComponent(tutorId)}`;
 };
+// Home page eken enakota (chips click karama) filter eka set karanna
+const params = new URLSearchParams(window.location.search);
+if (params.get('subject')) subjectFilter.value = params.get('subject');
+if (params.get('grade')) gradeFilter.value = params.get('grade');
+if (params.get('district')) districtFilter.value = params.get('district');
+
+loadTutors();
 
 loadTutors();

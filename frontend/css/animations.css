@@ -1,0 +1,48 @@
+/* Page eka load wenakota hero eka mathu wela enawa */
+.hero-copy { animation: fadeUp 0.8s ease both; }
+.hero-image-wrapper { animation: fadeUp 0.8s ease 0.2s both; }
+
+/* Hero image eka hemin hemin uda palla yanawa */
+.hero-img { animation: floaty 4s ease-in-out infinite; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* Scroll karanakota sections mathu wenawa */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.show {
+  opacity: 1;
+  transform: none;
+}
+
+/* Cards walata mouse ekak ayeth karakota */
+.period-card, .step-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.period-card:hover, .step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.chip { transition: transform 0.2s ease; }
+.chip:hover { transform: scale(1.08); }
+
+.btn { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.btn:hover { transform: translateY(-2px); }
+
+/* Firebase walin enawa tutor cards mathu wenawa */
+.tutors-grid > *, .tutor-grid > * {
+  animation: fadeUp 0.6s ease both;
+}
+

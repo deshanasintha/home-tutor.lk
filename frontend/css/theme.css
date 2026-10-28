@@ -141,3 +141,34 @@ html[data-theme="dark"] p { color: var(--theme-muted); }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   [data-reveal] { opacity: 1; transform: none; }
 }
+/* =====================================================
+   Dark Mode Text Visibility Fixes
+   ===================================================== */
+
+/* 1. Header එකේ ඇති Logo text (Tutor සහ Link LK) පැහැදිලිව පෙන්වීමට */
+html[data-theme="dark"] .logo,
+html[data-theme="dark"] .logo span,
+html[data-theme="dark"] .navbar a {
+    color: var(--theme-ink) !important;
+}
+
+/* 2. Page Header එකේ ඇති "Send a tuition request" සහ අනෙකුත් Headings පැහැදිලි සුදු පාට කිරීමට */
+html[data-theme="dark"] .page-header h1,
+html[data-theme="dark"] .page-header h2,
+html[data-theme="dark"] h1, 
+html[data-theme="dark"] h2, 
+html[data-theme="dark"] h3 {
+    color: #000000 !important;
+}
+
+/* 3. Subtext සහ Paragraphs පැහැදිලි මඳ අළු පාටින් (muted) පෙන්වීමට */
+html[data-theme="dark"] .page-header p,
+html[data-theme="dark"] p {
+    color: var(--theme-muted) !important;
+}
+/* Dark mode එකේදී Request details සහ අනෙකුත් Card Headings සුදු පාට කිරීමට */
+html[data-theme="dark"] .booking-form-card h2,
+html[data-theme="dark"] .card h2,
+html[data-theme="dark"] .card h3 {
+    color: #ffffff !important;
+}

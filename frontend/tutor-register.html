@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,13 +8,16 @@
 
   <link rel="stylesheet" href="css/tutor.css">
   <link rel="stylesheet" href="css/theme.css">
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
 
   <!-- HEADER -->
   <header class="site-header">
     <div class="container header-inner">
+
       <a href="index.html" class="brand">
         <span class="brand-mark">TL</span>
         <span>
@@ -32,6 +36,7 @@
       <div class="header-actions">
         <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
       </div>
+
     </div>
   </header>
 
@@ -43,6 +48,7 @@
         <div class="auth-header">
           <span class="eyebrow">Tutor Account</span>
           <h1>Create Your Tutor Profile</h1>
+
           <p>
             Join TutorLink LK and showcase your qualifications,
             subjects and availability to parents across Sri Lanka.
@@ -55,20 +61,26 @@
           <p class="form-section-title">Profile Photo</p>
 
           <div class="photo-upload-row">
+
             <div class="photo-placeholder">
               <img
                 id="profilePreview"
-                src=""
                 alt="Profile Photo Preview"
-                style="display:none; width:100%; height:100%; object-fit:cover; border-radius:inherit;"
+                style="display:none;width:100%;height:100%;object-fit:cover;border-radius:inherit;"
               >
+
               <span id="photoIcon">📷</span>
             </div>
 
             <div class="photo-upload-info">
+
               <h4>Upload a profile photo</h4>
-              <p>A clear photo helps parents recognize your profile.</p>
-              <p>JPG or PNG. Select your profile photo.</p>
+
+              <p>
+                A clear photo helps parents recognize your profile.
+              </p>
+
+              <p>JPG or PNG. No code-defined size limit.</p>
 
               <label for="profilePic" class="btn btn-outline btn-sm">
                 Choose Photo
@@ -85,6 +97,7 @@
               <p id="profileFileName" class="form-hint">
                 No photo selected
               </p>
+
             </div>
           </div>
 
@@ -92,8 +105,10 @@
           <p class="form-section-title">Personal Details</p>
 
           <div class="form-grid">
+
             <div class="form-group full-width">
               <label for="fullName">Full Name</label>
+
               <input
                 type="text"
                 id="fullName"
@@ -106,6 +121,7 @@
 
             <div class="form-group">
               <label for="email">Email Address</label>
+
               <input
                 type="email"
                 id="email"
@@ -118,6 +134,7 @@
 
             <div class="form-group">
               <label for="phone">Phone Number</label>
+
               <input
                 type="tel"
                 id="phone"
@@ -132,6 +149,7 @@
 
             <div class="form-group">
               <label for="password">Password</label>
+
               <input
                 type="password"
                 id="password"
@@ -145,6 +163,7 @@
 
             <div class="form-group">
               <label for="confirmPassword">Confirm Password</label>
+
               <input
                 type="password"
                 id="confirmPassword"
@@ -155,14 +174,17 @@
                 required
               >
             </div>
+
           </div>
 
           <!-- LOCATION -->
           <p class="form-section-title">Location</p>
 
           <div class="form-grid">
+
             <div class="form-group">
               <label for="district">District</label>
+
               <select id="district" name="district" required>
                 <option value="">Select District</option>
                 <option>Ampara</option>
@@ -195,6 +217,7 @@
 
             <div class="form-group">
               <label for="city">City / Teaching Area</label>
+
               <input
                 type="text"
                 id="city"
@@ -203,14 +226,17 @@
                 required
               >
             </div>
+
           </div>
 
           <!-- QUALIFICATIONS -->
           <p class="form-section-title">Qualifications</p>
 
           <div class="form-grid">
+
             <div class="form-group">
               <label for="qualification">Highest Qualification</label>
+
               <select id="qualification" name="qualification" required>
                 <option value="">Select Qualification</option>
                 <option>G.C.E. Advanced Level</option>
@@ -225,6 +251,7 @@
 
             <div class="form-group">
               <label for="institution">University / Institution</label>
+
               <input
                 type="text"
                 id="institution"
@@ -234,28 +261,56 @@
               >
             </div>
 
-            <!-- LINKEDIN PROFILE URL -->
+            <!-- OPTIONAL LINKEDIN URL -->
             <div class="form-group full-width">
-              <label for="linkedinUrl">LinkedIn Profile URL / Certification (Optional)</label>
+              <label for="linkedinUrl">
+                LinkedIn Profile URL (Optional)
+              </label>
+
               <input
                 type="url"
                 id="linkedinUrl"
                 name="linkedinUrl"
                 placeholder="https://www.linkedin.com/in/your-profile-name"
-                required
               >
+
               <span class="form-hint">
-                Provide your professional LinkedIn profile link or Certification for admin verification.
+                Optional: provide your LinkedIn profile link for verification.
               </span>
             </div>
+
+            <!-- OPTIONAL CERTIFICATE UPLOAD -->
+            <div class="form-group full-width">
+              <label for="certificateDoc">
+                Teaching Certificate (Optional)
+              </label>
+
+              <input
+                type="file"
+                id="certificateDoc"
+                name="certificateDoc"
+                accept="image/jpeg,image/png,application/pdf"
+              >
+
+              <span class="form-hint">
+                Optional: upload a JPG, PNG or PDF certificate.
+              </span>
+
+              <p id="certificateFileName" class="form-hint">
+                No certificate selected
+              </p>
+            </div>
+
           </div>
 
           <!-- TEACHING DETAILS -->
           <p class="form-section-title">Teaching Details</p>
 
           <div class="form-grid">
+
             <div class="form-group full-width">
               <label for="subjects">Teaching Subjects</label>
+
               <input
                 type="text"
                 id="subjects"
@@ -263,6 +318,7 @@
                 placeholder="e.g. Mathematics, Science"
                 required
               >
+
               <span class="form-hint">
                 Separate multiple subjects with a comma.
               </span>
@@ -270,6 +326,7 @@
 
             <div class="form-group">
               <label for="gradeLevels">Grade Levels</label>
+
               <select id="gradeLevels" name="gradeLevels" required>
                 <option value="">Select Grade Levels</option>
                 <option>Grade 1 - 5</option>
@@ -282,6 +339,7 @@
 
             <div class="form-group">
               <label for="experience">Teaching Experience</label>
+
               <select id="experience" name="experience" required>
                 <option value="">Select Experience</option>
                 <option>Less than 1 year</option>
@@ -294,6 +352,7 @@
 
             <div class="form-group full-width">
               <label for="bio">Short Professional Bio</label>
+
               <textarea
                 id="bio"
                 name="bio"
@@ -304,6 +363,7 @@
 
             <div class="form-group full-width">
               <label for="languages">Languages</label>
+
               <input
                 type="text"
                 id="languages"
@@ -311,6 +371,7 @@
                 placeholder="e.g. Sinhala, English, Tamil"
               >
             </div>
+
           </div>
 
           <!-- AVAILABILITY -->
@@ -318,20 +379,43 @@
 
           <div class="form-group full-width">
             <label>Available Days</label>
+
             <div class="day-picker">
-              <label class="day-chip"><input type="checkbox" name="days" value="Mon"> Mon</label>
-              <label class="day-chip"><input type="checkbox" name="days" value="Tue"> Tue</label>
-              <label class="day-chip"><input type="checkbox" name="days" value="Wed"> Wed</label>
-              <label class="day-chip"><input type="checkbox" name="days" value="Thu"> Thu</label>
-              <label class="day-chip"><input type="checkbox" name="days" value="Fri"> Fri</label>
-              <label class="day-chip"><input type="checkbox" name="days" value="Sat"> Sat</label>
-              <label class="day-chip"><input type="checkbox" name="days" value="Sun"> Sun</label>
+              <label class="day-chip">
+                <input type="checkbox" name="days" value="Mon"> Mon
+              </label>
+
+              <label class="day-chip">
+                <input type="checkbox" name="days" value="Tue"> Tue
+              </label>
+
+              <label class="day-chip">
+                <input type="checkbox" name="days" value="Wed"> Wed
+              </label>
+
+              <label class="day-chip">
+                <input type="checkbox" name="days" value="Thu"> Thu
+              </label>
+
+              <label class="day-chip">
+                <input type="checkbox" name="days" value="Fri"> Fri
+              </label>
+
+              <label class="day-chip">
+                <input type="checkbox" name="days" value="Sat"> Sat
+              </label>
+
+              <label class="day-chip">
+                <input type="checkbox" name="days" value="Sun"> Sun
+              </label>
             </div>
           </div>
 
           <div class="form-grid">
+
             <div class="form-group">
               <label for="availableTime">Available Time</label>
+
               <select id="availableTime" name="availableTime">
                 <option value="">Select Time Slot</option>
                 <option>Morning (6AM - 12PM)</option>
@@ -343,6 +427,7 @@
 
             <div class="form-group">
               <label for="teachingMode">Teaching Mode</label>
+
               <select id="teachingMode" name="teachingMode" required>
                 <option value="">Select Mode</option>
                 <option>Home Visit</option>
@@ -354,6 +439,7 @@
 
             <div class="form-group full-width">
               <label for="hourlyRate">Hourly Rate (Rs.)</label>
+
               <input
                 type="number"
                 id="hourlyRate"
@@ -364,6 +450,7 @@
                 required
               >
             </div>
+
           </div>
 
           <!-- TERMS -->
@@ -373,9 +460,14 @@
           </label>
 
           <!-- SUBMIT -->
-          <button type="submit" class="btn btn-primary btn-block" id="registerBtn">
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            id="registerBtn"
+          >
             Create Profile
           </button>
+
         </form>
 
         <p class="auth-footer-note">
@@ -397,19 +489,34 @@
     </div>
   </footer>
 
-  <!-- FILE VALIDATION AND PREVIEW -->
+  <!-- FILE PREVIEW AND VALIDATION -->
   <script>
     const profilePic = document.getElementById("profilePic");
     const profilePreview = document.getElementById("profilePreview");
     const photoIcon = document.getElementById("photoIcon");
     const profileFileName = document.getElementById("profileFileName");
 
+    const certificateDoc = document.getElementById("certificateDoc");
+    const certificateFileName = document.getElementById("certificateFileName");
+
     const allowedImageTypes = ["image/jpeg", "image/png"];
+
+    const allowedCertificateTypes = [
+      "image/jpeg",
+      "image/png",
+      "application/pdf"
+    ];
+
     let previewUrl = null;
 
-    // Profile photo validation and preview (no 2MB size limit)
+    // Profile photo preview: no hard-coded file-size limit
     profilePic.addEventListener("change", function () {
       const file = this.files[0];
+
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        previewUrl = null;
+      }
 
       if (!file) {
         profileFileName.textContent = "No photo selected";
@@ -425,6 +532,7 @@
           "Please select a JPG or PNG photo.",
           "error"
         );
+
         this.value = "";
         profileFileName.textContent = "No photo selected";
         profilePreview.style.display = "none";
@@ -433,15 +541,36 @@
         return;
       }
 
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-
       previewUrl = URL.createObjectURL(file);
+
       profilePreview.src = previewUrl;
       profilePreview.style.display = "block";
       photoIcon.style.display = "none";
       profileFileName.textContent = file.name;
+    });
+
+    // Optional certificate validation
+    certificateDoc.addEventListener("change", function () {
+      const file = this.files[0];
+
+      if (!file) {
+        certificateFileName.textContent = "No certificate selected";
+        return;
+      }
+
+      if (!allowedCertificateTypes.includes(file.type)) {
+        Swal.fire(
+          "Invalid File",
+          "Please select a JPG, PNG or PDF certificate.",
+          "error"
+        );
+
+        this.value = "";
+        certificateFileName.textContent = "No certificate selected";
+        return;
+      }
+
+      certificateFileName.textContent = file.name;
     });
 
     window.addEventListener("beforeunload", function () {
@@ -454,21 +583,19 @@
     const password = document.getElementById("password");
     const confirmPassword = document.getElementById("confirmPassword");
 
-    confirmPassword.addEventListener("input", function () {
-      if (confirmPassword.value && password.value !== confirmPassword.value) {
+    function validatePasswords() {
+      if (
+        confirmPassword.value &&
+        password.value !== confirmPassword.value
+      ) {
         confirmPassword.setCustomValidity("Passwords do not match.");
       } else {
         confirmPassword.setCustomValidity("");
       }
-    });
+    }
 
-    password.addEventListener("input", function () {
-      if (confirmPassword.value && password.value !== confirmPassword.value) {
-        confirmPassword.setCustomValidity("Passwords do not match.");
-      } else {
-        confirmPassword.setCustomValidity("");
-      }
-    });
+    password.addEventListener("input", validatePasswords);
+    confirmPassword.addEventListener("input", validatePasswords);
   </script>
 
   <!-- REGISTRATION LOGIC -->

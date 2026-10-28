@@ -1,36 +1,36 @@
+
 import { auth, db } from './firebase-config.js';
 
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signOut
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
 
 import {
   doc,
   setDoc,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 
 import {
   getStorage,
   ref,
   uploadBytes,
   getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js';
 
 // Firebase Storage
 const storage = getStorage(auth.app);
 
 const form = document.getElementById('tutorRegisterForm');
 
-// Display messages
 const showMessage = (options) => {
   if (typeof Swal !== 'undefined') {
     return Swal.fire(options);
   }
 
-  window.alert(options.text || options.title || 'An unexpected error occurred.');
+  alert(options.text || options.title || 'An unexpected error occurred.');
   return Promise.resolve();
 };
 
@@ -40,27 +40,28 @@ if (form) {
 
     const submitBtn = form.querySelector('button[type="submit"]');
 
-    // Get form values
+    // Personal details
     const name = document.getElementById('fullName')?.value.trim() || '';
     const email = document.getElementById('email')?.value.trim() || '';
     const password = document.getElementById('password')?.value || '';
-    const confirmPassword = document.getElementById('confirmPassword')?.value || '';
+    const confirmPassword =
+      document.getElementById('confirmPassword')?.value || '';
     const phone = document.getElementById('phone')?.value.trim() || '';
 
-    const rawSubjects =
-      document.getElementById('subjects')?.value.trim() || '';
-
-    const hourlyRate =
-      document.getElementById('hourlyRate')?.value || 0;
-
-    // Selected profile photo
-    const profilePicFile =
-      document.getElementById('profilePic')?.files[0] || null;
-
+    // Optional LinkedIn URL
     const linkedinUrl =
       document.getElementById('linkedinUrl')?.value.trim() || '';
 
-    // Check passwords
+    // Optional files
+    const profilePicFile =
+      document.getElementById('profilePic')?.files?.[0] || null;
+
+    // Certificate input is optional.
+    // This works when an input with id="certificateDoc" exists in HTML.
+    const certificateFile =
+      document.getElementById('certificateDoc')?.files?.[0] || null;
+
+    // Password validation
     if (password !== confirmPassword) {
       await showMessage({
         icon: 'error',
@@ -70,69 +71,107 @@ if (form) {
       return;
     }
 
-    // Validate phone number
-    const phoneRegex = /^07[0-9]{8}$/;
-
-    if (!phoneRegex.test(phone)) {
+    // Sri Lankan mobile number validation
+    if (!/^07[0-9]{8}$/.test(phone)) {
       await showMessage({
         icon: 'error',
-        title: 'වැරදි දුරකථන අංකයක්!',
-        text: 'කරුණාකර නිවැරදි Sri Lankan දුරකථන අංකයක් ඇතුළත් කරන්න (උදා: 0712345678).'
+        title: 'Invalid phone number',
+        text: 'Enter a valid 10-digit Sri Lankan mobile number.'
       });
       return;
     }
 
-    // Validate email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
+    // Email validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       await showMessage({
         icon: 'error',
-        title: 'වැරදි ඊමේල් ලිපිනයක්!',
-        text: 'කරුණාකර නිවැරදි ඊමේල් ලිපිනයක් ඇතුළත් කරන්න.'
+        title: 'Invalid email address',
+        text: 'Please enter a valid email address.'
       });
       return;
     }
 
-    // Validate profile photo type
+    // LinkedIn URL is optional, but validate it if provided.
+    if (linkedinUrl) {
+      try {
+        const parsedUrl = new URL(linkedinUrl);
+
+        if (
+          parsedUrl.protocol !== 'https:' ||
+          parsedUrl.hostname.toLowerCase() !== 'www.linkedin.com' &&
+          parsedUrl.hostname.toLowerCase() !== 'linkedin.com'
+        ) {
+          throw new Error('Invalid LinkedIn URL');
+        }
+      } catch {
+        await showMessage({
+          icon: 'error',
+          title: 'Invalid LinkedIn URL',
+          text: 'Enter a valid LinkedIn profile URL or leave it empty.'
+        });
+        return;
+      }
+    }
+
+    // Validate optional profile photo
     if (
       profilePicFile &&
       !['image/jpeg', 'image/png'].includes(profilePicFile.type)
     ) {
       await showMessage({
         icon: 'error',
-        title: 'Invalid File',
-        text: 'Please select a JPG or PNG profile photo.'
+        title: 'Invalid profile photo',
+        text: 'Please select a JPG or PNG image.'
       });
       return;
     }
 
+    // Validate optional certificate
+    if (
+      certificateFile &&
+      ![
+        'image/jpeg',
+        'image/png',
+        'application/pdf'
+      ].includes(certificateFile.type)
+    ) {
+      await showMessage({
+        icon: 'error',
+        title: 'Invalid certificate',
+        text: 'Please select a JPG, PNG or PDF certificate.'
+      });
+      return;
+    }
+
+    let user = null;
+    let accountCreated = false;
+
     try {
-      // Disable submit button
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerText = 'Creating Profile...';
       }
 
-      // Show loading message
       if (typeof Swal !== 'undefined') {
         Swal.fire({
-          title: 'Creating profile & uploading files...',
+          title: 'Creating tutor profile...',
+          text: 'Please wait while your information is saved.',
           allowOutsideClick: false,
           didOpen: () => Swal.showLoading()
         });
       }
 
-      // Create Firebase Authentication account
+      // 1. Create Firebase Authentication account
       const userCredential =
         await createUserWithEmailAndPassword(auth, email, password);
 
-      const user = userCredential.user;
+      user = userCredential.user;
+      accountCreated = true;
 
-      // Send email verification
+      // 2. Send email verification
       await sendEmailVerification(user);
 
-      // Upload profile photo to Firebase Storage
+      // 3. Upload optional profile photo
       let photoURL = '';
 
       if (profilePicFile) {
@@ -143,33 +182,52 @@ if (form) {
 
         await uploadBytes(photoRef, profilePicFile);
 
-        // Get uploaded photo URL
         photoURL = await getDownloadURL(photoRef);
       }
 
-      // Convert subjects into an array
+      // 4. Upload optional certificate
+      let certificateURL = '';
+
+      if (certificateFile) {
+        const certificatePath =
+          `tutors/${user.uid}/certificates/${Date.now()}_${certificateFile.name}`;
+
+        const certificateRef = ref(storage, certificatePath);
+
+        await uploadBytes(certificateRef, certificateFile);
+
+        certificateURL = await getDownloadURL(certificateRef);
+      }
+
+      // 5. Convert subjects to an array
+      const rawSubjects =
+        document.getElementById('subjects')?.value.trim() || '';
+
       const subjectsArray = rawSubjects
         ? rawSubjects
             .split(',')
-            .map((subject) => subject.trim().toLowerCase())
+            .map(subject => subject.trim().toLowerCase())
             .filter(Boolean)
         : [];
 
-      // Get selected available days
+      // 6. Get available days
       const selectedDays = Array.from(
         form.querySelectorAll('input[name="days"]:checked'),
-        (input) => input.value
+        input => input.value
       );
 
-      // Save tutor details and photo URL in Firestore
+      // 7. Save tutor details in Firestore
       await setDoc(doc(db, 'users', user.uid), {
         uid: user.uid,
-        name: name,
-        email: email,
-        phone: phone,
+        name,
+        email,
+        phone,
 
-        district: document.getElementById('district')?.value || '',
-        city: document.getElementById('city')?.value.trim() || '',
+        district:
+          document.getElementById('district')?.value || '',
+
+        city:
+          document.getElementById('city')?.value.trim() || '',
 
         qualification:
           document.getElementById('qualification')?.value || '',
@@ -178,7 +236,7 @@ if (form) {
           document.getElementById('institution')?.value.trim() || '',
 
         subjects: rawSubjects,
-        subjectsArray: subjectsArray,
+        subjectsArray,
 
         gradeLevels:
           document.getElementById('gradeLevels')?.value || '',
@@ -186,7 +244,8 @@ if (form) {
         experience:
           document.getElementById('experience')?.value || '',
 
-        bio: document.getElementById('bio')?.value.trim() || '',
+        bio:
+          document.getElementById('bio')?.value.trim() || '',
 
         languages:
           document.getElementById('languages')?.value.trim() || '',
@@ -199,38 +258,59 @@ if (form) {
         teachingMode:
           document.getElementById('teachingMode')?.value || '',
 
-        hourlyRate: Number(hourlyRate),
+        hourlyRate: Number(
+          document.getElementById('hourlyRate')?.value || 0
+        ),
 
-        // Firebase Storage photo URL
-        photoURL: photoURL,
+        // Optional uploaded file URLs
+        photoURL,
+        certificateURL,
 
-        linkedinUrl: linkedinUrl,
+        // Optional LinkedIn URL
+        linkedinUrl,
 
         role: 'tutor',
         isEmailVerified: false,
         rating: 5.0,
         reviewCount: 0,
         status: 'pending',
-
         createdAt: serverTimestamp()
       });
 
-      // Sign out after registration
+      // 8. Sign out after registration
       await signOut(auth);
 
-      // Show success message
+      if (typeof Swal !== 'undefined') {
+        Swal.close();
+      }
+
+      // 9. Show success message
       await showMessage({
         icon: 'success',
         title: 'Registration successful',
-        text: 'ඔබගේ Tutor Account එක සාර්ථකව සාදන ලදී. Verification Link එකක් ඔබගේ ඊමේල් ලිපිනයට (Inbox / Spam) එවා ඇත. කරුණාකර එය verify කර login වන්න.',
+        text: 'Your tutor account has been created. Please verify your email before logging in.',
         confirmButtonText: 'Go to login'
       });
 
-      // Redirect to login page
+      // 10. Redirect to login
       window.location.href = 'login.html';
 
     } catch (error) {
       console.error('Registration Error:', error);
+
+      // If registration fails after account creation,
+      // sign out so the user is not left signed in.
+      if (accountCreated && auth.currentUser) {
+        try {
+          await signOut(auth);
+        } catch (signOutError) {
+          console.error('Sign-out error:', signOutError);
+        }
+      }
+
+      if (typeof Swal !== 'undefined') {
+        Swal.close();
+      }
 
       const messages = {
         'auth/email-already-in-use':
@@ -243,25 +323,24 @@ if (form) {
           'Please enter a valid email address.',
 
         'storage/unauthorized':
-          'Photo upload permission denied. Please check Firebase Storage Rules.',
+          'Upload permission denied. Check your Firebase Storage Rules.',
 
-        'storage/unknown':
-          'The photo could not be uploaded. Please check Firebase Storage configuration and try again.'
+        'storage/object-not-found':
+          'The uploaded file could not be found.',
+
+        'storage/quota-exceeded':
+          'Firebase Storage quota has been exceeded.'
       };
-
-      if (typeof Swal !== 'undefined') {
-        Swal.close();
-      }
 
       await showMessage({
         icon: 'error',
         title: 'Registration failed',
-        text: messages[error.code] || error.message ||
+        text: messages[error.code] ||
+          error.message ||
           'An unexpected error occurred.'
       });
 
     } finally {
-      // Enable submit button again
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.innerText = 'Create Profile';

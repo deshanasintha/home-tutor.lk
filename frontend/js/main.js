@@ -4,9 +4,7 @@ import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/12.19.0/
 (() => {
   const root = document.documentElement;
   const storageKey = 'tutorlink-theme';
-  const storedTheme = localStorage.getItem(storageKey);
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
+  const initialTheme = 'light';
   root.dataset.theme = initialTheme;
 
   // Toast Notification System

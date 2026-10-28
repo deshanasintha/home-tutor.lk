@@ -751,3 +751,11 @@ button, input, select{ font-family: inherit; font-size: inherit; }
   .search-bar-row input[type="search"]{ border-radius: var(--radius-sm); }
   .auth-header h1{ font-size: 1.5rem; }
 }
+/* Dark mode එකේදී Search Hero Heading එක පැහැදිලි කිරීමට */
+html[data-theme="dark"] .search-hero h1 {
+    color: #1e293b !important;
+}
+
+html[data-theme="dark"] .search-hero p {
+    color: #475569 !important;
+}
